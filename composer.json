@@ -13,5 +13,23 @@
             "email": "gregory@d4rk0s.net"
         }
     ],
-    "require": {}
+    "repositories": [
+        {
+            "type" : "vcs",
+            "url": "git@github.com:ds-hyperion/doctrine.git",
+            "no-api": true
+        },
+        {
+            "type" : "vcs",
+            "url": "git@github.com:ds-hyperion/restapi.git",
+            "no-api": true
+        }
+    ],
+    "require": {
+        "hyperion/doctrine" : "dev-dev",
+        "hyperion/restapi": "dev-dev",
+        "netresearch/jsonmapper": "^4.0",
+        "ramsey/uuid": "^4.3",
+        "ramsey/uuid-doctrine": "^1.8"
+    }
 }
