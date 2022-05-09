@@ -1,0 +1,17 @@
+{
+    "name": "d4rk0snet/adoption",
+    "description": "Plugin gérant l'adoption d'un récif ou d'un corail",
+    "type": "plugin",
+    "autoload": {
+        "psr-4": {
+            "D4rk0snet\\Adoption\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Grégory COLLIN",
+            "email": "gregory@d4rk0s.net"
+        }
+    ],
+    "require": {}
+}
