@@ -3,6 +3,7 @@
 namespace D4rk0snet\Adoption\Entity;
 
 use D4rk0snet\Adoption\Enums\AdoptedProduct;
+use D4rk0snet\Adoption\Enums\Language;
 use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\Column;
@@ -88,6 +89,12 @@ class AdoptionEntity
      */
     private int $amount;
 
+    /**
+     * @ORM\Column(type="string", enumType="\D4rk0snet\Adoption\Enums\Language")
+     */
+    private Language $lang;
+
+
     public function __construct(string $firstname,
                                 string $lastname,
                                 string $address,
@@ -97,7 +104,8 @@ class AdoptionEntity
                                 AdoptedProduct $adoptedProduct,
                                 int $quantity,
                                 DateTime $orderDate,
-                                int $amount)
+                                int $amount,
+                                Language $lang)
     {
         $this->firstname = $firstname;
         $this->lastname = $lastname;
@@ -109,6 +117,7 @@ class AdoptionEntity
         $this->quantity = $quantity;
         $this->orderDate = $orderDate;
         $this->amount = $amount;
+        $this->lang = $lang;
     }
 
     public function getUuid(): UuidInterface
@@ -188,5 +197,10 @@ class AdoptionEntity
         $this->bankTransferRef = $bankTransferRef;
 
         return $this;
+    }
+
+    public function getLang(): Language
+    {
+        return $this->lang;
     }
 }

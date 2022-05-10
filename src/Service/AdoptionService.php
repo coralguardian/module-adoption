@@ -24,7 +24,8 @@ class AdoptionService
             adoptedProduct: $adoptionModel->getAdoptedProduct(),
             quantity: $adoptionModel->getQuantity(),
             orderDate: new DateTime(),
-            amount: $adoptionModel->getAmount()
+            amount: $adoptionModel->getAmount(),
+            lang: $adoptionModel->getLang()
         );
 
         DoctrineService::getEntityManager()->persist($newAdoptionEntity);

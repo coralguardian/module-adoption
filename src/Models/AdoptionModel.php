@@ -3,8 +3,8 @@
 namespace D4rk0snet\Adoption\Models;
 
 use D4rk0snet\Adoption\Enums\AdoptedProduct;
-
-// @todo: bien renforcer le modèle afin qu'il serve de pivot pour toutes les entry points.
+use D4rk0snet\Adoption\Enums\Language;
+use Exception;
 
 class AdoptionModel
 {
@@ -52,6 +52,11 @@ class AdoptionModel
      * @required
      */
     private int $amount;
+
+    /**
+     * @required
+     */
+    private Language $lang;
 
     public function getFirstname(): string
     {
@@ -131,12 +136,18 @@ class AdoptionModel
 
     public function setQuantity(int $quantity): AdoptionModel
     {
+        if($quantity < 1) {
+            throw new Exception("Quantity can not be less than 1");
+        }
         $this->quantity = $quantity;
         return $this;
     }
 
     public function setAmount(int $amount): AdoptionModel
     {
+        if($amount < $this->getAdoptedProduct()->getProductPrice()) {
+            throw new Exception("Price is below the product price");
+        }
         $this->amount = $amount;
         return $this;
     }
@@ -152,4 +163,20 @@ class AdoptionModel
         return $this;
     }
 
+    public function getLang(): Language
+    {
+        return $this->lang;
+    }
+
+    public function setLang(string $lang): AdoptionModel
+    {
+
+        try {
+            $this->lang = Language::from($lang);
+            return $this;
+        } catch (\ValueError $exception) {
+            throw new Exception("Invalid lang value");
+        }
+
+    }
 }

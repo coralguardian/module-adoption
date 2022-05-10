@@ -3,9 +3,11 @@
 use D4rk0snet\Adoption\Models\AdoptionModel;
 use Hyperion\RestAPI\APIEnpointAbstract;
 use Hyperion\RestAPI\APIManagement;
+use Hyperion\Stripe\Service\StripeService;
 
 /**
  * Endpoint pour la création d'une adoption mais qui n'a pas été encore payé.
+ * @todo : Blinder en cas d'échec pour ne pas avoir d'inconsistence dans la bdd
  */
 class IndividualAdoptionEndpoint extends APIEnpointAbstract
 {
@@ -21,6 +23,12 @@ class IndividualAdoptionEndpoint extends APIEnpointAbstract
 
         $uuid = AdoptionService::createAdoption($adoptionModel);
         $paymentIntent = AdoptionService::createInvoiceAndGetPaymentIntent($adoptionModel);
+
+        // Add Order id to paymentintent
+        StripeService::addMetadataToPaymentIntent($paymentIntent, [
+            'adoption_uuid' => $uuid,
+            'type' => 'adoption'
+        ]);
 
         return APIManagement::APIOk([
             "uuid" => $uuid,
