@@ -1,9 +1,14 @@
 <?php
 
+namespace D4rk0snet\Adoption\API;
+
 use D4rk0snet\Adoption\Models\AdoptionModel;
+use D4rk0snet\Adoption\Service\AdoptionService;
 use Hyperion\RestAPI\APIEnpointAbstract;
 use Hyperion\RestAPI\APIManagement;
 use Hyperion\Stripe\Service\StripeService;
+use JsonMapper;
+use WP_REST_Request;
 
 /**
  * Endpoint pour la création d'une adoption mais qui n'a pas été encore payé.
@@ -11,7 +16,7 @@ use Hyperion\Stripe\Service\StripeService;
  */
 class IndividualAdoptionEndpoint extends APIEnpointAbstract
 {
-    public static function callback(WP_REST_Request $request): WP_REST_Response
+    public static function callback(WP_REST_Request $request): \WP_REST_Response
     {
         $payload = json_decode($request->get_body());
         if($payload === null) {

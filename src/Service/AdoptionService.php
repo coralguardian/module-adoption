@@ -1,7 +1,10 @@
 <?php
 
+namespace D4rk0snet\Adoption\Service;
+
 use D4rk0snet\Adoption\Entity\AdoptionEntity;
 use D4rk0snet\Adoption\Models\AdoptionModel;
+use DateTime;
 use Hyperion\Doctrine\Service\DoctrineService;
 use Hyperion\Stripe\Service\BillingService;
 use Hyperion\Stripe\Service\CustomerService;
