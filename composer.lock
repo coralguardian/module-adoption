@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "c545e14559a4a2df904aba63296baf68",
+    "content-hash": "7ae4ab5f945edf0c8da1541e02193f14",
     "packages": [
         {
             "name": "brick/math",
@@ -1087,17 +1087,18 @@
             "source": {
                 "type": "git",
                 "url": "git@github.com:ds-hyperion/doctrine.git",
-                "reference": "be9332b4c66b7e0c3e824ea738b94c774ffb2ab3"
+                "reference": "80fd1fac3bc692dd9e0a20ee8c2c4a0cc2c13195"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ds-hyperion/doctrine/zipball/be9332b4c66b7e0c3e824ea738b94c774ffb2ab3",
-                "reference": "be9332b4c66b7e0c3e824ea738b94c774ffb2ab3",
+                "url": "https://api.github.com/repos/ds-hyperion/doctrine/zipball/80fd1fac3bc692dd9e0a20ee8c2c4a0cc2c13195",
+                "reference": "80fd1fac3bc692dd9e0a20ee8c2c4a0cc2c13195",
                 "shasum": ""
             },
             "require": {
                 "doctrine/annotations": "^1.13",
                 "doctrine/orm": "^2.12",
+                "ramsey/uuid-doctrine": "^1.8",
                 "symfony/cache": "^6.0"
             },
             "default-branch": true,
@@ -1114,7 +1115,7 @@
                 }
             ],
             "description": "Plugin permettant l'integration de doctrine dans wordpress",
-            "time": "2022-05-09T17:24:15+00:00"
+            "time": "2022-05-09T19:47:58+00:00"
         },
         {
             "name": "hyperion/restapi",
@@ -1122,12 +1123,12 @@
             "source": {
                 "type": "git",
                 "url": "git@github.com:ds-hyperion/restapi.git",
-                "reference": "d16c03f21dae3979d4a6a6f51f01daa7ad95b940"
+                "reference": "38984d7f4d8e3cf48af185523d2e6491a7c44025"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ds-hyperion/restapi/zipball/d16c03f21dae3979d4a6a6f51f01daa7ad95b940",
-                "reference": "d16c03f21dae3979d4a6a6f51f01daa7ad95b940",
+                "url": "https://api.github.com/repos/ds-hyperion/restapi/zipball/38984d7f4d8e3cf48af185523d2e6491a7c44025",
+                "reference": "38984d7f4d8e3cf48af185523d2e6491a7c44025",
                 "shasum": ""
             },
             "default-branch": true,
@@ -1144,7 +1145,39 @@
                 }
             ],
             "description": "Plugin permettant d'abstraire la complexité  au niveau de la gestion de l'API rest de wordpress.",
-            "time": "2022-05-09T17:24:59+00:00"
+            "time": "2022-05-10T10:43:13+00:00"
+        },
+        {
+            "name": "hyperion/stripe",
+            "version": "dev-dev",
+            "source": {
+                "type": "git",
+                "url": "git@github.com:ds-hyperion/stripe.git",
+                "reference": "5ce6a3e71594eaffe7d307a05ff45b8738933d2b"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/ds-hyperion/stripe/zipball/5ce6a3e71594eaffe7d307a05ff45b8738933d2b",
+                "reference": "5ce6a3e71594eaffe7d307a05ff45b8738933d2b",
+                "shasum": ""
+            },
+            "require": {
+                "stripe/stripe-php": "^7.128"
+            },
+            "default-branch": true,
+            "type": "wordpress-plugin",
+            "autoload": {
+                "psr-4": {
+                    "Hyperion\\Stripe\\": "src/"
+                }
+            },
+            "authors": [
+                {
+                    "name": "Grégory COLLIN",
+                    "email": "gregory@d4rk0s.net"
+                }
+            ],
+            "time": "2022-05-10T09:59:50+00:00"
         },
         {
             "name": "netresearch/jsonmapper",
@@ -1588,6 +1621,66 @@
                 }
             ],
             "time": "2022-01-15T23:54:44+00:00"
+        },
+        {
+            "name": "stripe/stripe-php",
+            "version": "v7.128.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/stripe/stripe-php.git",
+                "reference": "c704949c49b72985c76cc61063aa26fefbd2724e"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/stripe/stripe-php/zipball/c704949c49b72985c76cc61063aa26fefbd2724e",
+                "reference": "c704949c49b72985c76cc61063aa26fefbd2724e",
+                "shasum": ""
+            },
+            "require": {
+                "ext-curl": "*",
+                "ext-json": "*",
+                "ext-mbstring": "*",
+                "php": ">=5.6.0"
+            },
+            "require-dev": {
+                "friendsofphp/php-cs-fixer": "3.5.0",
+                "phpstan/phpstan": "^1.2",
+                "phpunit/phpunit": "^5.7 || ^9.0",
+                "squizlabs/php_codesniffer": "^3.3"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.0-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Stripe\\": "lib/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Stripe and contributors",
+                    "homepage": "https://github.com/stripe/stripe-php/contributors"
+                }
+            ],
+            "description": "Stripe PHP Library",
+            "homepage": "https://stripe.com/",
+            "keywords": [
+                "api",
+                "payment processing",
+                "stripe"
+            ],
+            "support": {
+                "issues": "https://github.com/stripe/stripe-php/issues",
+                "source": "https://github.com/stripe/stripe-php/tree/v7.128.0"
+            },
+            "time": "2022-05-05T17:18:02+00:00"
         },
         {
             "name": "symfony/cache",
@@ -2669,7 +2762,8 @@
     "minimum-stability": "stable",
     "stability-flags": {
         "hyperion/doctrine": 20,
-        "hyperion/restapi": 20
+        "hyperion/restapi": 20,
+        "hyperion/stripe": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,
