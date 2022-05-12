@@ -36,6 +36,7 @@
         "hyperion/stripe": "dev-dev",
         "netresearch/jsonmapper": "^4.0",
         "ramsey/uuid": "^4.3",
-        "ramsey/uuid-doctrine": "^1.8"
+        "ramsey/uuid-doctrine": "^1.8",
+        "ext-json": "*"
     }
 }

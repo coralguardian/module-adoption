@@ -128,9 +128,9 @@ class AdoptionModel
         return $this;
     }
 
-    public function setAdoptedProduct(AdoptedProduct $adoptedProduct): AdoptionModel
+    public function setAdoptedProduct(string $adoptedProduct): AdoptionModel
     {
-        $this->adoptedProduct = $adoptedProduct;
+        $this->adoptedProduct = AdoptedProduct::from($adoptedProduct);
         return $this;
     }
 

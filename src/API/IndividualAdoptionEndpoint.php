@@ -18,13 +18,19 @@ class IndividualAdoptionEndpoint extends APIEnpointAbstract
 {
     public static function callback(WP_REST_Request $request): \WP_REST_Response
     {
-        $payload = json_decode($request->get_body());
+        $payload = json_decode($request->get_body(), false);
         if($payload === null) {
             return APIManagement::APIError("Invalid body content", 400);
         }
 
-        $mapper = new JsonMapper();
-        $adoptionModel = $mapper->map($payload, new AdoptionModel());
+        try {
+            $mapper = new JsonMapper();
+            $mapper->bExceptionOnUndefinedProperty = true;
+            $mapper->bExceptionOnMissingData = true;
+            $adoptionModel = $mapper->map($payload, new AdoptionModel());
+        } catch (\Exception $exception) {
+            return APIManagement::APIError($exception->getMessage(), 400);
+        }
 
         $uuid = AdoptionService::createAdoption($adoptionModel);
         $paymentIntent = AdoptionService::createInvoiceAndGetPaymentIntent($adoptionModel);
