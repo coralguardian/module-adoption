@@ -16,7 +16,7 @@ add_action('plugins_loaded', 'D4rk0snet\Adoption\Plugin::launchActions');
 add_action(StripeEventEnum::PAYMENT_SUCCESS->value,'\D4rk0snet\Adoption\Action\PaymentSuccessAction::doAction',10,1);
 add_filter(\Hyperion\Doctrine\Plugin::ADD_ENTITIES_FILTER, function(array $entityPaths)
 {
-    $entityPaths[] = __DIR__."/Entity";
+    $entityPaths[] = __DIR__."/src/Entity";
 
     return $entityPaths;
 });
