@@ -1,7 +1,7 @@
 {
     "name": "d4rk0snet/adoption",
     "description": "Plugin gérant l'adoption d'un récif ou d'un corail",
-    "type": "plugin",
+    "type": "wordpress-plugin",
     "autoload": {
         "psr-4": {
             "D4rk0snet\\Adoption\\": "src/"
