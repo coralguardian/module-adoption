@@ -10,4 +10,4 @@
  * Licence: GPLv2
  */
 
-add_action('init', 'Plugin::init');
+add_action('init', 'D4rk0snet\Adoption\Plugin::init');
