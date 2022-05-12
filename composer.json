@@ -2,6 +2,7 @@
     "name": "d4rk0snet/adoption",
     "description": "Plugin gérant l'adoption d'un récif ou d'un corail",
     "type": "wordpress-plugin",
+    "minimum-stability": "dev",
     "autoload": {
         "psr-4": {
             "D4rk0snet\\Adoption\\": "src/"
@@ -14,6 +15,11 @@
         }
     ],
     "repositories": [
+        {
+            "type" : "vcs",
+            "url": "git@github.com:coralguardian/module-email.git",
+            "no-api": true
+        },
         {
             "type" : "vcs",
             "url": "git@github.com:ds-hyperion/doctrine.git",
@@ -37,6 +43,7 @@
         "netresearch/jsonmapper": "^4.0",
         "ramsey/uuid": "^4.3",
         "ramsey/uuid-doctrine": "^1.8",
-        "ext-json": "*"
+        "ext-json": "*",
+        "d4rk0snet/email": "dev-dev"
     }
 }
