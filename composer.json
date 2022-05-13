@@ -34,6 +34,16 @@
             "type" : "vcs",
             "url": "git@github.com:ds-hyperion/stripe.git",
             "no-api": true
+        },
+        {
+            "type" : "vcs",
+            "url": "git@github.com:coralguardian/module-fiscalreceipt.git",
+            "no-api": true
+        },
+        {
+            "type" : "vcs",
+            "url": "git@github.com:ds-hyperion/api2pdf.git",
+            "no-api": true
         }
     ],
     "require": {
@@ -44,6 +54,7 @@
         "ramsey/uuid": "^4.3",
         "ramsey/uuid-doctrine": "^1.8",
         "ext-json": "*",
-        "d4rk0snet/email": "dev-dev"
+        "d4rk0snet/email": "dev-dev",
+        "d4rk0snet/fiscalreceipt": "dev-dev"
     }
 }

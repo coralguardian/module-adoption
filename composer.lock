@@ -4,8 +4,44 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "2bbc579112dc0c88cc46cf382a0ef39b",
+    "content-hash": "6d32ff258e8fd89ed57f109936ee5bc3",
     "packages": [
+        {
+            "name": "api2pdf/api2pdf.php",
+            "version": "2.0.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Api2Pdf/api2pdf.php.git",
+                "reference": "563623e3eede5679c5590981bf00a66a23ca2478"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Api2Pdf/api2pdf.php/zipball/563623e3eede5679c5590981bf00a66a23ca2478",
+                "reference": "563623e3eede5679c5590981bf00a66a23ca2478",
+                "shasum": ""
+            },
+            "require": {
+                "ext-curl": "*",
+                "php": ">=5.6"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Api2Pdf\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "This client library is a wrapper for the Api2Pdf.com REST API. See full REST api documentation at https://www.api2pdf.com/documentation/v2. Api2Pdf is a powerful API that supports HTML to PDF, URL to PDF, HTML to Image, URL to Image, Thumbnail / image preview of an Office file, Office files (Word to PDF), HTML to Docx, HTML to excel, PDF to HTML, merge PDFs together, add bookmarks to PDFs, add passwords to PDFs",
+            "homepage": "https://www.api2pdf.com",
+            "support": {
+                "issues": "https://github.com/Api2Pdf/api2pdf.php/issues",
+                "source": "https://github.com/api2pdf/api2pdf.php"
+            },
+            "time": "2021-10-27T00:59:06+00:00"
+        },
         {
             "name": "brick/math",
             "version": "0.9.3",
@@ -99,6 +135,41 @@
             ],
             "description": "Plugin gérant le système d'emailing à travers sendinblue",
             "time": "2022-05-12T20:47:29+00:00"
+        },
+        {
+            "name": "d4rk0snet/fiscalreceipt",
+            "version": "dev-dev",
+            "source": {
+                "type": "git",
+                "url": "git@github.com:coralguardian/module-fiscalreceipt.git",
+                "reference": "73c926907a37bc516e9a50f66c4ffb95ce37f21b"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/coralguardian/module-fiscalreceipt/zipball/73c926907a37bc516e9a50f66c4ffb95ce37f21b",
+                "reference": "73c926907a37bc516e9a50f66c4ffb95ce37f21b",
+                "shasum": ""
+            },
+            "require": {
+                "hyperion/api2pdf": "dev-dev",
+                "hyperion/restapi": "dev-dev",
+                "twig/twig": "^3.3"
+            },
+            "default-branch": true,
+            "type": "wordpress-plugin",
+            "autoload": {
+                "psr-4": {
+                    "D4rk0snet\\Fiscalreceipt\\": "src/"
+                }
+            },
+            "authors": [
+                {
+                    "name": "Grégory COLLIN",
+                    "email": "gregory@d4rk0s.net"
+                }
+            ],
+            "description": "Plugin métier pour la gestion des recus fiscaux au sein de l'association de préservation des coraux Coral-Guardian",
+            "time": "2022-05-13T07:28:12+00:00"
         },
         {
             "name": "doctrine/annotations",
@@ -1440,6 +1511,39 @@
                 }
             ],
             "time": "2022-05-02T17:34:52+00:00"
+        },
+        {
+            "name": "hyperion/api2pdf",
+            "version": "dev-dev",
+            "source": {
+                "type": "git",
+                "url": "git@github.com:ds-hyperion/api2pdf.git",
+                "reference": "f276b5660607c456be48661a0cb9032992ca5880"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/ds-hyperion/api2pdf/zipball/f276b5660607c456be48661a0cb9032992ca5880",
+                "reference": "f276b5660607c456be48661a0cb9032992ca5880",
+                "shasum": ""
+            },
+            "require": {
+                "api2pdf/api2pdf.php": "^2.0"
+            },
+            "default-branch": true,
+            "type": "wordpress-plugin",
+            "autoload": {
+                "psr-4": {
+                    "Hyperion\\Api2pdf\\": "src/"
+                }
+            },
+            "authors": [
+                {
+                    "name": "Grégory COLLIN",
+                    "email": "gregory@d4rk0s.net"
+                }
+            ],
+            "description": "Plugin permettant d'utiliser l'api en ligne api2pdf pour générer des pdf à partir du html",
+            "time": "2022-05-12T22:24:59+00:00"
         },
         {
             "name": "hyperion/doctrine",
@@ -3390,6 +3494,83 @@
                 }
             ],
             "time": "2022-04-26T13:22:23+00:00"
+        },
+        {
+            "name": "twig/twig",
+            "version": "3.x-dev",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/twigphp/Twig.git",
+                "reference": "b4d6723715da57667cca851051eba3786714290d"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/twigphp/Twig/zipball/b4d6723715da57667cca851051eba3786714290d",
+                "reference": "b4d6723715da57667cca851051eba3786714290d",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.2.5",
+                "symfony/polyfill-ctype": "^1.8",
+                "symfony/polyfill-mbstring": "^1.3"
+            },
+            "require-dev": {
+                "psr/container": "^1.0",
+                "symfony/phpunit-bridge": "^4.4.9|^5.0.9|^6.0"
+            },
+            "default-branch": true,
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "3.3-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Twig\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Fabien Potencier",
+                    "email": "fabien@symfony.com",
+                    "homepage": "http://fabien.potencier.org",
+                    "role": "Lead Developer"
+                },
+                {
+                    "name": "Twig Team",
+                    "role": "Contributors"
+                },
+                {
+                    "name": "Armin Ronacher",
+                    "email": "armin.ronacher@active-4.com",
+                    "role": "Project Founder"
+                }
+            ],
+            "description": "Twig, the flexible, fast, and secure template language for PHP",
+            "homepage": "https://twig.symfony.com",
+            "keywords": [
+                "templating"
+            ],
+            "support": {
+                "issues": "https://github.com/twigphp/Twig/issues",
+                "source": "https://github.com/twigphp/Twig/tree/3.x"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/fabpot",
+                    "type": "github"
+                },
+                {
+                    "url": "https://tidelift.com/funding/github/packagist/twig/twig",
+                    "type": "tidelift"
+                }
+            ],
+            "time": "2022-04-09T08:41:06+00:00"
         }
     ],
     "packages-dev": [],
@@ -3399,7 +3580,8 @@
         "hyperion/doctrine": 20,
         "hyperion/restapi": 20,
         "hyperion/stripe": 20,
-        "d4rk0snet/email": 20
+        "d4rk0snet/email": 20,
+        "d4rk0snet/fiscalreceipt": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,
