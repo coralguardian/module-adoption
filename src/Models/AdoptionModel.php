@@ -136,7 +136,7 @@ class AdoptionModel
 
     public function setQuantity(int $quantity): AdoptionModel
     {
-        if($quantity < 1) {
+        if ($quantity < 1) {
             throw new Exception("Quantity can not be less than 1");
         }
         $this->quantity = $quantity;
@@ -145,7 +145,7 @@ class AdoptionModel
 
     public function setAmount(int $amount): AdoptionModel
     {
-        if($amount < $this->getAdoptedProduct()->getProductPrice()) {
+        if ($amount < $this->getAdoptedProduct()->getProductPrice()) {
             throw new Exception("Price is below the product price");
         }
         $this->amount = $amount;
@@ -177,6 +177,5 @@ class AdoptionModel
         } catch (\ValueError $exception) {
             throw new Exception("Invalid lang value");
         }
-
     }
 }
