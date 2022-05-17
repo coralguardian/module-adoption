@@ -39,13 +39,12 @@ class AdoptionService
 
     public static function createInvoiceAndGetPaymentIntent(AdoptionModel $adoptionModel) : PaymentIntent
     {
-        $customerId = CustomerService::getCustomerIdByEmail($adoptionModel->getEmail()) ??
-                      CustomerService::createCustomer(
-                          email: $adoptionModel->getEmail(),
-                          firstName: $adoptionModel->getFirstname(),
-                          lastName: $adoptionModel->getLastname(),
-                          metadata: ['type' => 'individual']
-                      );
+        $customerId = CustomerService::getOrCreateCustomer(
+            email: $adoptionModel->getEmail(),
+            firstName: $adoptionModel->getFirstname(),
+            lastName: $adoptionModel->getLastname(),
+            metadata: ['type' => 'individual']
+        )->id;
 
         BillingService::createLineItem(
             customerId: $customerId,
