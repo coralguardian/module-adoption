@@ -2,29 +2,30 @@
 
 namespace D4rk0snet\Adoption\Action;
 
+use D4rk0snet\Adoption\API\GiftAdoptionEndpoint;
 use D4rk0snet\Adoption\Entity\AdoptionEntity;
+use D4rk0snet\Adoption\Entity\GiftAdoption;
 use D4rk0snet\Email\Event\AdoptionOrder;
 use D4rk0snet\FiscalReceipt\Endpoint\GetFiscalReceiptEndpoint;
-use D4rk0snet\FiscalReceipt\Model\FiscalReceiptModel;
 use Hyperion\Doctrine\Service\DoctrineService;
 use Stripe\PaymentIntent;
 
-class PaymentSuccessAction
+class GiftAdoptionPaymentSuccessAction
 {
     /**
      * @todo: Gérer le cas ensuite pour les entreprises
      */
     public static function doAction(PaymentIntent $stripePaymentIntent)
     {
-        if ($stripePaymentIntent->metadata->type !== 'adoption') {
+        if ($stripePaymentIntent->metadata->type !== GiftAdoptionEndpoint::PAYMENT_INTENT_TYPE) {
             return;
         }
 
         // Save Payment reference in order
-        $adoptionUuid = $stripePaymentIntent->metadata->adoption_uuid;
+        $giftAdoptionUuid = $stripePaymentIntent->metadata->adoption_uuid;
 
         /** @var AdoptionEntity $entity */
-        $entity = DoctrineService::getEntityManager()->getRepository(AdoptionEntity::class)->find($adoptionUuid);
+        $entity = DoctrineService::getEntityManager()->getRepository(GiftAdoption::class)->find($giftAdoptionUuid);
         if ($entity === null) {
             return;
         }

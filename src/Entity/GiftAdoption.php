@@ -10,7 +10,7 @@ use Doctrine\ORM\Mapping\Entity;
 
 /**
  * @Entity
- * @ORM\Table(name="gifted_adoption")
+ * @ORM\Table(name="gift_adoption")
  */
 class GiftAdoption extends AdoptionEntity
 {
@@ -49,25 +49,26 @@ class GiftAdoption extends AdoptionEntity
      */
     private DateTime $sendOn;
 
-    public function __construct(string         $firstname,
-                                string         $lastname,
-                                string         $address,
-                                string         $city,
-                                string         $country,
-                                string         $email,
-                                AdoptedProduct $adoptedProduct,
-                                int            $quantity,
-                                DateTime       $orderDate,
-                                int            $amount,
-                                Language       $lang,
-                                string $friendFirstname,
-                                string $friendLastname,
-                                string $friendAddress,
-                                string $friendCity,
-                                string $friendEmail,
-                                string $message,
-                                \DateTime $sendOn)
-    {
+    public function __construct(
+        string         $firstname,
+        string         $lastname,
+        string         $address,
+        string         $city,
+        string         $country,
+        string         $email,
+        AdoptedProduct $adoptedProduct,
+        int            $quantity,
+        DateTime       $orderDate,
+        int            $amount,
+        Language       $lang,
+        string $friendFirstname,
+        string $friendLastname,
+        string $friendAddress,
+        string $friendCity,
+        string $friendEmail,
+        string $message,
+        \DateTime $sendOn
+    ) {
         parent::__construct($firstname, $lastname, $address, $city, $country, $email, $adoptedProduct, $quantity, $orderDate, $amount, $lang);
         $this->friendFirstname = $friendFirstname;
         $this->friendLastname = $friendLastname;

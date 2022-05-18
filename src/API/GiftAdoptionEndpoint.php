@@ -2,7 +2,7 @@
 
 namespace D4rk0snet\Adoption\API;
 
-use D4rk0snet\Adoption\Models\AdoptionModel;
+use D4rk0snet\Adoption\Models\GiftAdoptionModel;
 use D4rk0snet\Adoption\Service\AdoptionService;
 use Hyperion\RestAPI\APIEnpointAbstract;
 use Hyperion\RestAPI\APIManagement;
@@ -14,14 +14,14 @@ use WP_REST_Request;
  * Endpoint pour la création d'une adoption mais qui n'a pas été encore payé.
  * @todo : Blinder en cas d'échec pour ne pas avoir d'inconsistence dans la bdd
  */
-class IndividualAdoptionEndpoint extends APIEnpointAbstract
+class GiftAdoptionEndpoint extends APIEnpointAbstract
 {
-    public const PAYMENT_INTENT_TYPE = 'adoption';
+    public const PAYMENT_INTENT_TYPE = 'gift_adoption';
 
     public static function callback(WP_REST_Request $request): \WP_REST_Response
     {
-        $payload = json_decode($request->get_body(), false);
-        if($payload === null) {
+        $payload = json_decode($request->get_body(), false, 512, JSON_THROW_ON_ERROR);
+        if ($payload === null) {
             return APIManagement::APIError("Invalid body content", 400);
         }
 
@@ -29,17 +29,17 @@ class IndividualAdoptionEndpoint extends APIEnpointAbstract
             $mapper = new JsonMapper();
             $mapper->bExceptionOnUndefinedProperty = true;
             $mapper->bExceptionOnMissingData = true;
-            $adoptionModel = $mapper->map($payload, new AdoptionModel());
+            $giftAdoptionModel = $mapper->map($payload, new GiftAdoptionModel());
         } catch (\Exception $exception) {
             return APIManagement::APIError($exception->getMessage(), 400);
         }
 
-        $uuid = AdoptionService::createAdoption($adoptionModel);
-        $paymentIntent = AdoptionService::createInvoiceAndGetPaymentIntent($adoptionModel);
+        $uuid = AdoptionService::createGiftAdoption($giftAdoptionModel);
+        $paymentIntent = AdoptionService::createInvoiceAndGetPaymentIntent($giftAdoptionModel);
 
         // Add Order id to paymentintent
         StripeService::addMetadataToPaymentIntent($paymentIntent, [
-            'adoption_uuid' => $uuid,
+            'gift_adoption_uuid' => $uuid,
             'type' => self::PAYMENT_INTENT_TYPE
         ]);
 
@@ -61,6 +61,6 @@ class IndividualAdoptionEndpoint extends APIEnpointAbstract
 
     public static function getEndpoint(): string
     {
-        return "adoption/individual";
+        return "adoption/gift";
     }
 }
