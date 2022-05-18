@@ -3,7 +3,8 @@
 namespace D4rk0snet\Adoption\Entity;
 
 use D4rk0snet\Adoption\Enums\AdoptedProduct;
-use D4rk0snet\Adoption\Enums\Language;
+use D4rk0snet\Coralguardian\Entity\CustomerEntity;
+use D4rk0snet\Coralguardian\Enums\Language;
 use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\Column;
@@ -34,34 +35,9 @@ class AdoptionEntity
     private $uuid;
 
     /**
-     * @ORM\Column(type="string")
+     * @ORM\ManyToOne(targetEntity="\D4rk0snet\Coralguardian\Entity\CustomerEntity")
      */
-    private string $firstname;
-
-    /**
-     * @ORM\Column(type="string")
-     */
-    private string $lastname;
-
-    /**
-     * @ORM\Column(type="string")
-     */
-    private string $address;
-
-    /**
-     * @ORM\Column(type="string")
-     */
-    private string $city;
-
-    /**
-     * @ORM\Column(type="string")
-     */
-    private string $country;
-
-    /**
-     * @ORM\Column(type="string")
-     */
-    private string $email;
+    private CustomerEntity $customer;
 
     /**
      * @ORM\Column(type="string", enumType="\D4rk0snet\Adoption\Enums\AdoptedProduct")
@@ -94,29 +70,18 @@ class AdoptionEntity
     private int $amount;
 
     /**
-     * @ORM\Column(type="string", enumType="\D4rk0snet\Adoption\Enums\Language")
+     * @ORM\Column(type="string", enumType="\D4rk0snet\Coralguardian\Enums\Language")
      */
     private Language $lang;
 
-
-    public function __construct(string $firstname,
-                                string $lastname,
-                                string $address,
-                                string $city,
-                                string $country,
-                                string $email,
-                                AdoptedProduct $adoptedProduct,
-                                int $quantity,
-                                DateTime $orderDate,
-                                int $amount,
-                                Language $lang)
-    {
-        $this->firstname = $firstname;
-        $this->lastname = $lastname;
-        $this->address = $address;
-        $this->city = $city;
-        $this->country = $country;
-        $this->email = $email;
+    public function __construct(
+        CustomerEntity $customer,
+        AdoptedProduct $adoptedProduct,
+        int $quantity,
+        DateTime $orderDate,
+        int $amount,
+        Language $lang
+    ) {
         $this->adoptedProduct = $adoptedProduct;
         $this->quantity = $quantity;
         $this->orderDate = $orderDate;
@@ -124,39 +89,20 @@ class AdoptionEntity
         $this->lang = $lang;
     }
 
+    public function getCustomer(): CustomerEntity
+    {
+        return $this->customer;
+    }
+
+    public function setCustomer(CustomerEntity $customer): AdoptionEntity
+    {
+        $this->customer = $customer;
+        return $this;
+    }
+
     public function getUuid(): UuidInterface
     {
         return $this->uuid;
-    }
-
-    public function getFirstname(): string
-    {
-        return $this->firstname;
-    }
-
-    public function getLastname(): string
-    {
-        return $this->lastname;
-    }
-
-    public function getAddress(): string
-    {
-        return $this->address;
-    }
-
-    public function getCity(): string
-    {
-        return $this->city;
-    }
-
-    public function getCountry(): string
-    {
-        return $this->country;
-    }
-
-    public function getEmail(): string
-    {
-        return $this->email;
     }
 
     public function getQuantity(): int

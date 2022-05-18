@@ -24,7 +24,7 @@ class GiftAdoptionPaymentSuccessAction
         // Save Payment reference in order
         $giftAdoptionUuid = $stripePaymentIntent->metadata->adoption_uuid;
 
-        /** @var AdoptionEntity $entity */
+        /** @var GiftAdoption $entity */
         $entity = DoctrineService::getEntityManager()->getRepository(GiftAdoption::class)->find($giftAdoptionUuid);
         if ($entity === null) {
             return;
@@ -33,8 +33,9 @@ class GiftAdoptionPaymentSuccessAction
         DoctrineService::getEntityManager()->flush();
 
         // Send email event with data needed
+
         AdoptionOrder::send(
-            email: $entity->getEmail(),
+            email: $entity->getCustomer()->getEmail(),
             lang: $entity->getLang()->value,
             quantity: $entity->getQuantity(),
             receiptFileUrl: GetFiscalReceiptEndpoint::getUrl()."?".GetFiscalReceiptEndpoint::ORDER_UUID_PARAM."=".$entity->getUuid(),

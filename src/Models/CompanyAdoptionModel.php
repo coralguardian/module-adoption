@@ -3,20 +3,20 @@
 namespace D4rk0snet\Adoption\Models;
 
 use D4rk0snet\Adoption\Enums\AdoptedProduct;
-use D4rk0snet\Adoption\Enums\Language;
+use D4rk0snet\Coralguardian\Enums\Language;
 use Exception;
 
-class AdoptionModel
+class CompanyAdoptionModel
 {
     /**
      * @required
      */
-    private string $firstname;
+    private string $companyName;
 
     /**
      * @required
      */
-    private string $lastname;
+    private string $mainContactName;
 
     /**
      * @required
@@ -58,16 +58,6 @@ class AdoptionModel
      */
     private Language $lang;
 
-    public function getFirstname(): string
-    {
-        return $this->firstname;
-    }
-
-    public function getLastname(): string
-    {
-        return $this->lastname;
-    }
-
     public function getAddress(): string
     {
         return $this->address;
@@ -98,43 +88,43 @@ class AdoptionModel
         return $this->amount;
     }
 
-    public function setFirstname(string $firstname): AdoptionModel
+    public function setFirstname(string $firstname): CompanyAdoptionModel
     {
         $this->firstname = $firstname;
         return $this;
     }
 
-    public function setLastname(string $lastname): AdoptionModel
+    public function setLastname(string $lastname): CompanyAdoptionModel
     {
         $this->lastname = $lastname;
         return $this;
     }
 
-    public function setAddress(string $address): AdoptionModel
+    public function setAddress(string $address): CompanyAdoptionModel
     {
         $this->address = $address;
         return $this;
     }
 
-    public function setCity(string $city): AdoptionModel
+    public function setCity(string $city): CompanyAdoptionModel
     {
         $this->city = $city;
         return $this;
     }
 
-    public function setCountry(string $country): AdoptionModel
+    public function setCountry(string $country): CompanyAdoptionModel
     {
         $this->country = $country;
         return $this;
     }
 
-    public function setAdoptedProduct(string $adoptedProduct): AdoptionModel
+    public function setAdoptedProduct(string $adoptedProduct): CompanyAdoptionModel
     {
         $this->adoptedProduct = AdoptedProduct::from($adoptedProduct);
         return $this;
     }
 
-    public function setQuantity(int $quantity): AdoptionModel
+    public function setQuantity(int $quantity): CompanyAdoptionModel
     {
         if ($quantity < 1) {
             throw new Exception("Quantity can not be less than 1");
@@ -143,7 +133,7 @@ class AdoptionModel
         return $this;
     }
 
-    public function setAmount(int $amount): AdoptionModel
+    public function setAmount(int $amount): CompanyAdoptionModel
     {
         if ($amount < $this->getAdoptedProduct()->getProductPrice()) {
             throw new Exception("Price is below the product price");
@@ -157,7 +147,7 @@ class AdoptionModel
         return $this->email;
     }
 
-    public function setEmail(string $email): AdoptionModel
+    public function setEmail(string $email): CompanyAdoptionModel
     {
         $this->email = $email;
         return $this;
@@ -168,7 +158,7 @@ class AdoptionModel
         return $this->lang;
     }
 
-    public function setLang(string $lang): AdoptionModel
+    public function setLang(string $lang): CompanyAdoptionModel
     {
 
         try {
@@ -177,5 +167,27 @@ class AdoptionModel
         } catch (\ValueError $exception) {
             throw new Exception("Invalid lang value");
         }
+    }
+
+    public function getCompanyName(): string
+    {
+        return $this->companyName;
+    }
+
+    public function getMainContactName(): string
+    {
+        return $this->mainContactName;
+    }
+
+    public function setCompanyName(string $companyName): CompanyAdoptionModel
+    {
+        $this->companyName = $companyName;
+        return $this;
+    }
+
+    public function setMainContactName(string $mainContactName): CompanyAdoptionModel
+    {
+        $this->mainContactName = $mainContactName;
+        return $this;
     }
 }

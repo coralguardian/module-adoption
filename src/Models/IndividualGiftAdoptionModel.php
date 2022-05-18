@@ -3,62 +3,12 @@
 namespace D4rk0snet\Adoption\Models;
 
 use D4rk0snet\Adoption\Enums\AdoptedProduct;
-use D4rk0snet\Adoption\Enums\Language;
+use D4rk0snet\Coralguardian\Enums\Language;
 use DateTime;
 use Exception;
 
-class GiftAdoptionModel
+class IndividualGiftAdoptionModel extends IndividualAdoptionModel
 {
-    /**
-     * @required
-     */
-    private string $firstname;
-
-    /**
-     * @required
-     */
-    private string $lastname;
-
-    /**
-     * @required
-     */
-    private string $address;
-
-    /**
-     * @required
-     */
-    private string $city;
-
-    /**
-     * @required
-     */
-    private string $country;
-
-    /**
-     * @required
-     */
-    private string $email;
-
-    /**
-     * @required
-     */
-    private AdoptedProduct $adoptedProduct;
-
-    /**
-     * @required
-     */
-    private int $quantity;
-
-    /**
-     * @required
-     */
-    private int $amount;
-
-    /**
-     * @required
-     */
-    private Language $lang;
-
     /**
      * @required
      */
@@ -89,7 +39,7 @@ class GiftAdoptionModel
      */
     private DateTime $sendOn;
 
-    private string $message;
+    private ?string $message = null;
 
 
     public function getFirstname(): string
@@ -132,43 +82,43 @@ class GiftAdoptionModel
         return $this->amount;
     }
 
-    public function setFirstname(string $firstname): GiftAdoptionModel
+    public function setFirstname(string $firstname): IndividualGiftAdoptionModel
     {
         $this->firstname = $firstname;
         return $this;
     }
 
-    public function setLastname(string $lastname): GiftAdoptionModel
+    public function setLastname(string $lastname): IndividualGiftAdoptionModel
     {
         $this->lastname = $lastname;
         return $this;
     }
 
-    public function setAddress(string $address): GiftAdoptionModel
+    public function setAddress(string $address): IndividualGiftAdoptionModel
     {
         $this->address = $address;
         return $this;
     }
 
-    public function setCity(string $city): GiftAdoptionModel
+    public function setCity(string $city): IndividualGiftAdoptionModel
     {
         $this->city = $city;
         return $this;
     }
 
-    public function setCountry(string $country): GiftAdoptionModel
+    public function setCountry(string $country): IndividualGiftAdoptionModel
     {
         $this->country = $country;
         return $this;
     }
 
-    public function setAdoptedProduct(string $adoptedProduct): GiftAdoptionModel
+    public function setAdoptedProduct(string $adoptedProduct): IndividualGiftAdoptionModel
     {
         $this->adoptedProduct = AdoptedProduct::from($adoptedProduct);
         return $this;
     }
 
-    public function setQuantity(int $quantity): GiftAdoptionModel
+    public function setQuantity(int $quantity): IndividualGiftAdoptionModel
     {
         if ($quantity < 1) {
             throw new Exception("Quantity can not be less than 1");
@@ -177,7 +127,7 @@ class GiftAdoptionModel
         return $this;
     }
 
-    public function setAmount(int $amount): GiftAdoptionModel
+    public function setAmount(int $amount): IndividualGiftAdoptionModel
     {
         if ($amount < $this->getAdoptedProduct()->getProductPrice()) {
             throw new Exception("Price is below the product price");
@@ -191,7 +141,7 @@ class GiftAdoptionModel
         return $this->email;
     }
 
-    public function setEmail(string $email): GiftAdoptionModel
+    public function setEmail(string $email): IndividualGiftAdoptionModel
     {
         $this->email = $email;
         return $this;
@@ -202,7 +152,7 @@ class GiftAdoptionModel
         return $this->lang;
     }
 
-    public function setLang(string $lang): GiftAdoptionModel
+    public function setLang(string $lang): IndividualGiftAdoptionModel
     {
 
         try {
@@ -218,7 +168,7 @@ class GiftAdoptionModel
         return $this->friendFirstname;
     }
 
-    public function setFriendFirstname(string $friendFirstname): GiftAdoptionModel
+    public function setFriendFirstname(string $friendFirstname): IndividualGiftAdoptionModel
     {
         $this->friendFirstname = $friendFirstname;
         return $this;
@@ -229,7 +179,7 @@ class GiftAdoptionModel
         return $this->friendLastname;
     }
 
-    public function setFriendLastname(string $friendLastname): GiftAdoptionModel
+    public function setFriendLastname(string $friendLastname): IndividualGiftAdoptionModel
     {
         $this->friendLastname = $friendLastname;
         return $this;
@@ -240,7 +190,7 @@ class GiftAdoptionModel
         return $this->friendAddress;
     }
 
-    public function setFriendAddress(string $friendAddress): GiftAdoptionModel
+    public function setFriendAddress(string $friendAddress): IndividualGiftAdoptionModel
     {
         $this->friendAddress = $friendAddress;
         return $this;
@@ -251,7 +201,7 @@ class GiftAdoptionModel
         return $this->friendCity;
     }
 
-    public function setFriendCity(string $friendCity): GiftAdoptionModel
+    public function setFriendCity(string $friendCity): IndividualGiftAdoptionModel
     {
         $this->friendCity = $friendCity;
         return $this;
@@ -262,7 +212,7 @@ class GiftAdoptionModel
         return $this->friendEmail;
     }
 
-    public function setFriendEmail(string $friendEmail): GiftAdoptionModel
+    public function setFriendEmail(string $friendEmail): IndividualGiftAdoptionModel
     {
         $this->friendEmail = $friendEmail;
         return $this;
@@ -273,18 +223,18 @@ class GiftAdoptionModel
         return $this->sendOn;
     }
 
-    public function setSendOn(DateTime $sendOn): GiftAdoptionModel
+    public function setSendOn(DateTime $sendOn): IndividualGiftAdoptionModel
     {
         $this->sendOn = $sendOn;
         return $this;
     }
 
-    public function getMessage(): string
+    public function getMessage(): ?string
     {
         return $this->message;
     }
 
-    public function setMessage(string $message): GiftAdoptionModel
+    public function setMessage(?string $message): IndividualGiftAdoptionModel
     {
         $this->message = $message;
         return $this;

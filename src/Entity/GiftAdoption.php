@@ -3,7 +3,8 @@
 namespace D4rk0snet\Adoption\Entity;
 
 use D4rk0snet\Adoption\Enums\AdoptedProduct;
-use D4rk0snet\Adoption\Enums\Language;
+use D4rk0snet\Coralguardian\Entity\CustomerEntity;
+use D4rk0snet\Coralguardian\Enums\Language;
 use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\Entity;
@@ -50,12 +51,7 @@ class GiftAdoption extends AdoptionEntity
     private DateTime $sendOn;
 
     public function __construct(
-        string         $firstname,
-        string         $lastname,
-        string         $address,
-        string         $city,
-        string         $country,
-        string         $email,
+        CustomerEntity $customerEntity,
         AdoptedProduct $adoptedProduct,
         int            $quantity,
         DateTime       $orderDate,
@@ -69,7 +65,7 @@ class GiftAdoption extends AdoptionEntity
         string $message,
         \DateTime $sendOn
     ) {
-        parent::__construct($firstname, $lastname, $address, $city, $country, $email, $adoptedProduct, $quantity, $orderDate, $amount, $lang);
+        parent::__construct($customerEntity, $adoptedProduct, $quantity, $orderDate, $amount, $lang);
         $this->friendFirstname = $friendFirstname;
         $this->friendLastname = $friendLastname;
         $this->friendAddress = $friendAddress;

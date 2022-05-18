@@ -1,7 +1,7 @@
 <?php
 
 use D4rk0snet\Adoption\Action\GiftAdoptionPaymentSuccessAction;
-use D4rk0snet\Adoption\Action\RegularAdoptionPaymentSuccessAction;
+use D4rk0snet\Adoption\Action\AdoptionPaymentSuccessAction;
 
 /**
  * Plugin Name: Adopte un corail / recif
@@ -17,7 +17,7 @@ use D4rk0snet\Adoption\Action\RegularAdoptionPaymentSuccessAction;
 use Hyperion\Stripe\Enum\StripeEventEnum;
 
 add_action('plugins_loaded', [\D4rk0snet\Adoption\Plugin::class,'launchActions']);
-add_action(StripeEventEnum::PAYMENT_SUCCESS->value, [RegularAdoptionPaymentSuccessAction::class,'doAction'], 10, 1);
+add_action(StripeEventEnum::PAYMENT_SUCCESS->value, [AdoptionPaymentSuccessAction::class,'doAction'], 10, 1);
 add_action(StripeEventEnum::PAYMENT_SUCCESS->value, [GiftAdoptionPaymentSuccessAction::class,'doAction'], 10, 1);
 add_filter(\Hyperion\Doctrine\Plugin::ADD_ENTITIES_FILTER, function (array $entityPaths) {
     $entityPaths[] = __DIR__."/src/Entity";
