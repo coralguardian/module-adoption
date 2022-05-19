@@ -29,12 +29,14 @@ class AdoptionPaymentSuccessAction
         $entity->setStripePaymentIntentId($stripePaymentIntent->id);
         DoctrineService::getEntityManager()->flush();
 
+        $urlParts = parse_url(GetFiscalReceiptEndpoint::getUrl()."?".GetFiscalReceiptEndpoint::ORDER_UUID_PARAM."=".$entity->getUuid());
+
         // Send email event with data needed
         AdoptionOrder::send(
             email: $entity->getCustomer()->getEmail(),
             lang: $entity->getLang()->value,
             quantity: $entity->getQuantity(),
-            receiptFileUrl: GetFiscalReceiptEndpoint::getUrl()."?".GetFiscalReceiptEndpoint::ORDER_UUID_PARAM."=".$entity->getUuid(),
+            receiptFileUrl: $urlParts["host"].$urlParts["path"].$urlParts["query"],
             nextStepUrl: "www.google.fr"
         );
     }
