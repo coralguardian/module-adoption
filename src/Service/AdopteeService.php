@@ -28,7 +28,7 @@ class AdopteeService
         // Check if names have already been set
         $adoptees = DoctrineService::getEntityManager()->getRepository(AdopteeEntity::class)->findBy(['adoption' => $adoptionOrder]);
         if(count($adoptees)) {
-            throw new Exception("Adoptees have already names. Can't rename them.", 400);
+            throw new Exception("Adoptees already have names. Can't rename them.", 400);
         }
 
         foreach($model->getNames() as $name) {
@@ -46,7 +46,7 @@ class AdopteeService
 
         // Send email event
         NamingDone::send(
-            email: $adoptionOrder->getEmail(),
+            email: $adoptionOrder->getCustomer()->getEmail(),
             lang: $adoptionOrder->getLang(),
             adoptionType: $adoptionOrder->getAdoptedProduct(),
             quantity: $adoptionOrder->getQuantity()
