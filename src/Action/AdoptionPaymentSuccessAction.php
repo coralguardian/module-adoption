@@ -36,7 +36,7 @@ class AdoptionPaymentSuccessAction
             email: $entity->getCustomer()->getEmail(),
             lang: $entity->getLang()->value,
             quantity: $entity->getQuantity(),
-            receiptFileUrl: $urlParts["host"].$urlParts["path"].$urlParts["query"],
+            receiptFileUrl: $urlParts["host"].$urlParts["path"]."?".$urlParts["query"],
             nextStepUrl: "www.google.fr"
         );
     }
