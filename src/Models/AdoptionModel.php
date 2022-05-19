@@ -65,7 +65,7 @@ class AdoptionModel
 
     public function setAmount(int $amount): AdoptionModel
     {
-        if ($amount < $this->getAdoptedProduct()->getProductPrice()) {
+        if ($amount < $this->getAdoptedProduct()->getProductPrice() * $this->getQuantity()) {
             throw new Exception("Price is below the product price");
         }
         $this->amount = $amount;

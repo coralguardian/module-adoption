@@ -60,6 +60,6 @@ class AdoptionEndpoint extends APIEnpointAbstract
 
     public static function getEndpoint(): string
     {
-        return "adoption/individual";
+        return "adoption";
     }
 }
