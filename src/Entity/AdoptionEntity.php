@@ -15,7 +15,7 @@ use Doctrine\ORM\Mapping\InheritanceType;
 
 /**
  * @Entity
- * @InheritanceType("SINGLE_TABLE")
+ * @InheritanceType("JOINED")
  * @DiscriminatorColumn(name="discr", type="string")
  * @DiscriminatorMap({"regularAdoption" = "AdoptionEntity", "GiftAdoption" = "GiftAdoption"})
  * @ORM\Table(name="adoption")

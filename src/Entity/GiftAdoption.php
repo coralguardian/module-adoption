@@ -11,7 +11,7 @@ use Doctrine\ORM\Mapping\Entity;
 
 /**
  * @Entity
- * @ORM\Table(name="gift_adoption")
+ * @ORM\Table(name="adoption_gift")
  */
 class GiftAdoption extends AdoptionEntity
 {
