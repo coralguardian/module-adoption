@@ -30,23 +30,23 @@ class AdoptionEndpoint extends APIEnpointAbstract
             $mapper->bExceptionOnMissingData = true;
             $mapper->postMappingMethod = 'afterMapping';
             $adoptionModel = $mapper->map($payload, new AdoptionModel());
+
+            $uuid = AdoptionService::createAdoption($adoptionModel)->getUuid();
+            $paymentIntent = AdoptionService::createInvoiceAndGetPaymentIntent($adoptionModel);
+
+            // Add Order id to paymentintent
+            StripeService::addMetadataToPaymentIntent($paymentIntent, [
+                'adoption_uuid' => $uuid,
+                'type' => self::PAYMENT_INTENT_TYPE
+            ]);
+
+            return APIManagement::APIOk([
+                "uuid" => $uuid,
+                "clientSecret" => $paymentIntent->client_secret
+            ]);
         } catch (\Exception $exception) {
             return APIManagement::APIError($exception->getMessage(), 400);
         }
-
-        $uuid = AdoptionService::createAdoption($adoptionModel)->getUuid();
-        $paymentIntent = AdoptionService::createInvoiceAndGetPaymentIntent($adoptionModel);
-
-        // Add Order id to paymentintent
-        StripeService::addMetadataToPaymentIntent($paymentIntent, [
-            'adoption_uuid' => $uuid,
-            'type' => self::PAYMENT_INTENT_TYPE
-        ]);
-
-        return APIManagement::APIOk([
-            "uuid" => $uuid,
-            "clientSecret" => $paymentIntent->client_secret
-        ]);
     }
 
     public static function getMethods(): array
