@@ -7,6 +7,8 @@ use D4rk0snet\Coralguardian\Entity\CustomerEntity;
 use D4rk0snet\Coralguardian\Enums\Language;
 use D4rk0snet\Donation\Entity\DonationEntity;
 use DateTime;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\DiscriminatorColumn;
 use Doctrine\ORM\Mapping\DiscriminatorMap;
@@ -32,6 +34,11 @@ class AdoptionEntity extends DonationEntity
      */
     private int $quantity;
 
+    /**
+     * @ORM\OneToMany(mappedBy="adoption")
+     */
+    private Collection $adoptees;
+
 
     public function __construct(
         CustomerEntity $customer,
@@ -49,6 +56,7 @@ class AdoptionEntity extends DonationEntity
         );
         $this->adoptedProduct = $adoptedProduct;
         $this->quantity = $quantity;
+        $this->adoptees = new ArrayCollection();
     }
 
     public function getAdoptedProduct(): AdoptedProduct
@@ -71,5 +79,10 @@ class AdoptionEntity extends DonationEntity
     {
         $this->quantity = $quantity;
         return $this;
+    }
+
+    public function getAdoptees(): ArrayCollection|Collection
+    {
+        return $this->adoptees;
     }
 }

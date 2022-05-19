@@ -41,7 +41,7 @@ class AdopteeEntity
     private string $picture;
 
     /**
-     * @ORM\ManyToOne(targetEntity="\D4rk0snet\Adoption\Entity\AdoptionEntity")
+     * @ORM\ManyToOne(targetEntity="\D4rk0snet\Adoption\Entity\AdoptionEntity", inversedBy="adoptees")
      * @ORM\JoinColumn(referencedColumnName="uuid")
      */
     private AdoptionEntity $adoption;
@@ -51,13 +51,13 @@ class AdopteeEntity
      */
     private DateTime $adopteeDatetime;
 
-    public function __construct(string         $name,
-                                Seeder         $seeder,
-                                AdoptionEntity $adoption,
-                                DateTime       $adopteeDatetime,
-                                string         $picture
-    )
-    {
+    public function __construct(
+        string $name,
+        Seeder $seeder,
+        AdoptionEntity $adoption,
+        DateTime $adopteeDatetime,
+        string $picture
+    ) {
         $this->name = $name;
         $this->seeder = $seeder;
         $this->adoption = $adoption;
