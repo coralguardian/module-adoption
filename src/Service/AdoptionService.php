@@ -6,7 +6,6 @@ use D4rk0snet\Adoption\Entity\AdoptionEntity;
 use D4rk0snet\Adoption\Entity\GiftAdoption;
 use D4rk0snet\Adoption\Models\AdoptionModel;
 use D4rk0snet\Adoption\Models\GiftAdoptionModel;
-use D4rk0snet\Coralguardian\Entity\CompanyCustomerEntity;
 use D4rk0snet\Coralguardian\Entity\CustomerEntity;
 use D4rk0snet\Coralguardian\Entity\IndividualCustomerEntity;
 use DateTime;
@@ -74,12 +73,12 @@ class AdoptionService
         return $newGiftAdoptionEntity;
     }
 
-    public static function createInvoiceAndGetPaymentIntent($adoptionModel) : PaymentIntent
+    public static function createInvoiceAndGetPaymentIntent(AdoptionModel $adoptionModel) : PaymentIntent
     {
         // Est ce que le client est une entreprise ?
         $customer = DoctrineService::getEntityManager()
             ->getRepository(CustomerEntity::class)
-            ->find($adoptionModel->getUuid());
+            ->find($adoptionModel->getCustomerUUID());
 
         if ($customer instanceof IndividualCustomerEntity) {
             $customerId = CustomerService::getOrCreateIndividualCustomer(
