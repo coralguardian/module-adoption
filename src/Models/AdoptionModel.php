@@ -61,8 +61,13 @@ class AdoptionModel
 
     public function setAdoptedProduct(string $adoptedProduct): AdoptionModel
     {
-        $this->adoptedProduct = AdoptedProduct::from($adoptedProduct);
-        return $this;
+        try {
+            $this->adoptedProduct = AdoptedProduct::from($adoptedProduct);
+
+            return $this;
+        } catch (\ValueError $exception) {
+            throw new Exception("Invalid adopted product value");
+        }
     }
 
     public function setQuantity(int $quantity): AdoptionModel
