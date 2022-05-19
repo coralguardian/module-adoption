@@ -41,7 +41,7 @@ class GiftAdoption extends AdoptionEntity
     private string $friendEmail;
 
     /**
-     * @ORM\Column(type="string")
+     * @ORM\Column(type="string", nullable=true)
      */
     private string $message;
 
@@ -51,12 +51,12 @@ class GiftAdoption extends AdoptionEntity
     private DateTime $sendOn;
 
     public function __construct(
-        CustomerEntity $customerEntity,
-        AdoptedProduct $adoptedProduct,
-        int            $quantity,
-        DateTime       $orderDate,
-        int            $amount,
+        CustomerEntity $customer,
+        DateTime       $date,
+        float          $amount,
         Language       $lang,
+        AdoptedProduct $adoptedProduct,
+        int $quantity,
         string $friendFirstname,
         string $friendLastname,
         string $friendAddress,
@@ -65,7 +65,15 @@ class GiftAdoption extends AdoptionEntity
         string $message,
         \DateTime $sendOn
     ) {
-        parent::__construct($customerEntity, $adoptedProduct, $quantity, $orderDate, $amount, $lang);
+        parent::__construct(
+            customer: $customer,
+            date: $date,
+            amount: $amount,
+            lang: $lang,
+            adoptedProduct: $adoptedProduct,
+            quantity: $quantity
+        );
+
         $this->friendFirstname = $friendFirstname;
         $this->friendLastname = $friendLastname;
         $this->friendAddress = $friendAddress;

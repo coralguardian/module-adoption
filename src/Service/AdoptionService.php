@@ -4,10 +4,11 @@ namespace D4rk0snet\Adoption\Service;
 
 use D4rk0snet\Adoption\Entity\AdoptionEntity;
 use D4rk0snet\Adoption\Entity\GiftAdoption;
-use D4rk0snet\Adoption\Models\CompanyAdoptionModel;
-use D4rk0snet\Adoption\Models\CompanyGiftAdoptionModel;
-use D4rk0snet\Adoption\Models\IndividualAdoptionModel;
-use D4rk0snet\Adoption\Models\IndividualGiftAdoptionModel;
+use D4rk0snet\Adoption\Models\AdoptionModel;
+use D4rk0snet\Adoption\Models\GiftAdoptionModel;
+use D4rk0snet\Coralguardian\Entity\CompanyCustomerEntity;
+use D4rk0snet\Coralguardian\Entity\CustomerEntity;
+use D4rk0snet\Coralguardian\Entity\IndividualCustomerEntity;
 use DateTime;
 use Hyperion\Doctrine\Service\DoctrineService;
 use Hyperion\Stripe\Service\BillingService;
@@ -16,76 +17,48 @@ use Stripe\PaymentIntent;
 
 class AdoptionService
 {
-    public static function createIndividualAdoption(IndividualAdoptionModel $adoptionModel) : string
+    public static function createAdoption(AdoptionModel $adoptionModel) : AdoptionEntity
     {
-        $customer = \D4rk0snet\Coralguardian\Service\CustomerService::getOrCreateIndividualCustomer(
-            email: $adoptionModel->getEmail(),
-            firstname: $adoptionModel->getFirstname(),
-            lastname: $adoptionModel->getLastname(),
-            address: $adoptionModel->getAddress(),
-            city: $adoptionModel->getCity(),
-            country: $adoptionModel->getCountry()
-        );
+        $customer = DoctrineService::getEntityManager()
+            ->getRepository(CustomerEntity::class)
+            ->find($adoptionModel->getCustomerUUID());
+
+        if ($customer === null) {
+            throw new \Exception("Customer not found");
+        }
 
         $newAdoptionEntity = new AdoptionEntity(
             customer: $customer,
-            adoptedProduct: $adoptionModel->getAdoptedProduct(),
-            quantity: $adoptionModel->getQuantity(),
-            orderDate: new DateTime(),
-            amount: $adoptionModel->getAmount(),
-            lang: $adoptionModel->getLang()
-        );
-
-        DoctrineService::getEntityManager()->persist($newAdoptionEntity);
-        DoctrineService::getEntityManager()->flush();
-
-        return $newAdoptionEntity->getUuid();
-    }
-
-    public static function createCompanyAdoption(CompanyAdoptionModel $adoptionModel) : string
-    {
-        $customer = \D4rk0snet\Coralguardian\Service\CustomerService::getOrCreateCompanyCustomer(
-            email: $adoptionModel->getEmail(),
-            companyName: $adoptionModel->getCompanyName(),
-            mainContactName: $adoptionModel->getMainContactName(),
-            address: $adoptionModel->getAddress(),
-            city: $adoptionModel->getCity(),
-            country: $adoptionModel->getCountry()
-        );
-
-        $newAdoptionEntity = new AdoptionEntity(
-            customer: $customer,
-            adoptedProduct: $adoptionModel->getAdoptedProduct(),
-            quantity: $adoptionModel->getQuantity(),
-            orderDate: new DateTime(),
-            amount: $adoptionModel->getAmount(),
-            lang: $adoptionModel->getLang()
-        );
-
-        DoctrineService::getEntityManager()->persist($newAdoptionEntity);
-        DoctrineService::getEntityManager()->flush();
-
-        return $newAdoptionEntity->getUuid();
-    }
-
-    public static function createIndividualGiftAdoption(IndividualGiftAdoptionModel $adoptionModel) : string
-    {
-        $customer = \D4rk0snet\Coralguardian\Service\CustomerService::getOrCreateIndividualCustomer(
-            email: $adoptionModel->getEmail(),
-            firstname: $adoptionModel->getFirstname(),
-            lastname: $adoptionModel->getLastname(),
-            address: $adoptionModel->getAddress(),
-            city: $adoptionModel->getCity(),
-            country: $adoptionModel->getCountry()
-        );
-
-        $newGiftAdoptionEntity = new GiftAdoption(
-            customerEntity: $customer,
-            adoptedProduct: $adoptionModel->getAdoptedProduct(),
-            quantity: $adoptionModel->getQuantity(),
-            orderDate: new DateTime(),
+            date: new DateTime(),
             amount: $adoptionModel->getAmount(),
             lang: $adoptionModel->getLang(),
+            adoptedProduct: $adoptionModel->getAdoptedProduct(),
+            quantity: $adoptionModel->getQuantity()
+        );
+
+        DoctrineService::getEntityManager()->persist($newAdoptionEntity);
+        DoctrineService::getEntityManager()->flush();
+
+        return $newAdoptionEntity;
+    }
+
+    public static function createGiftAdoption(GiftAdoptionModel $adoptionModel) : GiftAdoption
+    {
+        $customer = DoctrineService::getEntityManager()
+            ->getRepository(CustomerEntity::class)
+            ->find($adoptionModel->getCustomerUUID());
+
+        if ($customer === null) {
+            throw new \Exception("Customer not found");
+        }
+
+        $newGiftAdoptionEntity = new GiftAdoption(
+            customer: $customer,
+            date: new DateTime(),
+            amount: $adoptionModel->getAmount(),
+            lang: $adoptionModel->getLang(),
+            adoptedProduct: $adoptionModel->getAdoptedProduct(),
+            quantity: $adoptionModel->getQuantity(),
             friendFirstname: $adoptionModel->getFriendFirstname(),
             friendLastname: $adoptionModel->getLastname(),
             friendAddress: $adoptionModel->getAddress(),
@@ -98,57 +71,27 @@ class AdoptionService
         DoctrineService::getEntityManager()->persist($newGiftAdoptionEntity);
         DoctrineService::getEntityManager()->flush();
 
-        return $newGiftAdoptionEntity->getUuid();
+        return $newGiftAdoptionEntity;
     }
-
-    public static function createCompanyGiftAdoption(CompanyGiftAdoptionModel $adoptionModel) : string
-    {
-        $customer = \D4rk0snet\Coralguardian\Service\CustomerService::getOrCreateCompanyCustomer(
-            email: $adoptionModel->getEmail(),
-            companyName: $adoptionModel->getCompanyName(),
-            mainContactName: $adoptionModel->getMainContactName(),
-            address: $adoptionModel->getAddress(),
-            city: $adoptionModel->getCity(),
-            country: $adoptionModel->getCountry()
-        );
-
-        $newGiftAdoptionEntity = new GiftAdoption(
-            customerEntity: $customer,
-            adoptedProduct: $adoptionModel->getAdoptedProduct(),
-            quantity: $adoptionModel->getQuantity(),
-            orderDate: new DateTime(),
-            amount: $adoptionModel->getAmount(),
-            lang: $adoptionModel->getLang(),
-            friendFirstname: $adoptionModel->getFriendFirstname(),
-            friendLastname: $adoptionModel->getLastname(),
-            friendAddress: $adoptionModel->getAddress(),
-            friendCity: $adoptionModel->getCity(),
-            friendEmail: $adoptionModel->getFriendEmail(),
-            message: $adoptionModel->getMessage(),
-            sendOn: $adoptionModel->getSendOn()
-        );
-
-        DoctrineService::getEntityManager()->persist($newGiftAdoptionEntity);
-        DoctrineService::getEntityManager()->flush();
-
-        return $newGiftAdoptionEntity->getUuid();
-    }
-
-
 
     public static function createInvoiceAndGetPaymentIntent($adoptionModel) : PaymentIntent
     {
-        if ($adoptionModel instanceof IndividualAdoptionModel || $adoptionModel instanceof IndividualGiftAdoptionModel) {
+        // Est ce que le client est une entreprise ?
+        $customer = DoctrineService::getEntityManager()
+            ->getRepository(CustomerEntity::class)
+            ->find($adoptionModel->getUuid());
+
+        if ($customer instanceof IndividualCustomerEntity) {
             $customerId = CustomerService::getOrCreateIndividualCustomer(
-                email: $adoptionModel->getEmail(),
-                firstName: $adoptionModel->getFirstname(),
-                lastName:  $adoptionModel->getLastname()
+                email: $customer->getEmail(),
+                firstName: $customer->getFirstname(),
+                lastName:  $customer->getLastname()
             )->id;
-        } else if ($adoptionModel instanceof CompanyAdoptionModel || $adoptionModel instanceof CompanyGiftAdoptionModel) {
+        } else {
             $customerId = CustomerService::getOrCreateCompanyCustomer(
-                email: $adoptionModel->getEmail(),
-                companyName: $adoptionModel->getCompanyName(),
-                mainContactName: $adoptionModel->getMainContactName()
+                email: $customer->getEmail(),
+                companyName: $customer->getCompanyName(),
+                mainContactName: $customer->getMainContactName()
             )->id;
         }
 

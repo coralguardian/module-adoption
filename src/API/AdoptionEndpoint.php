@@ -2,10 +2,8 @@
 
 namespace D4rk0snet\Adoption\API;
 
-use D4rk0snet\Adoption\Models\CompanyAdoptionModel;
-use D4rk0snet\Adoption\Models\IndividualAdoptionModel;
+use D4rk0snet\Adoption\Models\AdoptionModel;
 use D4rk0snet\Adoption\Service\AdoptionService;
-use D4rk0snet\Coralguardian\Enums\CustomerType;
 use Hyperion\RestAPI\APIEnpointAbstract;
 use Hyperion\RestAPI\APIManagement;
 use Hyperion\Stripe\Service\StripeService;
@@ -28,37 +26,14 @@ class AdoptionEndpoint extends APIEnpointAbstract
         }
 
         try {
-            $customerType = CustomerType::from($payload->customer_type);
-        } catch (\ValueError $exception) {
-            return APIManagement::APIError("Undefined customer type", 400);
-        }
-
-        switch ($customerType) {
-            case CustomerType::INDIVIDUAL:
-                $model = new IndividualAdoptionModel();
-                break;
-            case CustomerType::COMPANY:
-                $model = new CompanyAdoptionModel();
-                break;
-        }
-
-        try {
             $mapper = new JsonMapper();
             $mapper->bExceptionOnMissingData = true;
-            $adoptionModel = $mapper->map($payload, $model);
+            $adoptionModel = $mapper->map($payload, new AdoptionModel());
         } catch (\Exception $exception) {
             return APIManagement::APIError($exception->getMessage(), 400);
         }
 
-        switch ($customerType) {
-            case CustomerType::INDIVIDUAL:
-                $uuid = AdoptionService::createIndividualAdoption($adoptionModel);
-                break;
-            case CustomerType::COMPANY:
-                $uuid = AdoptionService::createCompanyAdoption($adoptionModel);
-                break;
-        }
-
+        $uuid = AdoptionService::createAdoption($adoptionModel)->getUuid();
         $paymentIntent = AdoptionService::createInvoiceAndGetPaymentIntent($adoptionModel);
 
         // Add Order id to paymentintent

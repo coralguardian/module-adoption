@@ -7,7 +7,7 @@ use D4rk0snet\Coralguardian\Enums\Language;
 use DateTime;
 use Exception;
 
-class IndividualGiftAdoptionModel extends IndividualAdoptionModel
+class GiftAdoptionModel extends AdoptionModel
 {
     /**
      * @required
@@ -77,48 +77,48 @@ class IndividualGiftAdoptionModel extends IndividualAdoptionModel
         return $this->quantity;
     }
 
-    public function getAmount(): int
+    public function getAmount(): float
     {
         return $this->amount;
     }
 
-    public function setFirstname(string $firstname): IndividualGiftAdoptionModel
+    public function setFirstname(string $firstname): GiftAdoptionModel
     {
         $this->firstname = $firstname;
         return $this;
     }
 
-    public function setLastname(string $lastname): IndividualGiftAdoptionModel
+    public function setLastname(string $lastname): GiftAdoptionModel
     {
         $this->lastname = $lastname;
         return $this;
     }
 
-    public function setAddress(string $address): IndividualGiftAdoptionModel
+    public function setAddress(string $address): GiftAdoptionModel
     {
         $this->address = $address;
         return $this;
     }
 
-    public function setCity(string $city): IndividualGiftAdoptionModel
+    public function setCity(string $city): GiftAdoptionModel
     {
         $this->city = $city;
         return $this;
     }
 
-    public function setCountry(string $country): IndividualGiftAdoptionModel
+    public function setCountry(string $country): GiftAdoptionModel
     {
         $this->country = $country;
         return $this;
     }
 
-    public function setAdoptedProduct(string $adoptedProduct): IndividualGiftAdoptionModel
+    public function setAdoptedProduct(string $adoptedProduct): GiftAdoptionModel
     {
         $this->adoptedProduct = AdoptedProduct::from($adoptedProduct);
         return $this;
     }
 
-    public function setQuantity(int $quantity): IndividualGiftAdoptionModel
+    public function setQuantity(int $quantity): GiftAdoptionModel
     {
         if ($quantity < 1) {
             throw new Exception("Quantity can not be less than 1");
@@ -127,7 +127,7 @@ class IndividualGiftAdoptionModel extends IndividualAdoptionModel
         return $this;
     }
 
-    public function setAmount(int $amount): IndividualGiftAdoptionModel
+    public function setAmount(float $amount): GiftAdoptionModel
     {
         if ($amount < $this->getAdoptedProduct()->getProductPrice()) {
             throw new Exception("Price is below the product price");
@@ -141,7 +141,7 @@ class IndividualGiftAdoptionModel extends IndividualAdoptionModel
         return $this->email;
     }
 
-    public function setEmail(string $email): IndividualGiftAdoptionModel
+    public function setEmail(string $email): GiftAdoptionModel
     {
         $this->email = $email;
         return $this;
@@ -152,7 +152,7 @@ class IndividualGiftAdoptionModel extends IndividualAdoptionModel
         return $this->lang;
     }
 
-    public function setLang(string $lang): IndividualGiftAdoptionModel
+    public function setLang(string $lang): GiftAdoptionModel
     {
 
         try {
@@ -168,7 +168,7 @@ class IndividualGiftAdoptionModel extends IndividualAdoptionModel
         return $this->friendFirstname;
     }
 
-    public function setFriendFirstname(string $friendFirstname): IndividualGiftAdoptionModel
+    public function setFriendFirstname(string $friendFirstname): GiftAdoptionModel
     {
         $this->friendFirstname = $friendFirstname;
         return $this;
@@ -179,7 +179,7 @@ class IndividualGiftAdoptionModel extends IndividualAdoptionModel
         return $this->friendLastname;
     }
 
-    public function setFriendLastname(string $friendLastname): IndividualGiftAdoptionModel
+    public function setFriendLastname(string $friendLastname): GiftAdoptionModel
     {
         $this->friendLastname = $friendLastname;
         return $this;
@@ -190,7 +190,7 @@ class IndividualGiftAdoptionModel extends IndividualAdoptionModel
         return $this->friendAddress;
     }
 
-    public function setFriendAddress(string $friendAddress): IndividualGiftAdoptionModel
+    public function setFriendAddress(string $friendAddress): GiftAdoptionModel
     {
         $this->friendAddress = $friendAddress;
         return $this;
@@ -201,7 +201,7 @@ class IndividualGiftAdoptionModel extends IndividualAdoptionModel
         return $this->friendCity;
     }
 
-    public function setFriendCity(string $friendCity): IndividualGiftAdoptionModel
+    public function setFriendCity(string $friendCity): GiftAdoptionModel
     {
         $this->friendCity = $friendCity;
         return $this;
@@ -212,7 +212,7 @@ class IndividualGiftAdoptionModel extends IndividualAdoptionModel
         return $this->friendEmail;
     }
 
-    public function setFriendEmail(string $friendEmail): IndividualGiftAdoptionModel
+    public function setFriendEmail(string $friendEmail): GiftAdoptionModel
     {
         $this->friendEmail = $friendEmail;
         return $this;
@@ -223,7 +223,7 @@ class IndividualGiftAdoptionModel extends IndividualAdoptionModel
         return $this->sendOn;
     }
 
-    public function setSendOn(DateTime $sendOn): IndividualGiftAdoptionModel
+    public function setSendOn(DateTime $sendOn): GiftAdoptionModel
     {
         $this->sendOn = $sendOn;
         return $this;
@@ -234,7 +234,7 @@ class IndividualGiftAdoptionModel extends IndividualAdoptionModel
         return $this->message;
     }
 
-    public function setMessage(?string $message): IndividualGiftAdoptionModel
+    public function setMessage(?string $message): GiftAdoptionModel
     {
         $this->message = $message;
         return $this;
