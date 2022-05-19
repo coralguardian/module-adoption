@@ -35,7 +35,7 @@ class AdoptionEntity extends DonationEntity
     private int $quantity;
 
     /**
-     * @ORM\OneToMany(mappedBy="adoption")
+     * @ORM\OneToMany(mappedBy="adoption", targetEntity="\D4rk0snet\Adoption\Entity\AdopteeEntity")
      */
     private Collection $adoptees;
 
