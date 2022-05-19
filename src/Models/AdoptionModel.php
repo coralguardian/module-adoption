@@ -33,6 +33,17 @@ class AdoptionModel
      */
     private Language $lang;
 
+    public function afterMapping()
+    {
+        if ($this->quantity < 1) {
+            throw new Exception("Quantity can not be less than 1");
+        }
+
+        if ($this->amount < $this->getAdoptedProduct()->getProductPrice() * $this->getQuantity()) {
+            throw new Exception("Price is below the product price");
+        }
+    }
+
     public function getAdoptedProduct(): AdoptedProduct
     {
         return $this->adoptedProduct;
@@ -56,18 +67,12 @@ class AdoptionModel
 
     public function setQuantity(int $quantity): AdoptionModel
     {
-        if ($quantity < 1) {
-            throw new Exception("Quantity can not be less than 1");
-        }
         $this->quantity = $quantity;
         return $this;
     }
 
     public function setAmount(int $amount): AdoptionModel
     {
-        if ($amount < $this->getAdoptedProduct()->getProductPrice() * $this->getQuantity()) {
-            throw new Exception("Price is below the product price");
-        }
         $this->amount = $amount;
         return $this;
     }

@@ -28,6 +28,7 @@ class AdoptionEndpoint extends APIEnpointAbstract
         try {
             $mapper = new JsonMapper();
             $mapper->bExceptionOnMissingData = true;
+            $mapper->postMappingMethod = 'afterMapping';
             $adoptionModel = $mapper->map($payload, new AdoptionModel());
         } catch (\Exception $exception) {
             return APIManagement::APIError($exception->getMessage(), 400);
