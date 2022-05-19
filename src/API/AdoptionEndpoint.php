@@ -4,6 +4,7 @@ namespace D4rk0snet\Adoption\API;
 
 use D4rk0snet\Adoption\Models\AdoptionModel;
 use D4rk0snet\Adoption\Service\AdoptionService;
+use Hyperion\Doctrine\Service\DoctrineService;
 use Hyperion\RestAPI\APIEnpointAbstract;
 use Hyperion\RestAPI\APIManagement;
 use Hyperion\Stripe\Service\StripeService;
@@ -26,6 +27,8 @@ class AdoptionEndpoint extends APIEnpointAbstract
         }
 
         try {
+            DoctrineService::getEntityManager()->beginTransaction();
+
             $mapper = new JsonMapper();
             $mapper->bExceptionOnMissingData = true;
             $mapper->postMappingMethod = 'afterMapping';
@@ -40,11 +43,15 @@ class AdoptionEndpoint extends APIEnpointAbstract
                 'type' => self::PAYMENT_INTENT_TYPE
             ]);
 
+            DoctrineService::getEntityManager()->commit();
+
             return APIManagement::APIOk([
                 "uuid" => $uuid,
                 "clientSecret" => $paymentIntent->client_secret
             ]);
         } catch (\Exception $exception) {
+            DoctrineService::getEntityManager()->rollback();
+
             return APIManagement::APIError($exception->getMessage(), 400);
         }
     }
