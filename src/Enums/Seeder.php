@@ -4,13 +4,24 @@ namespace D4rk0snet\Adoption\Enums;
 
 enum Seeder : string
 {
-    case SEED_1 = 'seed1';
-    case SEED_2 = 'seed2';
+    case DULAH = 'dulah';
+    case JONAS = 'jonas';
+    case MURDHI = 'murdhi';
+    case MUSLIM = 'muslim';
+    case SAHRIL = 'sahril';
+    case SUHAR = 'suhar';
+    case VALENTINA = 'valentina';
 
     public function getPicture() : string
     {
         return match($this) {
-            Seeder::SEED_1 => 'seed1.jpg'
+            Seeder::DULAH => 'dulah.jpg',
+            Seeder::JONAS => 'jonas.jpg',
+            Seeder::MURDHI => 'murdhi.jpg',
+            Seeder::MUSLIM => 'muslim.jpg',
+            Seeder::SAHRIL => 'sarhil.jpg',
+            Seeder::SUHAR => 'suhar.jpg',
+            Seeder::VALENTINA => 'valentina.jpg',
         };
     }
 }

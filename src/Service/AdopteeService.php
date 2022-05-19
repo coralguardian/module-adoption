@@ -31,15 +31,22 @@ class AdopteeService
             throw new Exception("Adoptees already have names. Can't rename them.", 400);
         }
 
+        $seeders = Seeder::cases();
+        shuffle($seeders);
+        $seedIndex = 0;
+
         foreach($model->getNames() as $name) {
+            if (!array_key_exists($seedIndex, $seeders)) {
+                $seedIndex = 0;
+            }
             $entity = new AdopteeEntity(
                 name: $name,
-                seeder: Seeder::SEED_1,
+                seeder: $seeders[$seedIndex],
                 adoption: $adoptionOrder,
                 adopteeDatetime: new DateTime()
             );
-
             DoctrineService::getEntityManager()->persist($entity);
+            $seedIndex++;
         }
 
         DoctrineService::getEntityManager()->flush();
