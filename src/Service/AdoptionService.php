@@ -74,12 +74,12 @@ class AdoptionService
         return $newGiftAdoptionEntity;
     }
 
-    public static function createInvoiceAndGetPaymentIntent($adoptionModel) : PaymentIntent
+    public static function createInvoiceAndGetPaymentIntent(AdoptionModel $adoptionModel) : PaymentIntent
     {
         // Est ce que le client est une entreprise ?
         $customer = DoctrineService::getEntityManager()
             ->getRepository(CustomerEntity::class)
-            ->find($adoptionModel->getUuid());
+            ->find($adoptionModel->getCustomerUUID());
 
         if ($customer instanceof IndividualCustomerEntity) {
             $customerId = CustomerService::getOrCreateIndividualCustomer(
