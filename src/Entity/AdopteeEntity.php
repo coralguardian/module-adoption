@@ -36,6 +36,11 @@ class AdopteeEntity
     private Seeder $seeder;
 
     /**
+     * @ORM\Column(type="string")
+     */
+    private string $picture;
+
+    /**
      * @ORM\ManyToOne(targetEntity="\D4rk0snet\Adoption\Entity\AdoptionEntity")
      * @ORM\JoinColumn(referencedColumnName="uuid")
      */
@@ -46,15 +51,18 @@ class AdopteeEntity
      */
     private DateTime $adopteeDatetime;
 
-    public function __construct(string $name,
-                                Seeder $seeder,
+    public function __construct(string         $name,
+                                Seeder         $seeder,
                                 AdoptionEntity $adoption,
-                                DateTime $adopteeDatetime)
+                                DateTime       $adopteeDatetime,
+                                string         $picture
+    )
     {
         $this->name = $name;
         $this->seeder = $seeder;
         $this->adoption = $adoption;
         $this->adopteeDatetime = $adopteeDatetime;
+        $this->picture = $picture;
     }
 
     /**
@@ -83,5 +91,10 @@ class AdopteeEntity
     public function getAdopteeDatetime(): DateTime
     {
         return $this->adopteeDatetime;
+    }
+
+    public function getPicture(): string
+    {
+        return $this->picture;
     }
 }

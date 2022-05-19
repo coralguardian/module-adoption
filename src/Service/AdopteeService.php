@@ -34,19 +34,27 @@ class AdopteeService
         $seeders = Seeder::cases();
         shuffle($seeders);
         $seedIndex = 0;
+        $pictures = $adoptionOrder->getAdoptedProduct()->getProductImages();
+        shuffle($pictures);
+        $pictureIndex = 0; // on ne peut pas réutiliser seedIndex car il y a plus de transplanteur que d'images de récifs
 
         foreach($model->getNames() as $name) {
             if (!array_key_exists($seedIndex, $seeders)) {
                 $seedIndex = 0;
             }
+            if (!array_key_exists($pictureIndex, $pictures)) {
+                $pictureIndex = 0;
+            }
             $entity = new AdopteeEntity(
                 name: $name,
                 seeder: $seeders[$seedIndex],
                 adoption: $adoptionOrder,
-                adopteeDatetime: new DateTime()
+                adopteeDatetime: new DateTime(),
+                picture: $pictures[$pictureIndex]
             );
             DoctrineService::getEntityManager()->persist($entity);
             $seedIndex++;
+            $pictureIndex++;
         }
 
         DoctrineService::getEntityManager()->flush();
