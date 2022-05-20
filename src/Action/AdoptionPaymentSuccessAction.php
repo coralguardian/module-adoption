@@ -5,7 +5,6 @@ namespace D4rk0snet\Adoption\Action;
 use D4rk0snet\Adoption\API\AdoptionEndpoint;
 use D4rk0snet\Adoption\Entity\AdoptionEntity;
 use D4rk0snet\Email\Event\AdoptionOrder;
-use D4rk0snet\FiscalReceipt\Endpoint\GetFiscalReceiptEndpoint;
 use D4rk0snet\FiscalReceipt\Service\FiscalReceiptService;
 use Hyperion\Doctrine\Service\DoctrineService;
 use Stripe\PaymentIntent;
