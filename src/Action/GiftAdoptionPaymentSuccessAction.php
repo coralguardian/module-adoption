@@ -28,6 +28,7 @@ class GiftAdoptionPaymentSuccessAction
             return;
         }
         $entity->setStripePaymentIntentId($stripePaymentIntent->id);
+        $entity->setIsPaid(true);
         DoctrineService::getEntityManager()->flush();
 
         // Send email event with data needed
