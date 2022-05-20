@@ -17,20 +17,8 @@ use Stripe\PaymentIntent;
 
 class AdoptionService
 {
-    public static function createAdoption(AdoptionModel $adoptionModel) : AdoptionEntity
+    public static function createAdoption(AdoptionModel $adoptionModel, CustomerEntity $customer) : AdoptionEntity
     {
-        try {
-            $customer = DoctrineService::getEntityManager()
-                ->getRepository(CustomerEntity::class)
-                ->find($adoptionModel->getCustomerUUID());
-
-            if ($customer === null) {
-                throw new \Exception("Customer not found", 400);
-            }
-        } catch (ConversionException $exception) {
-            throw new \Exception("Customer not found", 400);
-        }
-
         $newAdoptionEntity = new AdoptionEntity(
             customer: $customer,
             date: new DateTime(),

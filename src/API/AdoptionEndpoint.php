@@ -4,6 +4,9 @@ namespace D4rk0snet\Adoption\API;
 
 use D4rk0snet\Adoption\Models\AdoptionModel;
 use D4rk0snet\Adoption\Service\AdoptionService;
+use D4rk0snet\Coralguardian\Entity\CompanyCustomerEntity;
+use D4rk0snet\Coralguardian\Entity\CustomerEntity;
+use Doctrine\DBAL\Types\ConversionException;
 use Hyperion\Doctrine\Service\DoctrineService;
 use Hyperion\RestAPI\APIEnpointAbstract;
 use Hyperion\RestAPI\APIManagement;
@@ -13,7 +16,6 @@ use WP_REST_Request;
 
 /**
  * Endpoint pour la création d'une adoption mais qui n'a pas été encore payé.
- * @todo : Blinder en cas d'échec pour ne pas avoir d'inconsistence dans la bdd
  */
 class AdoptionEndpoint extends APIEnpointAbstract
 {
@@ -34,7 +36,26 @@ class AdoptionEndpoint extends APIEnpointAbstract
             $mapper->postMappingMethod = 'afterMapping';
             $adoptionModel = $mapper->map($payload, new AdoptionModel());
 
-            $uuid = AdoptionService::createAdoption($adoptionModel)->getUuid();
+            try {
+                $customer = DoctrineService::getEntityManager()
+                    ->getRepository(CustomerEntity::class)
+                    ->find($adoptionModel->getCustomerUUID());
+
+                if ($customer === null) {
+                    throw new \Exception("Customer not found", 400);
+                }
+            } catch (ConversionException $exception) {
+                throw new \Exception("Customer not found", 400);
+            }
+
+            $uuid = AdoptionService::createAdoption($adoptionModel, $customer)->getUuid();
+
+            // Dans le cas d'une entreprise , on ne peut pas payer par CB, on ne continue pas le process
+            // dans stripe, on exit.
+            if($customer instanceof CompanyCustomerEntity) {
+                return APIManagement::APIOk(["uuid" => $uuid]);
+            }
+
             $paymentIntent = AdoptionService::createInvoiceAndGetPaymentIntent($adoptionModel);
 
             // Add Order id to paymentintent

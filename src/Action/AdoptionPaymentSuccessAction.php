@@ -27,6 +27,7 @@ class AdoptionPaymentSuccessAction
         }
 
         $entity->setStripePaymentIntentId($stripePaymentIntent->id);
+        $entity->setIsPaid(true);
         DoctrineService::getEntityManager()->flush();
 
         $urlParts = parse_url(GetFiscalReceiptEndpoint::getUrl()."?".GetFiscalReceiptEndpoint::ORDER_UUID_PARAM."=".$entity->getUuid());
