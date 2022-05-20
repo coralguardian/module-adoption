@@ -4,7 +4,11 @@ namespace D4rk0snet\Adoption\Entity;
 
 use DateTime;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Mapping\Column;
+use Doctrine\ORM\Mapping\CustomIdGenerator;
 use Doctrine\ORM\Mapping\Entity;
+use Doctrine\ORM\Mapping\GeneratedValue;
+use Doctrine\ORM\Mapping\Id;
 
 /**
  * @Entity
@@ -12,6 +16,14 @@ use Doctrine\ORM\Mapping\Entity;
  */
 class Friend
 {
+    /**
+     * @Id
+     * @Column(type="uuid_binary_ordered_time", unique=true)
+     * @GeneratedValue(strategy="CUSTOM")
+     * @CustomIdGenerator(class="Ramsey\Uuid\Doctrine\UuidOrderedTimeGenerator")
+     */
+    private $uuid;
+
     /**
      * @ORM\Column(type="string")
      */
@@ -57,6 +69,10 @@ class Friend
         $this->giftAdoption = $giftAdoption;
     }
 
+    public function getUuid()
+    {
+        return $this->uuid;
+    }
 
     public function getFriendFirstname(): string
     {
