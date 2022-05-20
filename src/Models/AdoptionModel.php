@@ -108,7 +108,7 @@ class AdoptionModel
         return $this->paymentMethod;
     }
 
-    public function setPaymentMethod(PaymentMethod $paymentMethod): AdoptionModel
+    public function setPaymentMethod(string $paymentMethod): AdoptionModel
     {
         try {
             $this->paymentMethod = PaymentMethod::from($paymentMethod);
