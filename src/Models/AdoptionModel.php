@@ -4,6 +4,7 @@ namespace D4rk0snet\Adoption\Models;
 
 use D4rk0snet\Adoption\Enums\AdoptedProduct;
 use D4rk0snet\Coralguardian\Enums\Language;
+use D4rk0snet\Donation\Enums\PaymentMethod;
 use Exception;
 
 class AdoptionModel
@@ -32,6 +33,11 @@ class AdoptionModel
      * @required
      */
     private Language $lang;
+
+    /**
+     * @required
+     */
+    private PaymentMethod $paymentMethod;
 
     public function afterMapping()
     {
@@ -94,6 +100,21 @@ class AdoptionModel
             return $this;
         } catch (\ValueError $exception) {
             throw new Exception("Invalid lang value");
+        }
+    }
+
+    public function getPaymentMethod(): PaymentMethod
+    {
+        return $this->paymentMethod;
+    }
+
+    public function setPaymentMethod(PaymentMethod $paymentMethod): AdoptionModel
+    {
+        try {
+            $this->paymentMethod = PaymentMethod::from($paymentMethod);
+            return $this;
+        } catch (\ValueError $exception) {
+            throw new Exception("Invalid payment method value");
         }
     }
 

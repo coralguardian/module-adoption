@@ -9,7 +9,6 @@ use D4rk0snet\Adoption\Models\GiftAdoptionModel;
 use D4rk0snet\Coralguardian\Entity\CustomerEntity;
 use D4rk0snet\Coralguardian\Entity\IndividualCustomerEntity;
 use DateTime;
-use Doctrine\DBAL\Types\ConversionException;
 use Hyperion\Doctrine\Service\DoctrineService;
 use Hyperion\Stripe\Service\BillingService;
 use Hyperion\Stripe\Service\CustomerService;
