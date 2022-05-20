@@ -5,6 +5,7 @@ namespace D4rk0snet\Adoption\Entity;
 use D4rk0snet\Adoption\Enums\AdoptedProduct;
 use D4rk0snet\Coralguardian\Entity\CustomerEntity;
 use D4rk0snet\Coralguardian\Enums\Language;
+use D4rk0snet\Donation\Enums\PaymentMethod;
 use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\Entity;
@@ -57,6 +58,8 @@ class GiftAdoption extends AdoptionEntity
         Language       $lang,
         AdoptedProduct $adoptedProduct,
         int $quantity,
+        PaymentMethod $paymentMethod,
+        bool          $isPaid,
         string $friendFirstname,
         string $friendLastname,
         string $friendAddress,
@@ -71,7 +74,9 @@ class GiftAdoption extends AdoptionEntity
             amount: $amount,
             lang: $lang,
             adoptedProduct: $adoptedProduct,
-            quantity: $quantity
+            quantity: $quantity,
+            paymentMethod: $paymentMethod,
+            isPaid: $isPaid
         );
 
         $this->friendFirstname = $friendFirstname;

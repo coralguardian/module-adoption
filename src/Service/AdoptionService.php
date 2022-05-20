@@ -24,7 +24,9 @@ class AdoptionService
             amount: $adoptionModel->getAmount(),
             lang: $adoptionModel->getLang(),
             adoptedProduct: $adoptionModel->getAdoptedProduct(),
-            quantity: $adoptionModel->getQuantity()
+            quantity: $adoptionModel->getQuantity(),
+            paymentMethod: $adoptionModel->getPaymentMethod(),
+            isPaid: false
         );
 
         DoctrineService::getEntityManager()->persist($newAdoptionEntity);
@@ -50,6 +52,8 @@ class AdoptionService
             lang: $adoptionModel->getLang(),
             adoptedProduct: $adoptionModel->getAdoptedProduct(),
             quantity: $adoptionModel->getQuantity(),
+            paymentMethod: $adoptionModel->getPaymentMethod(),
+            isPaid: false,
             friendFirstname: $adoptionModel->getFriendFirstname(),
             friendLastname: $adoptionModel->getLastname(),
             friendAddress: $adoptionModel->getAddress(),
