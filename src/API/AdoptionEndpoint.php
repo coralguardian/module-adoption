@@ -54,6 +54,8 @@ class AdoptionEndpoint extends APIEnpointAbstract
 
             // Dans le cas d'un paiement par virement bancaire, on exit.
             if($adoptionModel->getPaymentMethod() === PaymentMethod::BANK_TRANSFER) {
+                DoctrineService::getEntityManager()->commit();
+
                 return APIManagement::APIOk(["uuid" => $uuid]);
             }
 
