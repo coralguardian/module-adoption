@@ -29,16 +29,6 @@ class GiftAdoption extends AdoptionEntity
     /**
      * @ORM\Column(type="string")
      */
-    private string $friendAddress;
-
-    /**
-     * @ORM\Column(type="string")
-     */
-    private string $friendCity;
-
-    /**
-     * @ORM\Column(type="string")
-     */
     private string $friendEmail;
 
     /**
@@ -62,8 +52,6 @@ class GiftAdoption extends AdoptionEntity
         bool          $isPaid,
         string $friendFirstname,
         string $friendLastname,
-        string $friendAddress,
-        string $friendCity,
         string $friendEmail,
         string $message,
         \DateTime $sendOn
@@ -81,8 +69,6 @@ class GiftAdoption extends AdoptionEntity
 
         $this->friendFirstname = $friendFirstname;
         $this->friendLastname = $friendLastname;
-        $this->friendAddress = $friendAddress;
-        $this->friendCity = $friendCity;
         $this->friendEmail = $friendEmail;
         $this->message = $message;
         $this->sendOn = $sendOn;
@@ -110,29 +96,7 @@ class GiftAdoption extends AdoptionEntity
         return $this;
     }
 
-    public function getFriendAddress(): string
-    {
-        return $this->friendAddress;
-    }
-
-    public function setFriendAddress(string $friendAddress): GiftAdoption
-    {
-        $this->friendAddress = $friendAddress;
-        return $this;
-    }
-
-    public function getFriendCity(): string
-    {
-        return $this->friendCity;
-    }
-
-    public function setFriendCity(string $friendCity): GiftAdoption
-    {
-        $this->friendCity = $friendCity;
-        return $this;
-    }
-
-    public function getFriendEmail(): string
+   public function getFriendEmail(): string
     {
         return $this->friendEmail;
     }

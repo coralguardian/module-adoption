@@ -55,9 +55,7 @@ class AdoptionService
             paymentMethod: $adoptionModel->getPaymentMethod(),
             isPaid: false,
             friendFirstname: $adoptionModel->getFriendFirstname(),
-            friendLastname: $adoptionModel->getLastname(),
-            friendAddress: $adoptionModel->getAddress(),
-            friendCity: $adoptionModel->getCity(),
+            friendLastname: $adoptionModel->getFriendLastname(),
             friendEmail: $adoptionModel->getFriendEmail(),
             message: $adoptionModel->getMessage(),
             sendOn: $adoptionModel->getSendOn()

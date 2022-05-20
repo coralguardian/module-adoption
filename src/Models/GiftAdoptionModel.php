@@ -22,16 +22,6 @@ class GiftAdoptionModel extends AdoptionModel
     /**
      * @required
      */
-    private string $friendAddress;
-
-    /**
-     * @required
-     */
-    private string $friendCity;
-
-    /**
-     * @required
-     */
     private string $friendEmail;
 
     /**
@@ -40,128 +30,6 @@ class GiftAdoptionModel extends AdoptionModel
     private DateTime $sendOn;
 
     private ?string $message = null;
-
-
-    public function getFirstname(): string
-    {
-        return $this->firstname;
-    }
-
-    public function getLastname(): string
-    {
-        return $this->lastname;
-    }
-
-    public function getAddress(): string
-    {
-        return $this->address;
-    }
-
-    public function getCity(): string
-    {
-        return $this->city;
-    }
-
-    public function getCountry(): string
-    {
-        return $this->country;
-    }
-
-    public function getAdoptedProduct(): AdoptedProduct
-    {
-        return $this->adoptedProduct;
-    }
-
-    public function getQuantity(): int
-    {
-        return $this->quantity;
-    }
-
-    public function getAmount(): float
-    {
-        return $this->amount;
-    }
-
-    public function setFirstname(string $firstname): GiftAdoptionModel
-    {
-        $this->firstname = $firstname;
-        return $this;
-    }
-
-    public function setLastname(string $lastname): GiftAdoptionModel
-    {
-        $this->lastname = $lastname;
-        return $this;
-    }
-
-    public function setAddress(string $address): GiftAdoptionModel
-    {
-        $this->address = $address;
-        return $this;
-    }
-
-    public function setCity(string $city): GiftAdoptionModel
-    {
-        $this->city = $city;
-        return $this;
-    }
-
-    public function setCountry(string $country): GiftAdoptionModel
-    {
-        $this->country = $country;
-        return $this;
-    }
-
-    public function setAdoptedProduct(string $adoptedProduct): GiftAdoptionModel
-    {
-        $this->adoptedProduct = AdoptedProduct::from($adoptedProduct);
-        return $this;
-    }
-
-    public function setQuantity(int $quantity): GiftAdoptionModel
-    {
-        if ($quantity < 1) {
-            throw new Exception("Quantity can not be less than 1");
-        }
-        $this->quantity = $quantity;
-        return $this;
-    }
-
-    public function setAmount(float $amount): GiftAdoptionModel
-    {
-        if ($amount < $this->getAdoptedProduct()->getProductPrice()) {
-            throw new Exception("Price is below the product price");
-        }
-        $this->amount = $amount;
-        return $this;
-    }
-
-    public function getEmail(): string
-    {
-        return $this->email;
-    }
-
-    public function setEmail(string $email): GiftAdoptionModel
-    {
-        $this->email = $email;
-        return $this;
-    }
-
-    public function getLang(): Language
-    {
-        return $this->lang;
-    }
-
-    public function setLang(string $lang): GiftAdoptionModel
-    {
-
-        try {
-            $this->lang = Language::from($lang);
-            return $this;
-        } catch (\ValueError $exception) {
-            throw new Exception("Invalid lang value");
-        }
-    }
 
     public function getFriendFirstname(): string
     {
@@ -182,28 +50,6 @@ class GiftAdoptionModel extends AdoptionModel
     public function setFriendLastname(string $friendLastname): GiftAdoptionModel
     {
         $this->friendLastname = $friendLastname;
-        return $this;
-    }
-
-    public function getFriendAddress(): string
-    {
-        return $this->friendAddress;
-    }
-
-    public function setFriendAddress(string $friendAddress): GiftAdoptionModel
-    {
-        $this->friendAddress = $friendAddress;
-        return $this;
-    }
-
-    public function getFriendCity(): string
-    {
-        return $this->friendCity;
-    }
-
-    public function setFriendCity(string $friendCity): GiftAdoptionModel
-    {
-        $this->friendCity = $friendCity;
         return $this;
     }
 
