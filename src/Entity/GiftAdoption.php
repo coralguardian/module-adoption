@@ -7,6 +7,7 @@ use D4rk0snet\Coralguardian\Entity\CustomerEntity;
 use D4rk0snet\Coralguardian\Enums\Language;
 use D4rk0snet\Donation\Enums\PaymentMethod;
 use DateTime;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\Entity;
 use Doctrine\Common\Collections\Collection;
@@ -43,10 +44,10 @@ class GiftAdoption extends AdoptionEntity
             isPaid: $isPaid
         );
 
-        $this->friends = [];
+        $this->friends = new ArrayCollection();
     }
 
-    public function getFriends(): Collection|array
+    public function getFriends(): Collection|ArrayCollection
     {
         return $this->friends;
     }
