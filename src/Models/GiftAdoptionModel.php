@@ -2,87 +2,33 @@
 
 namespace D4rk0snet\Adoption\Models;
 
-use D4rk0snet\Adoption\Enums\AdoptedProduct;
-use D4rk0snet\Coralguardian\Enums\Language;
-use DateTime;
-use Exception;
-
 class GiftAdoptionModel extends AdoptionModel
 {
     /**
      * @required
      */
-    private string $friendFirstname;
+    private array $friends;
+
+    public function afterMapping()
+    {
+        parent::afterMapping();
+    }
 
     /**
-     * @required
+     * @return FriendModel[]
      */
-    private string $friendLastname;
+    public function getFriends(): array
+    {
+        return $this->friends;
+    }
 
     /**
-     * @required
+     * @param FriendModel[] $friends
+     * @return GiftAdoptionModel
      */
-    private string $friendEmail;
-
-    /**
-     * @required
-     */
-    private DateTime $sendOn;
-
-    private ?string $message = null;
-
-    public function getFriendFirstname(): string
+    public function setFriends(array $friends): GiftAdoptionModel
     {
-        return $this->friendFirstname;
-    }
-
-    public function setFriendFirstname(string $friendFirstname): GiftAdoptionModel
-    {
-        $this->friendFirstname = $friendFirstname;
-        return $this;
-    }
-
-    public function getFriendLastname(): string
-    {
-        return $this->friendLastname;
-    }
-
-    public function setFriendLastname(string $friendLastname): GiftAdoptionModel
-    {
-        $this->friendLastname = $friendLastname;
-        return $this;
-    }
-
-    public function getFriendEmail(): string
-    {
-        return $this->friendEmail;
-    }
-
-    public function setFriendEmail(string $friendEmail): GiftAdoptionModel
-    {
-        $this->friendEmail = $friendEmail;
-        return $this;
-    }
-
-    public function getSendOn(): DateTime
-    {
-        return $this->sendOn;
-    }
-
-    public function setSendOn(DateTime $sendOn): GiftAdoptionModel
-    {
-        $this->sendOn = $sendOn;
-        return $this;
-    }
-
-    public function getMessage(): ?string
-    {
-        return $this->message;
-    }
-
-    public function setMessage(?string $message): GiftAdoptionModel
-    {
-        $this->message = $message;
+        $this->friends = $friends;
         return $this;
     }
 }
