@@ -21,10 +21,7 @@ class FriendModel
      */
     private string $friendEmail;
 
-    /**
-     * @required
-     */
-    private DateTime $sendOn;
+    private ?DateTime $sendOn;
 
     private ?string $message = null;
 
@@ -61,12 +58,12 @@ class FriendModel
         return $this;
     }
 
-    public function getSendOn(): DateTime
+    public function getSendOn(): ?DateTime
     {
         return $this->sendOn;
     }
 
-    public function setSendOn(DateTime $sendOn): FriendModel
+    public function setSendOn(?DateTime $sendOn): FriendModel
     {
         $this->sendOn = $sendOn;
         return $this;

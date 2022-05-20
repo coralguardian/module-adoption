@@ -3,6 +3,7 @@
 namespace D4rk0snet\Adoption\Service;
 
 use D4rk0snet\Adoption\Entity\AdoptionEntity;
+use D4rk0snet\Adoption\Entity\Friend;
 use D4rk0snet\Adoption\Entity\GiftAdoption;
 use D4rk0snet\Adoption\Models\AdoptionModel;
 use D4rk0snet\Adoption\Models\GiftAdoptionModel;
@@ -53,15 +54,24 @@ class AdoptionService
             adoptedProduct: $adoptionModel->getAdoptedProduct(),
             quantity: $adoptionModel->getQuantity(),
             paymentMethod: $adoptionModel->getPaymentMethod(),
-            isPaid: false,
-            friendFirstname: $adoptionModel->getFriendFirstname(),
-            friendLastname: $adoptionModel->getFriendLastname(),
-            friendEmail: $adoptionModel->getFriendEmail(),
-            message: $adoptionModel->getMessage(),
-            sendOn: $adoptionModel->getSendOn()
+            isPaid: false
         );
 
         DoctrineService::getEntityManager()->persist($newGiftAdoptionEntity);
+
+        foreach($adoptionModel->getFriends() as $friendToSentTo) {
+            $friendEntity = new Friend(
+                friendFirstname: $friendToSentTo->getFriendFirstname(),
+                friendLastname: $friendToSentTo->getFriendLastname(),
+                friendEmail: $friendToSentTo->getFriendEmail(),
+                sendOn: $friendToSentTo->getSendOn(),
+                message: $friendToSentTo->getMessage(),
+                giftAdoption: $newGiftAdoptionEntity
+            );
+
+            DoctrineService::getEntityManager()->persist($friendEntity);
+        }
+
         DoctrineService::getEntityManager()->flush();
 
         return $newGiftAdoptionEntity;
