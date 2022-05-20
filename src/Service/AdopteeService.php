@@ -7,6 +7,7 @@ use D4rk0snet\Adoption\Entity\AdoptionEntity;
 use D4rk0snet\Adoption\Enums\Seeder;
 use D4rk0snet\Adoption\Models\AdopteesModel;
 use D4rk0snet\Email\Event\NamingDone;
+use D4rk0snet\FiscalReceipt\Service\FiscalReceiptService;
 use Exception;
 use Hyperion\Doctrine\Service\DoctrineService;
 use DateTime;
@@ -64,7 +65,9 @@ class AdopteeService
             email: $adoptionOrder->getCustomer()->getEmail(),
             lang: $adoptionOrder->getLang(),
             adoptionType: $adoptionOrder->getAdoptedProduct(),
-            quantity: $adoptionOrder->getQuantity()
+            quantity: $adoptionOrder->getQuantity(),
+            fiscalReceiptUrl: FiscalReceiptService::getURl($model->getAdoptionUuid()),
+            certificateUrl: "www.google.fr"
         );
     }
 }
