@@ -50,7 +50,8 @@ class Friend
     private ?string $message = null;
 
     /**
-     * @ORM\ManyToOne(targetEntity="\D4rk0snet\Adoption\Entity\GiftAdoption", inversedBy="")
+     * @ORM\ManyToOne(targetEntity="\D4rk0snet\Adoption\Entity\GiftAdoption", inversedBy="friends")
+     * @ORM\JoinColumn(referencedColumnName="uuid")
      */
     private GiftAdoption $giftAdoption;
 
