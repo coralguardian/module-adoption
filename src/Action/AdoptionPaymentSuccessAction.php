@@ -6,6 +6,7 @@ use D4rk0snet\Adoption\API\AdoptionEndpoint;
 use D4rk0snet\Adoption\Entity\AdoptionEntity;
 use D4rk0snet\Email\Event\AdoptionOrder;
 use D4rk0snet\FiscalReceipt\Endpoint\GetFiscalReceiptEndpoint;
+use D4rk0snet\FiscalReceipt\Service\FiscalReceiptService;
 use Hyperion\Doctrine\Service\DoctrineService;
 use Stripe\PaymentIntent;
 
@@ -30,14 +31,12 @@ class AdoptionPaymentSuccessAction
         $entity->setIsPaid(true);
         DoctrineService::getEntityManager()->flush();
 
-        $urlParts = parse_url(GetFiscalReceiptEndpoint::getUrl()."?".GetFiscalReceiptEndpoint::ORDER_UUID_PARAM."=".$entity->getUuid());
-
         // Send email event with data needed
         AdoptionOrder::send(
             email: $entity->getCustomer()->getEmail(),
             lang: $entity->getLang()->value,
             quantity: $entity->getQuantity(),
-            receiptFileUrl: $urlParts["host"].$urlParts["path"]."?".$urlParts["query"],
+            receiptFileUrl: FiscalReceiptService::getURl($adoptionUuid),
             nextStepUrl: "www.google.fr"
         );
     }
