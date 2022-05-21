@@ -11,7 +11,7 @@ use Doctrine\ORM\Mapping\GeneratedValue;
 use Doctrine\ORM\Mapping\Id;
 
 /**
- * @Entity
+ * @Entity(repositoryClass="\D4rk0snet\Adoption\Repository\FriendRepository")
  * @ORM\Table(name="adoption_friend")
  */
 class Friend
@@ -55,6 +55,12 @@ class Friend
      */
     private GiftAdoption $giftAdoption;
 
+    /**
+     * @ORM\Column(type="string")
+     */
+    private string $giftCode;
+
+
     public function __construct(string       $friendFirstname,
                                 string       $friendLastname,
                                 string       $friendEmail,
@@ -68,6 +74,7 @@ class Friend
         $this->sendOn = $sendOn;
         $this->message = $message;
         $this->giftAdoption = $giftAdoption;
+        $this->setGiftCode(substr(md5($this->friendEmail.random_int(0,PHP_INT_MAX)),0,6));
     }
 
     public function getUuid()
@@ -133,5 +140,16 @@ class Friend
     public function getGiftAdoption(): GiftAdoption
     {
         return $this->giftAdoption;
+    }
+
+    public function getGiftCode(): string
+    {
+        return $this->giftCode;
+    }
+
+    public function setGiftCode(string $giftCode): Friend
+    {
+        $this->giftCode = $giftCode;
+        return $this;
     }
 }
