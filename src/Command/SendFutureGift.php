@@ -13,6 +13,8 @@ class SendFutureGift
 {
     public static function runCommand()
     {
+        WP_CLI::log("== Lancement du script d'envoi des codes cadeaux ==\n");
+
         /** @var FriendRepository $repository */
         $repository = DoctrineService::getEntityManager()->getRepository(Friend::class);
 
@@ -39,8 +41,9 @@ class SendFutureGift
                 quantity: $friend->getGiftAdoption()->getQuantity()
             );
 
-            WP_CLI::debug("Code cadeau de la commande de ".$friend->getGiftAdoption()->getCustomer()->getEmail()." envoyé.");
+            WP_CLI::log("=> Code cadeau de la commande de ".$friend->getGiftAdoption()->getCustomer()->getEmail()." envoyé.");
         }
+        WP_CLI::log("");
 
         return WP_CLI::success("Fin de l'envoi des codes cadeaux");
     }
