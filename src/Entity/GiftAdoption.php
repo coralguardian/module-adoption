@@ -24,7 +24,7 @@ class GiftAdoption extends AdoptionEntity
     private Collection $friends;
 
     /**
-     * @ORM\OneToMany(targetEntity="\D4rk0snet\GiftCode\GiftCodeEntity", mappedBy="giftAdoption")
+     * @ORM\OneToMany(targetEntity="\D4rk0snet\GiftCode\Entity\GiftCodeEntity", mappedBy="giftAdoption")
      */
     private Collection $giftCodes;
 
