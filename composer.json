@@ -49,6 +49,11 @@
             "type" : "vcs",
             "url": "git@github.com:ds-hyperion/api2pdf.git",
             "no-api": true
+        },
+        {
+          "type" : "vcs",
+          "url": "git@github.com:coralguardian/module-giftcode.git",
+          "no-api": true
         }
     ],
     "require": {
@@ -61,6 +66,7 @@
         "ext-json": "*",
         "d4rk0snet/email": "dev-dev",
         "d4rk0snet/fiscalreceipt": "dev-dev",
-        "d4rk0snet/certificate": "dev-dev"
+        "d4rk0snet/certificate": "dev-dev",
+        "d4rk0snet/gift-code": "dev-dev"
     }
 }

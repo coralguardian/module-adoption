@@ -2,6 +2,7 @@
 
 namespace D4rk0snet\Adoption\Entity;
 
+use D4rk0snet\GiftCode\Service\GiftCodeService;
 use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\Column;
@@ -74,7 +75,7 @@ class Friend
         $this->sendOn = $sendOn;
         $this->message = $message;
         $this->giftAdoption = $giftAdoption;
-        $this->setGiftCode(substr(md5($this->friendEmail.random_int(0,PHP_INT_MAX)),0,6));
+        $this->setGiftCode(GiftCodeService::createGiftCode($friendEmail));
     }
 
     public function getUuid()

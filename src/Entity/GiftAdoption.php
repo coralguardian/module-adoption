@@ -23,6 +23,11 @@ class GiftAdoption extends AdoptionEntity
      */
     private Collection $friends;
 
+    /**
+     * @ORM\OneToMany(targetEntity="\D4rk0snet\GiftCode\GiftCodeEntity", mappedBy="giftAdoption")
+     */
+    private Collection $giftCodes;
+
     public function __construct(
         CustomerEntity $customer,
         DateTime       $date,
@@ -45,6 +50,7 @@ class GiftAdoption extends AdoptionEntity
         );
 
         $this->friends = new ArrayCollection();
+        $this->giftCodes = new ArrayCollection();
     }
 
     public function getFriends(): Collection|ArrayCollection
