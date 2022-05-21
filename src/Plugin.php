@@ -18,6 +18,6 @@ class Plugin
 
     public static function addCLICommands()
     {
-        WP_CLI::add_command('doctrine_cli', ['\D4rk0snet\Adoption\Command\SendFutureGift','runCommand']);
+        WP_CLI::add_command('send_future_gift_code', ['\D4rk0snet\Adoption\Command\SendFutureGift','runCommand']);
     }
 }
