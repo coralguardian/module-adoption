@@ -19,7 +19,7 @@ class FriendRepository extends EntityRepository
             FROM \D4rk0snet\Adoption\Entity\Friend f 
             WHERE f.sendOn = :today'
         );
-        $query->setParameter(':today', new DateTime());
+        $query->setParameter(':today', (new DateTime())->format('Y-m-d'));
 
         return $query->getResult();
     }
