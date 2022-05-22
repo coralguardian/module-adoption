@@ -64,9 +64,9 @@ class AdoptionService
         foreach($adoptionModel->getFriends() as $friendToSentTo) {
             // On crée le code cadeau associé
             $giftCode = new GiftCodeEntity(
-                adoptionEntity: $newGiftAdoptionEntity,
                 giftCode: GiftCodeService::createGiftCode($friendToSentTo->getFriendEmail()),
-                uniqueUsage: false
+                uniqueUsage: false,
+                giftAdoption: $newGiftAdoptionEntity
             );
 
             DoctrineService::getEntityManager()->persist($giftCode);
