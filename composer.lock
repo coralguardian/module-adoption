@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "6d32ff258e8fd89ed57f109936ee5bc3",
+    "content-hash": "af499739aa805af491c90edcfe218fdf",
     "packages": [
         {
             "name": "api2pdf/api2pdf.php",
@@ -103,6 +103,42 @@
             "time": "2021-08-15T20:50:18+00:00"
         },
         {
+            "name": "d4rk0snet/certificate",
+            "version": "dev-dev",
+            "source": {
+                "type": "git",
+                "url": "git@github.com:coralguardian/module-certificate.git",
+                "reference": "0d4ee72c1d90c20ccd6dfa37b5a0b39028d45e58"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/coralguardian/module-certificate/zipball/0d4ee72c1d90c20ccd6dfa37b5a0b39028d45e58",
+                "reference": "0d4ee72c1d90c20ccd6dfa37b5a0b39028d45e58",
+                "shasum": ""
+            },
+            "require": {
+                "d4rk0snet/adoption": "dev-dev",
+                "hyperion/api2pdf": "dev-dev",
+                "hyperion/restapi": "dev-dev",
+                "twig/twig": "^3.3"
+            },
+            "default-branch": true,
+            "type": "wordpress-plugin",
+            "autoload": {
+                "psr-4": {
+                    "D4rk0snet\\Certificate\\": "src/"
+                }
+            },
+            "authors": [
+                {
+                    "name": "Benoit Delboé",
+                    "email": "benoit@lescanumeriques.fr"
+                }
+            ],
+            "description": "Plugin de gestion des certificats coral guardian",
+            "time": "2022-05-19T15:56:48+00:00"
+        },
+        {
             "name": "d4rk0snet/email",
             "version": "dev-dev",
             "source": {
@@ -170,6 +206,35 @@
             ],
             "description": "Plugin métier pour la gestion des recus fiscaux au sein de l'association de préservation des coraux Coral-Guardian",
             "time": "2022-05-13T07:28:12+00:00"
+        },
+        {
+            "name": "d4rk0snet/gift-code",
+            "version": "dev-dev",
+            "source": {
+                "type": "git",
+                "url": "git@github.com:coralguardian/module-giftcode.git",
+                "reference": "4c6658814d2fd2162c08aa6fbcccc3691e40349c"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/coralguardian/module-giftcode/zipball/4c6658814d2fd2162c08aa6fbcccc3691e40349c",
+                "reference": "4c6658814d2fd2162c08aa6fbcccc3691e40349c",
+                "shasum": ""
+            },
+            "default-branch": true,
+            "type": "wordpress-plugin",
+            "autoload": {
+                "psr-4": {
+                    "D4rk0snet\\GiftCode\\": "src/"
+                }
+            },
+            "authors": [
+                {
+                    "name": "d4rk0s",
+                    "email": "gregory@d4rk0s.net"
+                }
+            ],
+            "time": "2022-05-21T21:52:46+00:00"
         },
         {
             "name": "doctrine/annotations",
@@ -3581,7 +3646,9 @@
         "hyperion/restapi": 20,
         "hyperion/stripe": 20,
         "d4rk0snet/email": 20,
-        "d4rk0snet/fiscalreceipt": 20
+        "d4rk0snet/fiscalreceipt": 20,
+        "d4rk0snet/certificate": 20,
+        "d4rk0snet/gift-code": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,
@@ -3589,5 +3656,5 @@
         "ext-json": "*"
     },
     "platform-dev": [],
-    "plugin-api-version": "2.2.0"
+    "plugin-api-version": "2.1.0"
 }

@@ -9,6 +9,8 @@ use D4rk0snet\Adoption\Models\AdoptionModel;
 use D4rk0snet\Adoption\Models\GiftAdoptionModel;
 use D4rk0snet\Coralguardian\Entity\CustomerEntity;
 use D4rk0snet\Coralguardian\Entity\IndividualCustomerEntity;
+use D4rk0snet\GiftCode\Entity\GiftCodeEntity;
+use D4rk0snet\GiftCode\Service\GiftCodeService;
 use DateTime;
 use Hyperion\Doctrine\Service\DoctrineService;
 use Hyperion\Stripe\Service\BillingService;
@@ -60,13 +62,23 @@ class AdoptionService
         DoctrineService::getEntityManager()->persist($newGiftAdoptionEntity);
 
         foreach($adoptionModel->getFriends() as $friendToSentTo) {
+            // On crée le code cadeau associé
+            $giftCode = new GiftCodeEntity(
+                adoptionEntity: $newGiftAdoptionEntity,
+                giftCode: GiftCodeService::createGiftCode($friendToSentTo->getFriendEmail()),
+                uniqueUsage: false
+            );
+
+            DoctrineService::getEntityManager()->persist($giftCode);
+
             $friendEntity = new Friend(
                 friendFirstname: $friendToSentTo->getFriendFirstname(),
                 friendLastname: $friendToSentTo->getFriendLastname(),
                 friendEmail: $friendToSentTo->getFriendEmail(),
+                giftAdoption: $newGiftAdoptionEntity,
                 sendOn: $friendToSentTo->getSendOn(),
                 message: $friendToSentTo->getMessage(),
-                giftAdoption: $newGiftAdoptionEntity
+                giftCode: $giftCode->getGiftCode()
             );
 
             DoctrineService::getEntityManager()->persist($friendEntity);

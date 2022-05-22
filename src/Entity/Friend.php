@@ -65,9 +65,11 @@ class Friend
     public function __construct(string       $friendFirstname,
                                 string       $friendLastname,
                                 string       $friendEmail,
+                                GiftAdoption $giftAdoption,
                                 ?DateTime    $sendOn,
                                 ?string      $message,
-                                GiftAdoption $giftAdoption)
+                                ?string      $giftCode
+    )
     {
         $this->friendFirstname = $friendFirstname;
         $this->friendLastname = $friendLastname;
@@ -75,7 +77,7 @@ class Friend
         $this->sendOn = $sendOn;
         $this->message = $message;
         $this->giftAdoption = $giftAdoption;
-        $this->setGiftCode(GiftCodeService::createGiftCode($friendEmail));
+        $this->giftCode = $giftCode;
     }
 
     public function getUuid()
