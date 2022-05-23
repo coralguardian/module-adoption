@@ -6,6 +6,7 @@ use D4rk0snet\Adoption\Enums\AdoptedProduct;
 use D4rk0snet\Coralguardian\Entity\CustomerEntity;
 use D4rk0snet\Coralguardian\Enums\Language;
 use D4rk0snet\Donation\Enums\PaymentMethod;
+use D4rk0snet\GiftCode\Entity\GiftCodeEntity;
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
@@ -28,6 +29,16 @@ class GiftAdoption extends AdoptionEntity
      */
     private Collection $giftCodes;
 
+    /**
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    private ?DateTime $sendOn;
+
+    /**
+     * @ORM\Column(type="string", nullable=true)
+     */
+    private ?string $message = null;
+
     public function __construct(
         CustomerEntity $customer,
         DateTime       $date,
@@ -37,6 +48,8 @@ class GiftAdoption extends AdoptionEntity
         int $quantity,
         PaymentMethod $paymentMethod,
         bool          $isPaid,
+        ?DateTime    $sendOn,
+        ?string      $message,
     ) {
         parent::__construct(
             customer: $customer,
@@ -51,10 +64,52 @@ class GiftAdoption extends AdoptionEntity
 
         $this->friends = new ArrayCollection();
         $this->giftCodes = new ArrayCollection();
+        $this->sendOn = $sendOn;
+        $this->message = $message;
     }
 
     public function getFriends(): Collection|ArrayCollection
     {
         return $this->friends;
+    }
+
+    public function getSendOn(): ?DateTime
+    {
+        return $this->sendOn;
+    }
+
+    public function setSendOn(?DateTime $sendOn): GiftAdoption
+    {
+        $this->sendOn = $sendOn;
+        return $this;
+    }
+
+    public function getMessage(): ?string
+    {
+        return $this->message;
+    }
+
+    public function setMessage(?string $message): GiftAdoption
+    {
+        $this->message = $message;
+        return $this;
+    }
+
+    public function addGiftCode(GiftCodeEntity $giftCode): GiftAdoption
+    {
+        if (!$this->giftCodes->contains($giftCode)) {
+            $this->giftCodes->add($giftCode);
+        }
+        return $this;
+
+    }
+
+    public function addFriend(Friend $friend): GiftAdoption
+    {
+        if (!$this->friends->contains($friend)) {
+            $this->friends->add($friend);
+        }
+        return $this;
+
     }
 }

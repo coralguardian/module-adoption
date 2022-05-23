@@ -15,9 +15,9 @@ class FriendRepository extends EntityRepository
     {
         $query = $this->getEntityManager()->createQuery(
             '
-            SELECT f 
-            FROM \D4rk0snet\Adoption\Entity\Friend f 
-            WHERE f.sendOn = :today'
+            SELECT ga 
+            FROM \D4rk0snet\Adoption\Entity\GiftAdoption ga 
+            WHERE ga.sendOn = :today'
         );
         $query->setParameter(':today', (new DateTime())->format('Y-m-d'));
 

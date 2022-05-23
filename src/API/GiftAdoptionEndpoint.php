@@ -33,7 +33,8 @@ class GiftAdoptionEndpoint extends APIEnpointAbstract
             return APIManagement::APIError($exception->getMessage(), 400);
         }
 
-        $uuid = AdoptionService::createGiftAdoption($giftAdoptionModel)->getUuid();
+        $giftAdoption = AdoptionService::createGiftAdoption($giftAdoptionModel);
+        $uuid = $giftAdoption->getUuid();
         $paymentIntent = AdoptionService::createInvoiceAndGetPaymentIntent($giftAdoptionModel);
 
         // Add Order id to paymentintent
@@ -42,10 +43,16 @@ class GiftAdoptionEndpoint extends APIEnpointAbstract
             'type' => self::PAYMENT_INTENT_TYPE
         ]);
 
-        return APIManagement::APIOk([
+        $data = [
             "uuid" => $uuid,
             "clientSecret" => $paymentIntent->client_secret
-        ]);
+        ];
+
+        if ($giftAdoption->getFriends()->count() === 1) {
+            $data["giftCode"] = $giftAdoption->getFriends()[0]->getGiftCode();
+        }
+
+        return APIManagement::APIOk($data);
     }
 
     public static function getMethods(): array

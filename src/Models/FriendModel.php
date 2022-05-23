@@ -21,10 +21,6 @@ class FriendModel
      */
     private string $friendEmail;
 
-    private ?DateTime $sendOn;
-
-    private ?string $message = null;
-
     public function getFriendFirstname(): string
     {
         return $this->friendFirstname;
@@ -55,28 +51,6 @@ class FriendModel
     public function setFriendEmail(string $friendEmail): FriendModel
     {
         $this->friendEmail = $friendEmail;
-        return $this;
-    }
-
-    public function getSendOn(): ?DateTime
-    {
-        return $this->sendOn;
-    }
-
-    public function setSendOn(?DateTime $sendOn): FriendModel
-    {
-        $this->sendOn = $sendOn;
-        return $this;
-    }
-
-    public function getMessage(): ?string
-    {
-        return $this->message;
-    }
-
-    public function setMessage(?string $message): FriendModel
-    {
-        $this->message = $message;
         return $this;
     }
 }

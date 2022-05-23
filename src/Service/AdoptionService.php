@@ -56,7 +56,9 @@ class AdoptionService
             adoptedProduct: $adoptionModel->getAdoptedProduct(),
             quantity: $adoptionModel->getQuantity(),
             paymentMethod: $adoptionModel->getPaymentMethod(),
-            isPaid: false
+            isPaid: false,
+            sendOn: $adoptionModel->getSendOn(),
+            message: $adoptionModel->getMessage()
         );
 
         DoctrineService::getEntityManager()->persist($newGiftAdoptionEntity);
@@ -76,8 +78,6 @@ class AdoptionService
                 friendLastname: $friendToSentTo->getFriendLastname(),
                 friendEmail: $friendToSentTo->getFriendEmail(),
                 giftAdoption: $newGiftAdoptionEntity,
-                sendOn: $friendToSentTo->getSendOn(),
-                message: $friendToSentTo->getMessage(),
                 giftCode: $giftCode->getGiftCode()
             );
 

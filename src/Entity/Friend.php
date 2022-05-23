@@ -41,16 +41,6 @@ class Friend
     private string $friendEmail;
 
     /**
-     * @ORM\Column(type="datetime", nullable=true)
-     */
-    private ?DateTime $sendOn;
-
-    /**
-     * @ORM\Column(type="string", nullable=true)
-     */
-    private ?string $message = null;
-
-    /**
      * @ORM\ManyToOne(targetEntity="\D4rk0snet\Adoption\Entity\GiftAdoption", inversedBy="friends")
      * @ORM\JoinColumn(referencedColumnName="uuid")
      */
@@ -66,17 +56,13 @@ class Friend
                                 string       $friendLastname,
                                 string       $friendEmail,
                                 GiftAdoption $giftAdoption,
-                                ?DateTime    $sendOn,
-                                ?string      $message,
                                 ?string      $giftCode
     )
     {
         $this->friendFirstname = $friendFirstname;
         $this->friendLastname = $friendLastname;
         $this->friendEmail = $friendEmail;
-        $this->sendOn = $sendOn;
-        $this->message = $message;
-        $this->giftAdoption = $giftAdoption;
+        $this->setGiftAdoption($giftAdoption);
         $this->giftCode = $giftCode;
     }
 
@@ -118,25 +104,10 @@ class Friend
         return $this;
     }
 
-    public function getSendOn(): ?DateTime
+    public function setGiftAdoption(GiftAdoption $giftAdoption): Friend
     {
-        return $this->sendOn;
-    }
-
-    public function setSendOn(?DateTime $sendOn): Friend
-    {
-        $this->sendOn = $sendOn;
-        return $this;
-    }
-
-    public function getMessage(): ?string
-    {
-        return $this->message;
-    }
-
-    public function setMessage(?string $message): Friend
-    {
-        $this->message = $message;
+        $this->giftAdoption = $giftAdoption;
+        $giftAdoption->addFriend($this);
         return $this;
     }
 

@@ -29,7 +29,7 @@ class SendFutureGift
                 email: $friend->getFriendEmail(),
                 lang: $friend->getGiftAdoption()->getLang(),
                 product: $friend->getGiftAdoption()->getAdoptedProduct(),
-                message: $friend->getMessage(),
+                message: $friend->getGiftAdoption()->getMessage(),
                 giftCode: $friend->getGiftCode(),
                 friendName: $friend->getFriendFirstname() . " " . $friend->getFriendLastname(),
                 quantity: $friend->getGiftAdoption()->getQuantity()
