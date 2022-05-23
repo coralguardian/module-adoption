@@ -5,9 +5,9 @@ namespace D4rk0snet\Adoption\Enums;
 enum AdoptedProduct: string
 {
     case CORAL = 'coral';
-    case BUTTERFLY_REEF = 'butterfly_reef';
-    case REEF_LADY = 'reef_lady';
-    case REEF_NAPOLEON = 'reef_napoleon';
+    case BUTTERFLY_REEF = 'reef.butterfly';
+    case REEF_LADY = 'reef.lady';
+    case REEF_NAPOLEON = 'reef.napoleon';
 
     public function getStripeProductId(): string
     {
