@@ -9,6 +9,7 @@ use D4rk0snet\Adoption\Models\AdoptionModel;
 use D4rk0snet\Adoption\Models\GiftAdoptionModel;
 use D4rk0snet\Coralguardian\Entity\CompanyCustomerEntity;
 use D4rk0snet\Coralguardian\Entity\CustomerEntity;
+use D4rk0snet\Coralguardian\Model\IndividualCustomerModel;
 use D4rk0snet\GiftCode\Entity\GiftCodeEntity;
 use D4rk0snet\GiftCode\Service\GiftCodeService;
 use DateTime;
@@ -46,6 +47,10 @@ class AdoptionService
 
         if ($customer === null) {
             throw new \Exception("Customer not found");
+        }
+
+        if($customer instanceof IndividualCustomerModel && count($adoptionModel->getFriends()) === 0) {
+            throw new \Exception("No friends for this gift adoption");
         }
 
         $newGiftAdoptionEntity = new GiftAdoption(

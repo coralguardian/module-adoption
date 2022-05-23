@@ -11,7 +11,7 @@ class GiftAdoptionModel extends AdoptionModel
      */
     private array $friends;
 
-    private ?DateTime $sendOn;
+    private ?DateTime $sendOn = null;
 
     private ?string $message = null;
 
