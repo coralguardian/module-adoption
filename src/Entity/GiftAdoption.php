@@ -110,6 +110,10 @@ class GiftAdoption extends AdoptionEntity
             $this->friends->add($friend);
         }
         return $this;
+    }
 
+    public function getGiftCodes(): ArrayCollection|Collection
+    {
+        return $this->giftCodes;
     }
 }
