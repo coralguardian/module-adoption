@@ -64,7 +64,7 @@
         "ramsey/uuid": "^4.3",
         "ramsey/uuid-doctrine": "^1.8",
         "ext-json": "*",
-        "hyperion/sendinblue": "dev-master",
+        "hyperion/sendinblue": "dev-dev",
         "d4rk0snet/fiscalreceipt": "dev-dev",
         "d4rk0snet/certificate": "dev-dev",
         "d4rk0snet/gift-code": "dev-dev"
