@@ -17,11 +17,6 @@
     "repositories": [
         {
             "type" : "vcs",
-            "url": "git@github.com:coralguardian/module-email.git",
-            "no-api": true
-        },
-        {
-            "type" : "vcs",
             "url": "git@github.com:ds-hyperion/doctrine.git",
             "no-api": true
         },
@@ -54,6 +49,11 @@
           "type" : "vcs",
           "url": "git@github.com:coralguardian/module-giftcode.git",
           "no-api": true
+        },
+        {
+          "type" : "vcs",
+          "url": "git@github.com:ds-hyperion/sendinblue.git",
+          "no-api": true
         }
     ],
     "require": {
@@ -64,7 +64,7 @@
         "ramsey/uuid": "^4.3",
         "ramsey/uuid-doctrine": "^1.8",
         "ext-json": "*",
-        "d4rk0snet/email": "dev-dev",
+        "hyperion/sendinblue": "dev-dev",
         "d4rk0snet/fiscalreceipt": "dev-dev",
         "d4rk0snet/certificate": "dev-dev",
         "d4rk0snet/gift-code": "dev-dev"

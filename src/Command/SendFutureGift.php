@@ -4,8 +4,8 @@ namespace D4rk0snet\Adoption\Command;
 
 use D4rk0snet\Adoption\Entity\Friend;
 use D4rk0snet\Adoption\Repository\FriendRepository;
-use D4rk0snet\Email\Event\OwnerScheduledCodeSentNotificationEvent;
-use D4rk0snet\Email\Event\ScheduledGiftCodeSent;
+use D4rk0snet\Coralguardian\Event\OwnerScheduledCodeSentNotificationEvent;
+use D4rk0snet\Coralguardian\Event\ScheduledGiftCodeSent;
 use Hyperion\Doctrine\Service\DoctrineService;
 use WP_CLI;
 
