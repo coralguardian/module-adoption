@@ -68,22 +68,27 @@ class AdoptionService
 
         DoctrineService::getEntityManager()->persist($newGiftAdoptionEntity);
 
-        foreach($adoptionModel->getFriends() as $friendToSentTo) {
-            // On crée le code cadeau associé
+        // Creation des codes cadeaux
+        $giftCodes = [];
+        for($i=0; $i < $adoptionModel->getQuantity(); $i++) {
             $giftCode = new GiftCodeEntity(
-                giftCode: GiftCodeService::createGiftCode($friendToSentTo->getFriendEmail()),
+                giftCode: GiftCodeService::createGiftCode(bin2hex(random_bytes(20))),
                 uniqueUsage: false,
                 giftAdoption: $newGiftAdoptionEntity
             );
 
-            DoctrineService::getEntityManager()->persist($giftCode);
+            $giftCodes[] = $giftCode;
 
+            DoctrineService::getEntityManager()->persist($giftCode);
+        }
+
+        foreach($adoptionModel->getFriends() as $index => $friendToSentTo) {
             $friendEntity = new Friend(
                 friendFirstname: $friendToSentTo->getFriendFirstname(),
                 friendLastname: $friendToSentTo->getFriendLastname(),
                 friendEmail: $friendToSentTo->getFriendEmail(),
                 giftAdoption: $newGiftAdoptionEntity,
-                giftCode: $giftCode->getGiftCode()
+                giftCode: $giftCodes[$index]->getGiftCode()
             );
 
             DoctrineService::getEntityManager()->persist($friendEntity);
