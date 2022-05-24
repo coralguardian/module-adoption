@@ -12,10 +12,10 @@ enum AdoptedProduct: string
     public static function getAllAdoptedProduct() : array
     {
         return [
-            'Corail' => self::CORAL,
-            'Récif papillon' => self::BUTTERFLY_REEF,
-            'Récif mademoiselle' => self::REEF_LADY,
-            'Récif napoléon' =>  self::REEF_NAPOLEON
+            'Corail' => self::CORAL->value,
+            'Récif papillon' => self::BUTTERFLY_REEF->value,
+            'Récif mademoiselle' => self::REEF_LADY->value,
+            'Récif napoléon' =>  self::REEF_NAPOLEON->value
         ];
     }
 
