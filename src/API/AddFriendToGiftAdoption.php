@@ -21,11 +21,12 @@ class AddFriendToGiftAdoption extends APIEnpointAbstract
 
     public static function callback(WP_REST_Request $request): WP_REST_Response
     {
-        $friendModelArray = json_decode($request->get_body(), false, 512, JSON_THROW_ON_ERROR);
-        if ($friendModelArray === null) {
+        $modelArray = json_decode($request->get_body(), false, 512, JSON_THROW_ON_ERROR);
+        if ($modelArray === null) {
             return APIManagement::APIError("Invalid body content", 400);
         }
 
+        $friendModelArray = $modelArray->friends;
         $adoptionUuid = $request->get_param(self::GIFT_ADOPTION_UUID_PARAM);
         if ($adoptionUuid === null) {
             return APIManagement::APIError('Missing adoption uuid GET parameter', 400);

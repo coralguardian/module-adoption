@@ -20,7 +20,7 @@ use Stripe\PaymentIntent;
 
 class AdoptionService
 {
-    public static function createAdoption(AdoptionModel $adoptionModel, CustomerEntity $customer) : AdoptionEntity
+    public static function createAdoption(AdoptionModel $adoptionModel, CustomerEntity $customer): AdoptionEntity
     {
         $newAdoptionEntity = new AdoptionEntity(
             customer: $customer,
@@ -39,7 +39,7 @@ class AdoptionService
         return $newAdoptionEntity;
     }
 
-    public static function createGiftAdoption(GiftAdoptionModel $adoptionModel) : GiftAdoption
+    public static function createGiftAdoption(GiftAdoptionModel $adoptionModel): GiftAdoption
     {
         $customer = DoctrineService::getEntityManager()
             ->getRepository(CustomerEntity::class)
@@ -49,7 +49,7 @@ class AdoptionService
             throw new \Exception("Customer not found");
         }
 
-        if($customer instanceof IndividualCustomerModel && count($adoptionModel->getFriends()) === 0) {
+        if ($customer instanceof IndividualCustomerModel && count($adoptionModel->getFriends()) === 0) {
             throw new \Exception("No friends for this gift adoption");
         }
 
@@ -70,7 +70,7 @@ class AdoptionService
 
         // Creation des codes cadeaux
         $giftCodes = [];
-        for($i=0; $i < $adoptionModel->getQuantity(); $i++) {
+        for ($i = 0; $i < $adoptionModel->getQuantity(); $i++) {
             $giftCode = new GiftCodeEntity(
                 giftCode: GiftCodeService::createGiftCode(bin2hex(random_bytes(20))),
                 uniqueUsage: false,
@@ -82,7 +82,7 @@ class AdoptionService
             DoctrineService::getEntityManager()->persist($giftCode);
         }
 
-        foreach($adoptionModel->getFriends() as $index => $friendToSentTo) {
+        foreach ($adoptionModel->getFriends() as $index => $friendToSentTo) {
             $friendEntity = new Friend(
                 friendFirstname: $friendToSentTo->getFriendFirstname(),
                 friendLastname: $friendToSentTo->getFriendLastname(),
@@ -99,7 +99,7 @@ class AdoptionService
         return $newGiftAdoptionEntity;
     }
 
-    public static function createInvoiceAndGetPaymentIntent(AdoptionModel $adoptionModel) : PaymentIntent
+    public static function createInvoiceAndGetPaymentIntent(AdoptionModel $adoptionModel): PaymentIntent
     {
         // Est ce que le client est une entreprise ?
         $customer = DoctrineService::getEntityManager()
@@ -116,7 +116,7 @@ class AdoptionService
             $customerId = CustomerService::getOrCreateIndividualCustomer(
                 email: $customer->getEmail(),
                 firstName: $customer->getFirstname(),
-                lastName:  $customer->getLastname()
+                lastName: $customer->getLastname()
             )->id;
         }
 

@@ -6,10 +6,7 @@ use DateTime;
 
 class GiftAdoptionModel extends AdoptionModel
 {
-    /**
-     * @required
-     */
-    private array $friends;
+    private array $friends = [];
 
     private ?DateTime $sendOn = null;
 
