@@ -9,6 +9,16 @@ enum AdoptedProduct: string
     case REEF_LADY = 'reef.lady';
     case REEF_NAPOLEON = 'reef.napoleon';
 
+    public static function getAllAdoptedProduct() : array
+    {
+        return [
+            'Corail' => self::CORAL,
+            'Récif papillon' => self::BUTTERFLY_REEF,
+            'Récif mademoiselle' => self::REEF_LADY,
+            'Récif napoléon' =>  self::REEF_NAPOLEON
+        ];
+    }
+
     public function getStripeProductId(): string
     {
         return match ($this) {
