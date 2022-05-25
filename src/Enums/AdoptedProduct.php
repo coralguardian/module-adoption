@@ -49,6 +49,14 @@ enum AdoptedProduct: string
         };
     }
 
+    public static function getRandomizedProductImages(AdoptedProduct $adoptedProduct)
+    {
+        $pictures = $adoptedProduct->getProductImages();
+        shuffle($pictures);
+
+        return $pictures;
+    }
+
     public function getProductImages(): array
     {
         return match ($this) {
