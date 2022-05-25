@@ -19,7 +19,7 @@ class GiftAdoptionPaymentSuccessAction
         }
 
         // Save Payment reference in order
-        $giftAdoptionUuid = $stripePaymentIntent->metadata->adoption_uuid;
+        $giftAdoptionUuid = $stripePaymentIntent->metadata->gift_adoption_uuid;
 
         /** @var GiftAdoption $entity */
         $entity = DoctrineService::getEntityManager()->getRepository(GiftAdoption::class)->find($giftAdoptionUuid);
