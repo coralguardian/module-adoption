@@ -54,6 +54,11 @@
           "type" : "vcs",
           "url": "git@github.com:ds-hyperion/sendinblue.git",
           "no-api": true
+        },
+        {
+            "type" : "vcs",
+            "url": "git@github.com:coralguardian/module-naming_file_import.git",
+            "no-api": true
         }
     ],
     "require": {
@@ -67,6 +72,7 @@
         "hyperion/sendinblue": "dev-dev",
         "d4rk0snet/fiscalreceipt": "dev-dev",
         "d4rk0snet/certificate": "dev-dev",
-        "d4rk0snet/gift-code": "dev-dev"
+        "d4rk0snet/gift-code": "dev-dev",
+        "d4rk0snet/naming-file-import": "dev-dev"
     }
 }
