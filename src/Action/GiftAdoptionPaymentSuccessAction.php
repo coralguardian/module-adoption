@@ -3,10 +3,9 @@
 namespace D4rk0snet\Adoption\Action;
 
 use D4rk0snet\Adoption\API\GiftAdoptionEndpoint;
-use D4rk0snet\Adoption\Entity\AdoptionEntity;
 use D4rk0snet\Adoption\Entity\GiftAdoption;
+use D4rk0snet\Adoption\Service\RedirectionService;
 use D4rk0snet\Coralguardian\Event\AdoptionOrder;
-use D4rk0snet\FiscalReceipt\Endpoint\GetFiscalReceiptEndpoint;
 use D4rk0snet\FiscalReceipt\Service\FiscalReceiptService;
 use Hyperion\Doctrine\Service\DoctrineService;
 use Stripe\PaymentIntent;
@@ -37,7 +36,7 @@ class GiftAdoptionPaymentSuccessAction
             lang: $entity->getLang()->value,
             quantity: $entity->getQuantity(),
             receiptFileUrl: FiscalReceiptService::getURl($giftAdoptionUuid),
-            nextStepUrl: "www.google.fr"
+            nextStepUrl: RedirectionService::buildRedirectionUrl($entity)
         );
     }
 }

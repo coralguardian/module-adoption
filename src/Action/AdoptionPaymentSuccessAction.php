@@ -4,6 +4,7 @@ namespace D4rk0snet\Adoption\Action;
 
 use D4rk0snet\Adoption\API\AdoptionEndpoint;
 use D4rk0snet\Adoption\Entity\AdoptionEntity;
+use D4rk0snet\Adoption\Service\RedirectionService;
 use D4rk0snet\Coralguardian\Event\AdoptionOrder;
 use D4rk0snet\FiscalReceipt\Service\FiscalReceiptService;
 use Hyperion\Doctrine\Service\DoctrineService;
@@ -36,7 +37,7 @@ class AdoptionPaymentSuccessAction
             lang: $entity->getLang()->value,
             quantity: $entity->getQuantity(),
             receiptFileUrl: FiscalReceiptService::getURl($adoptionUuid),
-            nextStepUrl: "www.google.fr"
+            nextStepUrl: RedirectionService::buildRedirectionUrl($entity)
         );
     }
 }
