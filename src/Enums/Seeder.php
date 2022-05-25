@@ -12,6 +12,13 @@ enum Seeder : string
     case SUHAR = 'suhar';
     case VALENTINA = 'valentina';
 
+    public static function randomizeSeeder() : array
+    {
+        $seeders = Seeder::cases();
+        shuffle($seeders);
+        return $seeders;
+    }
+
     public function getPicture() : string
     {
         return match($this) {
