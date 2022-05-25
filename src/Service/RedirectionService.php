@@ -11,8 +11,11 @@ class RedirectionService
     public static function buildRedirectionUrl(AdoptionEntity $adoptionEntity)
     {
         $baseUrl = home_url("adoption-entreprise");
-        return $baseUrl . "?adoptionUuid=" . $adoptionEntity->getUuid() .
+        $baseUrl .=  "?adoptionUuid=" . $adoptionEntity->getUuid() .
             "&step=" . RedirectionStep::getEnumBasedOnClass($adoptionEntity::class)->value;
+        $urlParts = parse_url($baseUrl);
+
+        return $urlParts["host"].$urlParts["path"]."?".$urlParts["query"];
     }
 
 }
