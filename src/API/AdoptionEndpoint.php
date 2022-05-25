@@ -37,19 +37,7 @@ class AdoptionEndpoint extends APIEnpointAbstract
             /** @var AdoptionModel $adoptionModel */
             $adoptionModel = $mapper->map($payload, new AdoptionModel());
 
-            try {
-                $customer = DoctrineService::getEntityManager()
-                    ->getRepository(CustomerEntity::class)
-                    ->find($adoptionModel->getCustomerUUID());
-
-                if ($customer === null) {
-                    throw new \Exception("Customer not found", 400);
-                }
-            } catch (ConversionException $exception) {
-                throw new \Exception("Customer not found", 400);
-            }
-
-            $uuid = AdoptionService::createAdoption($adoptionModel, $customer)->getUuid();
+            $uuid = AdoptionService::createAdoption($adoptionModel)->getUuid();
 
             // Dans le cas d'un paiement par virement bancaire, on exit.
             if($adoptionModel->getPaymentMethod() === PaymentMethod::BANK_TRANSFER) {
