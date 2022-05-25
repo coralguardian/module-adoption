@@ -62,6 +62,7 @@ class AdoptionService
             quantity: $adoptionModel->getQuantity(),
             paymentMethod: $adoptionModel->getPaymentMethod(),
             isPaid: false,
+            sendToFriend: $adoptionModel->isSendToFriend(),
             sendOn: $adoptionModel->getSendOn(),
             message: $adoptionModel->getMessage()
         );

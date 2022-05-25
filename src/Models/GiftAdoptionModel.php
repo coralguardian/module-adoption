@@ -12,6 +12,8 @@ class GiftAdoptionModel extends AdoptionModel
 
     private ?string $message = null;
 
+    private bool $sendToFriend = true;
+
     public function afterMapping()
     {
         parent::afterMapping();
@@ -54,5 +56,21 @@ class GiftAdoptionModel extends AdoptionModel
     {
         $this->message = $message;
         return $this;
+    }
+
+    /**
+     * @param bool $sendToFriend
+     */
+    public function setSendToFriend(bool $sendToFriend): void
+    {
+        $this->sendToFriend = $sendToFriend;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isSendToFriend(): bool
+    {
+        return $this->sendToFriend;
     }
 }

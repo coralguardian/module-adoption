@@ -39,18 +39,25 @@ class GiftAdoption extends AdoptionEntity
      */
     private ?string $message = null;
 
+    /**
+     * @ORM\Column(type="boolean", nullable=true)
+     */
+    private bool $sendToFriend;
+
     public function __construct(
         CustomerEntity $customer,
         DateTime       $date,
         float          $amount,
         Language       $lang,
         AdoptedProduct $adoptedProduct,
-        int $quantity,
-        PaymentMethod $paymentMethod,
-        bool          $isPaid,
-        ?DateTime    $sendOn,
-        ?string      $message,
-    ) {
+        int            $quantity,
+        PaymentMethod  $paymentMethod,
+        bool           $isPaid,
+        bool           $sendToFriend,
+        ?DateTime      $sendOn,
+        ?string        $message,
+    )
+    {
         parent::__construct(
             customer: $customer,
             date: $date,
@@ -66,6 +73,7 @@ class GiftAdoption extends AdoptionEntity
         $this->giftCodes = new ArrayCollection();
         $this->sendOn = $sendOn;
         $this->message = $message;
+        $this->sendToFriend = $sendToFriend;
     }
 
     public function getFriends(): Collection|ArrayCollection
@@ -115,5 +123,13 @@ class GiftAdoption extends AdoptionEntity
     public function getGiftCodes(): ArrayCollection|Collection
     {
         return $this->giftCodes;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isSendToFriend(): bool
+    {
+        return $this->sendToFriend;
     }
 }

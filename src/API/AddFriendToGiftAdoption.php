@@ -57,7 +57,6 @@ class AddFriendToGiftAdoption extends APIEnpointAbstract
             $mapper = new JsonMapper();
             $mapper->bExceptionOnMissingData = true;
             $mapper->postMappingMethod = 'afterMapping';
-            /** @var AdoptionModel $adoptionModel */
             $friendModelArray = $mapper->mapArray($friendModelArray, array(), FriendModel::class);
 
             /** @var FriendModel $friend */
@@ -74,6 +73,10 @@ class AddFriendToGiftAdoption extends APIEnpointAbstract
             }
 
             DoctrineService::getEntityManager()->flush();
+
+            if (!$adoptionEntity->isSendToFriend()) {
+                // @todo: envoyer mail à l'adoptant avec les codes cadeaux
+            }
 
             return APIManagement::APIOk();
 
