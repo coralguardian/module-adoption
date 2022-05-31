@@ -6,7 +6,7 @@ use D4rk0snet\Adoption\Entity\AdopteeEntity;
 use D4rk0snet\Adoption\Entity\AdoptionEntity;
 use D4rk0snet\Adoption\Enums\Seeder;
 use D4rk0snet\Adoption\Models\AdopteesModel;
-use D4rk0snet\Certificate\Endpoint\GetCertificateEndpoint;
+use D4rk0snet\Certificate\Service\CertificateService;
 use D4rk0snet\Coralguardian\Event\NamingDone;
 use D4rk0snet\FiscalReceipt\Service\FiscalReceiptService;
 use Exception;
@@ -68,7 +68,7 @@ class AdopteeService
             adoptionType: $adoptionOrder->getAdoptedProduct(),
             quantity: $adoptionOrder->getQuantity(),
             fiscalReceiptUrl: FiscalReceiptService::getURl($model->getAdoptionUuid()),
-            certificateUrl: GetCertificateEndpoint::getUrl([GetCertificateEndpoint::ORDER_UUID_PARAM => $adoptionOrder->getUuid()])
+            certificateUrl: CertificateService::getSanitizedURL($model->getAdoptionUuid())
         );
     }
 }
