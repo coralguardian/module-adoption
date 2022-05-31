@@ -36,7 +36,8 @@ class GiftAdoptionPaymentSuccessAction
             lang: $entity->getLang()->value,
             quantity: $entity->getQuantity(),
             receiptFileUrl: FiscalReceiptService::getURl($giftAdoptionUuid),
-            nextStepUrl: RedirectionService::buildRedirectionUrl($entity)
+            nextStepUrl: RedirectionService::buildRedirectionUrl($entity),
+            codeSentTofriend: $entity->isSendToFriend()
         );
     }
 }
