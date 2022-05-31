@@ -5,7 +5,10 @@ namespace D4rk0snet\Adoption\Action;
 use D4rk0snet\Adoption\API\GiftAdoptionEndpoint;
 use D4rk0snet\Adoption\Entity\GiftAdoption;
 use D4rk0snet\Adoption\Service\RedirectionService;
+use D4rk0snet\Coralguardian\Entity\CompanyCustomerEntity;
+use D4rk0snet\Coralguardian\Entity\CustomerEntity;
 use D4rk0snet\Coralguardian\Event\AdoptionOrder;
+use D4rk0snet\Coralguardian\Model\IndividualCustomerModel;
 use D4rk0snet\FiscalReceipt\Service\FiscalReceiptService;
 use Hyperion\Doctrine\Service\DoctrineService;
 use Stripe\PaymentIntent;
@@ -37,7 +40,8 @@ class GiftAdoptionPaymentSuccessAction
             quantity: $entity->getQuantity(),
             receiptFileUrl: FiscalReceiptService::getURl($giftAdoptionUuid),
             nextStepUrl: RedirectionService::buildRedirectionUrl($entity),
-            codeSentTofriend: $entity->isSendToFriend()
+            codeSentTofriend: $entity->isSendToFriend(),
+            isCompany: $entity->getCustomer() instanceof CompanyCustomerEntity
         );
     }
 }
