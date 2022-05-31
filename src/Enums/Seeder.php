@@ -26,7 +26,7 @@ enum Seeder : string
             Seeder::JONAS => 'jonas.jpg',
             Seeder::MURDHI => 'murdhi.jpg',
             Seeder::MUSLIM => 'muslim.jpg',
-            Seeder::SAHRIL => 'sarhil.jpg',
+            Seeder::SAHRIL => 'sahril.jpg',
             Seeder::SUHAR => 'suhar.jpg',
             Seeder::VALENTINA => 'valentina.jpg',
         };
