@@ -33,6 +33,10 @@ class GiftAdoptionPaymentSuccessAction
         $entity->setIsPaid(true);
         DoctrineService::getEntityManager()->flush();
 
+        if (!$entity->isSendToFriend()) {
+            // @todo: envoyer mail à l'adoptant avec les codes cadeaux + reçu fiscal
+        }
+
         // Send email event with data needed
         AdoptionOrder::send(
             email: $entity->getCustomer()->getEmail(),

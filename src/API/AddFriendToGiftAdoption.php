@@ -74,10 +74,6 @@ class AddFriendToGiftAdoption extends APIEnpointAbstract
 
             DoctrineService::getEntityManager()->flush();
 
-            if (!$adoptionEntity->isSendToFriend()) {
-                // @todo: envoyer mail à l'adoptant avec les codes cadeaux
-            }
-
             return APIManagement::APIOk();
 
         } catch(\Exception $exception) {
