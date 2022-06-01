@@ -8,6 +8,7 @@ use D4rk0snet\Adoption\Service\RedirectionService;
 use D4rk0snet\Coralguardian\Entity\CompanyCustomerEntity;
 use D4rk0snet\Coralguardian\Entity\CustomerEntity;
 use D4rk0snet\Coralguardian\Event\AdoptionOrder;
+use D4rk0snet\Coralguardian\Event\GiftOrder;
 use D4rk0snet\Coralguardian\Model\IndividualCustomerModel;
 use D4rk0snet\FiscalReceipt\Service\FiscalReceiptService;
 use D4rk0snet\GiftCode\Entity\GiftCodeEntity;
@@ -40,7 +41,7 @@ class GiftAdoptionPaymentSuccessAction
         }
 
         // Send email event with data needed
-        AdoptionOrder::send(
+        GiftOrder::send(
             email: $entity->getCustomer()->getEmail(),
             lang: $entity->getLang()->value,
             quantity: $entity->getQuantity(),
