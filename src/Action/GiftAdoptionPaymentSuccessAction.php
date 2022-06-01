@@ -10,6 +10,7 @@ use D4rk0snet\Coralguardian\Entity\CustomerEntity;
 use D4rk0snet\Coralguardian\Event\AdoptionOrder;
 use D4rk0snet\Coralguardian\Model\IndividualCustomerModel;
 use D4rk0snet\FiscalReceipt\Service\FiscalReceiptService;
+use D4rk0snet\GiftCode\Entity\GiftCodeEntity;
 use Hyperion\Doctrine\Service\DoctrineService;
 use Stripe\PaymentIntent;
 
@@ -33,8 +34,9 @@ class GiftAdoptionPaymentSuccessAction
         $entity->setIsPaid(true);
         DoctrineService::getEntityManager()->flush();
 
+        $codeToSend = [];
         if (!$entity->isSendToFriend()) {
-            // @todo: envoyer mail à l'adoptant avec les codes cadeaux + reçu fiscal
+            $codeToSend = $entity->getGiftCodes()->map(function(GiftCodeEntity $giftCodeEntity) { return $giftCodeEntity->getGiftCode(); } );
         }
 
         // Send email event with data needed
@@ -45,7 +47,8 @@ class GiftAdoptionPaymentSuccessAction
             receiptFileUrl: FiscalReceiptService::getURl($giftAdoptionUuid),
             nextStepUrl: RedirectionService::buildRedirectionUrl($entity),
             codeSentTofriend: $entity->isSendToFriend(),
-            isCompany: $entity->getCustomer() instanceof CompanyCustomerEntity
+            isCompany: $entity->getCustomer() instanceof CompanyCustomerEntity,
+            codeToSend: $codeToSend
         );
     }
 }
