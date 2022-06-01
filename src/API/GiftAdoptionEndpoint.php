@@ -4,6 +4,9 @@ namespace D4rk0snet\Adoption\API;
 
 use D4rk0snet\Adoption\Models\GiftAdoptionModel;
 use D4rk0snet\Adoption\Service\AdoptionService;
+use D4rk0snet\Coralguardian\Event\BankTransferPayment;
+use D4rk0snet\Donation\Enums\PaymentMethod;
+use Hyperion\Doctrine\Service\DoctrineService;
 use Hyperion\RestAPI\APIEnpointAbstract;
 use Hyperion\RestAPI\APIManagement;
 use Hyperion\Stripe\Service\StripeService;
@@ -35,6 +38,14 @@ class GiftAdoptionEndpoint extends APIEnpointAbstract
 
         $giftAdoption = AdoptionService::createGiftAdoption($giftAdoptionModel);
         $uuid = $giftAdoption->getUuid();
+
+        if($giftAdoption->getPaymentMethod() === PaymentMethod::BANK_TRANSFER) {
+            BankTransferPayment::sendEvent($giftAdoption);
+            DoctrineService::getEntityManager()->commit();
+
+            return APIManagement::APIOk(["uuid" => $uuid]);
+        }
+
         $paymentIntent = AdoptionService::createInvoiceAndGetPaymentIntent($giftAdoptionModel);
 
         // Add Order id to paymentintent

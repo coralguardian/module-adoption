@@ -19,10 +19,8 @@ class AdoptionPaymentSuccessAction
             return;
         }
 
-        // Save Payment reference in order
-        $adoptionUuid = $stripePaymentIntent->metadata->adoption_uuid;
         /** @var AdoptionEntity $entity */
-        $entity = DoctrineService::getEntityManager()->getRepository(AdoptionEntity::class)->find($adoptionUuid);
+        $entity = DoctrineService::getEntityManager()->getRepository(AdoptionEntity::class)->find($stripePaymentIntent->metadata->adoption_uuid);
 
         if ($entity === null) {
             return;
@@ -32,14 +30,6 @@ class AdoptionPaymentSuccessAction
         $entity->setIsPaid(true);
         DoctrineService::getEntityManager()->flush();
 
-        // Send email event with data needed
-        AdoptionOrder::send(
-            email: $entity->getCustomer()->getEmail(),
-            lang: $entity->getLang()->value,
-            quantity: $entity->getQuantity(),
-            receiptFileUrl: FiscalReceiptService::getURl($adoptionUuid),
-            nextStepUrl: RedirectionService::buildRedirectionUrl($entity),
-            isCompany: $entity->getCustomer() instanceof CompanyCustomerEntity
-        );
+        AdoptionOrder::sendEvent($entity);
     }
 }

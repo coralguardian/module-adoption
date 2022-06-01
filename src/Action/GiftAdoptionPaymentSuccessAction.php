@@ -23,33 +23,16 @@ class GiftAdoptionPaymentSuccessAction
             return;
         }
 
-        // Save Payment reference in order
-        $giftAdoptionUuid = $stripePaymentIntent->metadata->gift_adoption_uuid;
-
         /** @var GiftAdoption $entity */
-        $entity = DoctrineService::getEntityManager()->getRepository(GiftAdoption::class)->find($giftAdoptionUuid);
+        $entity = DoctrineService::getEntityManager()->getRepository(GiftAdoption::class)->find($stripePaymentIntent->metadata->gift_adoption_uuid);
         if ($entity === null) {
             return;
         }
+
         $entity->setStripePaymentIntentId($stripePaymentIntent->id);
         $entity->setIsPaid(true);
         DoctrineService::getEntityManager()->flush();
 
-        $codeToSend = [];
-        if (!$entity->isSendToFriend()) {
-            $codeToSend = $entity->getGiftCodes()->map(function(GiftCodeEntity $giftCodeEntity) { return $giftCodeEntity->getGiftCode(); } );
-        }
-
-        // Send email event with data needed
-        GiftOrder::send(
-            email: $entity->getCustomer()->getEmail(),
-            lang: $entity->getLang()->value,
-            quantity: $entity->getQuantity(),
-            receiptFileUrl: FiscalReceiptService::getURl($giftAdoptionUuid),
-            nextStepUrl: RedirectionService::buildRedirectionUrl($entity),
-            codeSentTofriend: $entity->isSendToFriend(),
-            isCompany: $entity->getCustomer() instanceof CompanyCustomerEntity,
-            codeToSend: $codeToSend->toArray()
-        );
+        GiftOrder::sendEvent($entity);
     }
 }

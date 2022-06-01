@@ -7,6 +7,8 @@ use D4rk0snet\Adoption\Entity\GiftAdoption;
 use D4rk0snet\Adoption\Models\AdoptionModel;
 use D4rk0snet\Adoption\Models\FriendModel;
 use D4rk0snet\Coralguardian\Entity\CompanyCustomerEntity;
+use D4rk0snet\Coralguardian\Event\GiftCodeSent;
+use D4rk0snet\Coralguardian\Event\RecipientDone;
 use D4rk0snet\GiftCode\Entity\GiftCodeEntity;
 use Hyperion\Doctrine\Service\DoctrineService;
 use Hyperion\RestAPI\APIEnpointAbstract;
@@ -60,6 +62,7 @@ class AddFriendToGiftAdoption extends APIEnpointAbstract
             $friendModelArray = $mapper->mapArray($friendModelArray, array(), FriendModel::class);
 
             /** @var FriendModel $friend */
+            // @todo: Déplacer dans le service
             foreach($friendModelArray as $index => $friend) {
                 $friendEntity = new Friend(
                     friendFirstname: $friend->getFriendFirstname(),
@@ -74,8 +77,23 @@ class AddFriendToGiftAdoption extends APIEnpointAbstract
 
             DoctrineService::getEntityManager()->flush();
 
-            return APIManagement::APIOk();
+            if($adoptionEntity->getSendOn() === null) {
+                foreach($friendModelArray as $index => $friend) {
+                    GiftCodeSent::send(
+                        email: $friend->getFriendEmail(),
+                        lang: $adoptionEntity->getLang(),
+                        product: $adoptionEntity->getAdoptedProduct(),
+                        message: $adoptionEntity->getMessage(),
+                        giftCode: $giftAdoptionEntityCodes[$index]->getGiftCode(),
+                        friendName: $friend->getFriendFirstname()." ".$friend->getFriendLastname(),
+                        quantity: 1
+                    );
+                }
+            }
 
+            RecipientDone::send($adoptionEntity->getCustomer()->getEmail(), $adoptionEntity->getLang());
+
+            return APIManagement::APIOk();
         } catch(\Exception $exception) {
             return APIManagement::APIError($exception->getMessage(), 500);
         }

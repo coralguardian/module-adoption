@@ -5,6 +5,7 @@ namespace D4rk0snet\Adoption\API;
 use D4rk0snet\Adoption\Models\AdoptionModel;
 use D4rk0snet\Adoption\Service\AdoptionService;
 use D4rk0snet\Coralguardian\Entity\CustomerEntity;
+use D4rk0snet\Coralguardian\Event\BankTransferPayment;
 use D4rk0snet\Donation\Enums\PaymentMethod;
 use Doctrine\DBAL\Types\ConversionException;
 use Hyperion\Doctrine\Service\DoctrineService;
@@ -37,10 +38,12 @@ class AdoptionEndpoint extends APIEnpointAbstract
             /** @var AdoptionModel $adoptionModel */
             $adoptionModel = $mapper->map($payload, new AdoptionModel());
 
-            $uuid = AdoptionService::createAdoption($adoptionModel)->getUuid();
+            $adoptionEntity = AdoptionService::createAdoption($adoptionModel);
+            $uuid = $adoptionEntity->getUuid();
 
             // Dans le cas d'un paiement par virement bancaire, on exit.
             if($adoptionModel->getPaymentMethod() === PaymentMethod::BANK_TRANSFER) {
+                BankTransferPayment::sendEvent($adoptionEntity);
                 DoctrineService::getEntityManager()->commit();
 
                 return APIManagement::APIOk(["uuid" => $uuid]);
