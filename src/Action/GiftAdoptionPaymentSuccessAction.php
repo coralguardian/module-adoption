@@ -49,7 +49,7 @@ class GiftAdoptionPaymentSuccessAction
             nextStepUrl: RedirectionService::buildRedirectionUrl($entity),
             codeSentTofriend: $entity->isSendToFriend(),
             isCompany: $entity->getCustomer() instanceof CompanyCustomerEntity,
-            codeToSend: $codeToSend
+            codeToSend: $codeToSend->toArray()
         );
     }
 }
