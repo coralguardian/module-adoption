@@ -149,4 +149,15 @@ class AdoptionService
 
         return BillingService::finalizeAndGetPaymentIntent($bill);
     }
+
+    public static function updateGiftAdoptionWithMessage(GiftAdoption $giftAdoption, GiftAdoptionModel $adoptionModel): GiftAdoption
+    {
+        $giftAdoption->setMessage($adoptionModel->getMessage());
+        if (null !== $adoptionModel->getSendOn()) {
+            $giftAdoption->setSendOn($adoptionModel->getSendOn());
+        }
+        DoctrineService::getEntityManager()->flush();
+
+        return $giftAdoption;
+    }
 }

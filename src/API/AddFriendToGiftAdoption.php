@@ -4,8 +4,9 @@ namespace D4rk0snet\Adoption\API;
 
 use D4rk0snet\Adoption\Entity\Friend;
 use D4rk0snet\Adoption\Entity\GiftAdoption;
-use D4rk0snet\Adoption\Models\AdoptionModel;
 use D4rk0snet\Adoption\Models\FriendModel;
+use D4rk0snet\Adoption\Models\GiftAdoptionModel;
+use D4rk0snet\Adoption\Service\AdoptionService;
 use D4rk0snet\Coralguardian\Entity\CompanyCustomerEntity;
 use D4rk0snet\Coralguardian\Event\GiftCodeSent;
 use D4rk0snet\Coralguardian\Event\RecipientDone;
@@ -36,56 +37,59 @@ class AddFriendToGiftAdoption extends APIEnpointAbstract
 
         /** @var GiftAdoption $adoptionEntity */
         $adoptionEntity = DoctrineService::getEntityManager()->getRepository(GiftAdoption::class)->find($adoptionUuid);
-        if($adoptionEntity === null) {
+        if ($adoptionEntity === null) {
             return APIManagement::APINotFound();
         }
 
-        if(!$adoptionEntity->getCustomer() instanceof CompanyCustomerEntity) {
+        if (!$adoptionEntity->getCustomer() instanceof CompanyCustomerEntity) {
             return APIManagement::APIForbidden("Only adoptions by companies can add friends");
         }
 
-        if(count($adoptionEntity->getFriends()) > 0) {
-            return APIManagement::APIForbidden("Not enough friend to add");
+        if (count($friendModelArray) !== $adoptionEntity->getGiftCodes()->count()) {
+            return APIManagement::APIError("Not enough friend to add", 400);
         }
 
-        if(count($friendModelArray) !== $adoptionEntity->getQuantity()) {
-            return APIManagement::APIForbidden("Friends for this adoption have already been added");
-        }
-
+        // todo: move to service
         /** @var GiftCodeEntity[] $giftAdoptionEntityCodes */
         $giftAdoptionEntityCodes = $adoptionEntity->getGiftCodes();
 
         try {
             $mapper = new JsonMapper();
             $mapper->bExceptionOnMissingData = true;
+            /** @var GiftAdoptionModel $giftAdoptionModel */
+            $giftAdoptionModel = $mapper->map($modelArray, new GiftAdoptionModel());
+
             $mapper->postMappingMethod = 'afterMapping';
             $friendModelArray = $mapper->mapArray($friendModelArray, array(), FriendModel::class);
 
-            /** @var FriendModel $friend */
-            // @todo: Déplacer dans le service
-            foreach($friendModelArray as $index => $friend) {
+            /** @var GiftCodeEntity $giftCode */
+            foreach ($adoptionEntity->getGiftCodes() as $index => $giftCode) {
+                if ($giftCode->getFriend() !== null) {
+                    throw new \Exception("Friends for this adoption have already been added");
+                }
+                $friend = $friendModelArray[$index];
                 $friendEntity = new Friend(
                     friendFirstname: $friend->getFriendFirstname(),
                     friendLastname: $friend->getFriendLastname(),
                     friendEmail: $friend->getFriendEmail(),
-                    giftAdoption: $adoptionEntity,
-                    giftCode: $giftAdoptionEntityCodes[$index]->getGiftCode()
+                    giftCode: $giftCode
                 );
-
                 DoctrineService::getEntityManager()->persist($friendEntity);
             }
 
             DoctrineService::getEntityManager()->flush();
 
-            if($adoptionEntity->getSendOn() === null) {
-                foreach($friendModelArray as $index => $friend) {
+            $adoptionEntity = AdoptionService::updateGiftAdoptionWithMessage($adoptionEntity, $giftAdoptionModel);
+
+            if ($adoptionEntity->getSendOn() === null) {
+                foreach ($friendModelArray as $index => $friend) {
                     GiftCodeSent::send(
                         email: $friend->getFriendEmail(),
                         lang: $adoptionEntity->getLang(),
                         product: $adoptionEntity->getAdoptedProduct(),
                         message: $adoptionEntity->getMessage(),
                         giftCode: $giftAdoptionEntityCodes[$index]->getGiftCode(),
-                        friendName: $friend->getFriendFirstname()." ".$friend->getFriendLastname(),
+                        friendName: $friend->getFriendFirstname() . " " . $friend->getFriendLastname(),
                         quantity: 1
                     );
                 }
@@ -94,7 +98,7 @@ class AddFriendToGiftAdoption extends APIEnpointAbstract
             RecipientDone::send($adoptionEntity->getCustomer()->getEmail(), $adoptionEntity->getLang());
 
             return APIManagement::APIOk();
-        } catch(\Exception $exception) {
+        } catch (\Exception $exception) {
             return APIManagement::APIError($exception->getMessage(), 500);
         }
     }
