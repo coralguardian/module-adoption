@@ -62,13 +62,6 @@ class AdopteeService
         DoctrineService::getEntityManager()->flush();
 
         // Send email event
-        NamingDone::send(
-            email: $adoptionOrder->getCustomer()->getEmail(),
-            lang: $adoptionOrder->getLang(),
-            adoptionType: $adoptionOrder->getAdoptedProduct(),
-            quantity: $adoptionOrder->getQuantity(),
-            fiscalReceiptUrl: FiscalReceiptService::getURl($model->getAdoptionUuid()),
-            certificateUrl: CertificateService::getSanitizedURL($model->getAdoptionUuid())
-        );
+        NamingDone::sendEvent($adoptionOrder);
     }
 }

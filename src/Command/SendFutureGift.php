@@ -25,21 +25,8 @@ class SendFutureGift
 
         foreach($friendsToSendGiftTo as $friend)
         {
-            GiftCodeSent::send(
-                email: $friend->getFriendEmail(),
-                lang: $friend->getGiftAdoption()->getLang(),
-                product: $friend->getGiftAdoption()->getAdoptedProduct(),
-                message: $friend->getGiftAdoption()->getMessage(),
-                giftCode: $friend->getGiftCode(),
-                friendName: $friend->getFriendFirstname() . " " . $friend->getFriendLastname(),
-                quantity: $friend->getGiftAdoption()->getQuantity()
-            );
-
-            OwnerScheduledCodeSentNotificationEvent::send(
-                email: $friend->getGiftAdoption()->getCustomer()->getEmail(),
-                lang: $friend->getGiftAdoption()->getLang(),
-                quantity: $friend->getGiftAdoption()->getQuantity()
-            );
+            GiftCodeSent::sendEvent($friend);
+            OwnerScheduledCodeSentNotificationEvent::sendEvent($friend);
 
             WP_CLI::log("=> Code cadeau de la commande de ".$friend->getGiftAdoption()->getCustomer()->getEmail()." envoyé.");
         }

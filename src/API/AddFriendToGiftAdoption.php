@@ -63,6 +63,7 @@ class AddFriendToGiftAdoption extends APIEnpointAbstract
 
             /** @var FriendModel $friend */
             // @todo: Déplacer dans le service
+            $friendEntities = [];
             foreach($friendModelArray as $index => $friend) {
                 $friendEntity = new Friend(
                     friendFirstname: $friend->getFriendFirstname(),
@@ -71,6 +72,7 @@ class AddFriendToGiftAdoption extends APIEnpointAbstract
                     giftAdoption: $adoptionEntity,
                     giftCode: $giftAdoptionEntityCodes[$index]->getGiftCode()
                 );
+                $friendEntities[] = $friendEntity;
 
                 DoctrineService::getEntityManager()->persist($friendEntity);
             }
@@ -78,20 +80,12 @@ class AddFriendToGiftAdoption extends APIEnpointAbstract
             DoctrineService::getEntityManager()->flush();
 
             if($adoptionEntity->getSendOn() === null) {
-                foreach($friendModelArray as $index => $friend) {
-                    GiftCodeSent::send(
-                        email: $friend->getFriendEmail(),
-                        lang: $adoptionEntity->getLang(),
-                        product: $adoptionEntity->getAdoptedProduct(),
-                        message: $adoptionEntity->getMessage(),
-                        giftCode: $giftAdoptionEntityCodes[$index]->getGiftCode(),
-                        friendName: $friend->getFriendFirstname()." ".$friend->getFriendLastname(),
-                        quantity: 1
-                    );
+                foreach($friendEntities as $friend) {
+                    GiftCodeSent::sendEvent($friend, 1);
                 }
             }
 
-            RecipientDone::send($adoptionEntity->getCustomer()->getEmail(), $adoptionEntity->getLang());
+            RecipientDone::sendEvent($adoptionEntity);
 
             return APIManagement::APIOk();
         } catch(\Exception $exception) {
