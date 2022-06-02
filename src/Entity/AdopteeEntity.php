@@ -43,7 +43,7 @@ class AdopteeEntity
 
     /**
      * @ORM\ManyToOne(targetEntity="\D4rk0snet\Adoption\Entity\AdoptionEntity", inversedBy="adoptees")
-     * @ORM\JoinColumn(referencedColumnName="uuid")
+     * @ORM\JoinColumn(referencedColumnName="uuid", name="adoption")
      */
     private AdoptionEntity $adoption;
 
