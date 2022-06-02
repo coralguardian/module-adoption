@@ -3,6 +3,7 @@
 namespace D4rk0snet\Adoption\Entity;
 
 use D4rk0snet\Adoption\Enums\Seeder;
+use D4rk0snet\GiftCode\Entity\GiftCodeEntity;
 use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\Column;
@@ -45,6 +46,12 @@ class AdopteeEntity
      * @ORM\JoinColumn(referencedColumnName="uuid")
      */
     private AdoptionEntity $adoption;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="\D4rk0snet\GiftCode\Entity\GiftCodeEntity", inversedBy="adoptees")
+     * @ORM\JoinColumn(referencedColumnName="uuid", name="giftCode")
+     */
+    private ?GiftCodeEntity $giftCode = null;
 
     /**
      * @ORM\Column(type="datetime")
@@ -96,5 +103,23 @@ class AdopteeEntity
     public function getPicture(): string
     {
         return $this->picture;
+    }
+
+    /**
+     * @param GiftCodeEntity|null $giftCode
+     * @return AdopteeEntity
+     */
+    public function setGiftCode(?GiftCodeEntity $giftCode): AdopteeEntity
+    {
+        $this->giftCode = $giftCode;
+        return $this;
+    }
+
+    /**
+     * @return GiftCodeEntity|null
+     */
+    public function getGiftCode(): ?GiftCodeEntity
+    {
+        return $this->giftCode;
     }
 }

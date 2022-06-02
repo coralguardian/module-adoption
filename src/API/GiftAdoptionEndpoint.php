@@ -59,8 +59,8 @@ class GiftAdoptionEndpoint extends APIEnpointAbstract
             "clientSecret" => $paymentIntent->client_secret
         ];
 
-        if ($giftAdoption->getFriends()->count() === 1) {
-            $data["giftCode"] = $giftAdoption->getFriends()[0]->getGiftCode();
+        if ($giftAdoption->getGiftCodes()->count() === 1) {
+            $data["giftCode"] = $giftAdoption->getGiftCodes()->first()->getGiftCode();
         }
 
         return APIManagement::APIOk($data);

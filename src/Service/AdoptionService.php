@@ -82,27 +82,32 @@ class AdoptionService
 
         DoctrineService::getEntityManager()->persist($newGiftAdoptionEntity);
 
-        // Creation des codes cadeaux
-        $giftCodes = [];
-        for ($i = 0; $i < $adoptionModel->getQuantity(); $i++) {
+        if ($customer instanceof CompanyCustomerEntity) {
+            for ($i = 0; $i < $adoptionModel->getQuantity(); $i++) {
+                $giftCode = new GiftCodeEntity(
+                    giftCode: GiftCodeService::createGiftCode(bin2hex(random_bytes(20))),
+                    giftAdoption: $newGiftAdoptionEntity,
+                    productQuantity: 1
+                );
+                DoctrineService::getEntityManager()->persist($giftCode);
+
+                // en mode entreprise on ne renseigne pas les friend au moment de créer la gift adoption
+            }
+        } else {
+            // il n'y a qu'un ami pour les particuliers
+            $friend = $adoptionModel->getFriends()[0];
+
             $giftCode = new GiftCodeEntity(
                 giftCode: GiftCodeService::createGiftCode(bin2hex(random_bytes(20))),
-                uniqueUsage: false,
-                giftAdoption: $newGiftAdoptionEntity
-            );
-
-            $giftCodes[] = $giftCode;
-
-            DoctrineService::getEntityManager()->persist($giftCode);
-        }
-
-        foreach ($adoptionModel->getFriends() as $index => $friendToSentTo) {
-            $friendEntity = new Friend(
-                friendFirstname: $friendToSentTo->getFriendFirstname(),
-                friendLastname: $friendToSentTo->getFriendLastname(),
-                friendEmail: $friendToSentTo->getFriendEmail(),
                 giftAdoption: $newGiftAdoptionEntity,
-                giftCode: $giftCodes[$index]->getGiftCode()
+                productQuantity: $adoptionModel->getQuantity()
+            );
+            DoctrineService::getEntityManager()->persist($giftCode);
+            $friendEntity = new Friend(
+                friendFirstname: $friend->getFriendFirstname(),
+                friendLastname: $friend->getFriendLastname(),
+                friendEmail: $friend->getFriendEmail(),
+                giftCode: $giftCode
             );
 
             DoctrineService::getEntityManager()->persist($friendEntity);
