@@ -6,7 +6,7 @@ use D4rk0snet\GiftCode\Entity\GiftCodeEntity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass="\D4rk0snet\Adoption\Repository\FriendRepository")
+ * @ORM\Entity
  * @ORM\Table(name="adoption_friend")
  */
 class Friend
