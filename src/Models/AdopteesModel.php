@@ -14,6 +14,8 @@ class AdopteesModel
      */
     private array $names;
 
+    private ?string $giftCode = null;
+
     /**
      * @return string
      */
@@ -48,5 +50,21 @@ class AdopteesModel
     {
         $this->names = $names;
         return $this;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getGiftCode(): ?string
+    {
+        return $this->giftCode;
+    }
+
+    /**
+     * @param string|null $giftCode
+     */
+    public function setGiftCode(?string $giftCode): void
+    {
+        $this->giftCode = $giftCode;
     }
 }

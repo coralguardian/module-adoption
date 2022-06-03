@@ -2,68 +2,54 @@
 
 namespace D4rk0snet\Adoption\Entity;
 
-use D4rk0snet\GiftCode\Service\GiftCodeService;
-use DateTime;
+use D4rk0snet\GiftCode\Entity\GiftCodeEntity;
 use Doctrine\ORM\Mapping as ORM;
-use Doctrine\ORM\Mapping\Column;
-use Doctrine\ORM\Mapping\CustomIdGenerator;
-use Doctrine\ORM\Mapping\Entity;
-use Doctrine\ORM\Mapping\GeneratedValue;
-use Doctrine\ORM\Mapping\Id;
 
 /**
- * @Entity(repositoryClass="\D4rk0snet\Adoption\Repository\FriendRepository")
+ * @ORM\Entity(repositoryClass="\D4rk0snet\Adoption\Repository\FriendRepository")
  * @ORM\Table(name="adoption_friend")
  */
 class Friend
 {
     /**
-     * @Id
-     * @Column(type="uuid_binary_ordered_time", unique=true)
-     * @GeneratedValue(strategy="CUSTOM")
-     * @CustomIdGenerator(class="Ramsey\Uuid\Doctrine\UuidOrderedTimeGenerator")
+     * @ORM\Id
+     * @ORM\Column(type="uuid_binary_ordered_time", unique=true)
+     * @ORM\GeneratedValue(strategy="CUSTOM")
+     * @ORM\CustomIdGenerator(class="Ramsey\Uuid\Doctrine\UuidOrderedTimeGenerator")
      */
     private $uuid;
 
     /**
-     * @ORM\Column(type="string")
+     * @ORM\Column(type="string", name="firstName")
      */
     private string $friendFirstname;
 
     /**
-     * @ORM\Column(type="string")
+     * @ORM\Column(type="string", name="lastName")
      */
     private string $friendLastname;
 
     /**
-     * @ORM\Column(type="string")
+     * @ORM\Column(type="string", name="email")
      */
     private string $friendEmail;
 
     /**
-     * @ORM\ManyToOne(targetEntity="\D4rk0snet\Adoption\Entity\GiftAdoption", inversedBy="friends")
-     * @ORM\JoinColumn(referencedColumnName="uuid")
+     * @ORM\OneToOne (targetEntity="\D4rk0snet\GiftCode\Entity\GiftCodeEntity", inversedBy="friend")
+     * @ORM\JoinColumn(name="giftCode", referencedColumnName="uuid")
      */
-    private GiftAdoption $giftAdoption;
-
-    /**
-     * @ORM\Column(type="string")
-     */
-    private string $giftCode;
-
+    private GiftCodeEntity $giftCode;
 
     public function __construct(string       $friendFirstname,
                                 string       $friendLastname,
                                 string       $friendEmail,
-                                GiftAdoption $giftAdoption,
-                                ?string      $giftCode
+                                GiftCodeEntity $giftCode
     )
     {
         $this->friendFirstname = $friendFirstname;
         $this->friendLastname = $friendLastname;
         $this->friendEmail = $friendEmail;
-        $this->setGiftAdoption($giftAdoption);
-        $this->giftCode = $giftCode;
+        $this->setGiftCode($giftCode);
     }
 
     public function getUuid()
@@ -104,26 +90,14 @@ class Friend
         return $this;
     }
 
-    public function setGiftAdoption(GiftAdoption $giftAdoption): Friend
-    {
-        $this->giftAdoption = $giftAdoption;
-        $giftAdoption->addFriend($this);
-        return $this;
-    }
-
-    public function getGiftAdoption(): GiftAdoption
-    {
-        return $this->giftAdoption;
-    }
-
-    public function getGiftCode(): string
-    {
-        return $this->giftCode;
-    }
-
-    public function setGiftCode(string $giftCode): Friend
+    public function setGiftCode(GiftCodeEntity $giftCode): Friend
     {
         $this->giftCode = $giftCode;
         return $this;
+    }
+
+    public function getGiftCode(): GiftCodeEntity
+    {
+        return $this->giftCode;
     }
 }
