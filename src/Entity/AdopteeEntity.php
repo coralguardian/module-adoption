@@ -12,7 +12,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * This entity records adoptees name
  *
- * @Entity
+ * @ORM\Entity
  * @ORM\Table(name="adoptee")
  */
 class AdopteeEntity
