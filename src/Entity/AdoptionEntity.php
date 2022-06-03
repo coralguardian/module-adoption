@@ -3,7 +3,6 @@
 namespace D4rk0snet\Adoption\Entity;
 
 use D4rk0snet\Adoption\Enums\AdoptedProduct;
-use D4rk0snet\Certificate\Enums\CertificateState;
 use D4rk0snet\Coralguardian\Entity\CustomerEntity;
 use D4rk0snet\Coralguardian\Enums\Language;
 use D4rk0snet\Donation\Entity\DonationEntity;
@@ -15,7 +14,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass="\D4rk0snet\Adoption\Repository\AdoptionRepository")
+ * @ORM\Entity
  * @ORM\Table(name="adoption")
  */
 class AdoptionEntity extends DonationEntity
@@ -34,12 +33,6 @@ class AdoptionEntity extends DonationEntity
      * @ORM\OneToMany(mappedBy="adoption", targetEntity="\D4rk0snet\Adoption\Entity\AdopteeEntity")
      */
     private Collection $adoptees;
-
-    /**
-     * @ORM\Column(type="string", enumType="\D4rk0snet\Certificate\Enums\CertificateState", options={"default": \D4rk0snet\Certificate\Enums\CertificateState::TO_GENERATE}))
-     */
-    private CertificateState $state;
-
 
     public function __construct(
         CustomerEntity $customer,
@@ -62,7 +55,6 @@ class AdoptionEntity extends DonationEntity
         $this->adoptedProduct = $adoptedProduct;
         $this->quantity = $quantity;
         $this->adoptees = new ArrayCollection();
-        $this->state = CertificateState::TO_GENERATE;
     }
 
     public function getAdoptedProduct(): AdoptedProduct
@@ -90,23 +82,5 @@ class AdoptionEntity extends DonationEntity
     public function getAdoptees(): ArrayCollection|Collection
     {
         return $this->adoptees;
-    }
-
-    /**
-     * @return CertificateState
-     */
-    public function getState(): CertificateState
-    {
-        return $this->state;
-    }
-
-    /**
-     * @param CertificateState $state
-     * @return AdoptionEntity
-     */
-    public function setState(CertificateState $state): AdoptionEntity
-    {
-        $this->state = $state;
-        return $this;
     }
 }

@@ -3,14 +3,11 @@
 namespace D4rk0snet\Adoption\Entity;
 
 use D4rk0snet\Adoption\Enums\Seeder;
+use D4rk0snet\Certificate\Enums\CertificateState;
 use D4rk0snet\GiftCode\Entity\GiftCodeEntity;
 use DateTime;
+
 use Doctrine\ORM\Mapping as ORM;
-use Doctrine\ORM\Mapping\Column;
-use Doctrine\ORM\Mapping\CustomIdGenerator;
-use Doctrine\ORM\Mapping\Entity;
-use Doctrine\ORM\Mapping\GeneratedValue;
-use Doctrine\ORM\Mapping\Id;
 
 /**
  * This entity records adoptees name
@@ -21,10 +18,10 @@ use Doctrine\ORM\Mapping\Id;
 class AdopteeEntity
 {
     /**
-     * @Id
-     * @Column(type="uuid_binary_ordered_time", unique=true)
-     * @GeneratedValue(strategy="CUSTOM")
-     * @CustomIdGenerator(class="Ramsey\Uuid\Doctrine\UuidOrderedTimeGenerator")
+     * @ORM\Id
+     * @ORM\Column(type="uuid_binary_ordered_time", unique=true)
+     * @ORM\GeneratedValue(strategy="CUSTOM")
+     * @ORM\CustomIdGenerator(class="Ramsey\Uuid\Doctrine\UuidOrderedTimeGenerator")
      */
     private $uuid;
 
@@ -58,6 +55,11 @@ class AdopteeEntity
      */
     private DateTime $adopteeDatetime;
 
+    /**
+     * @ORM\Column(type="string", enumType="\D4rk0snet\Certificate\Enums\CertificateState", options={"default": \D4rk0snet\Certificate\Enums\CertificateState::TO_GENERATE}))
+     */
+    private CertificateState $state;
+
     public function __construct(
         string $name,
         Seeder $seeder,
@@ -70,6 +72,7 @@ class AdopteeEntity
         $this->adoption = $adoption;
         $this->adopteeDatetime = $adopteeDatetime;
         $this->picture = $picture;
+        $this->state = CertificateState::TO_GENERATE;
     }
 
     /**
@@ -121,5 +124,24 @@ class AdopteeEntity
     public function getGiftCode(): ?GiftCodeEntity
     {
         return $this->giftCode;
+    }
+
+
+    /**
+     * @return CertificateState
+     */
+    public function getState(): CertificateState
+    {
+        return $this->state;
+    }
+
+    /**
+     * @param CertificateState $state
+     * @return AdopteeEntity
+     */
+    public function setState(CertificateState $state): AdopteeEntity
+    {
+        $this->state = $state;
+        return $this;
     }
 }
