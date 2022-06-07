@@ -43,7 +43,6 @@ class GiftAdoptionEndpoint extends APIEnpointAbstract
 
         if ($giftAdoption->getPaymentMethod() === PaymentMethod::BANK_TRANSFER) {
             BankTransferPayment::sendEvent($giftAdoption);
-            DoctrineService::getEntityManager()->commit();
 
             return APIManagement::APIOk(["uuid" => $uuid]);
         }
