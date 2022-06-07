@@ -85,7 +85,7 @@ class AdoptionService
         if ($customer instanceof CompanyCustomerEntity) {
             for ($i = 0; $i < $adoptionModel->getQuantity(); $i++) {
                 $giftCode = new GiftCodeEntity(
-                    giftCode: GiftCodeService::createGiftCode(bin2hex(random_bytes(20))),
+                    giftCode: GiftCodeService::createGiftCode(bin2hex(random_bytes(20)), $newGiftAdoptionEntity),
                     giftAdoption: $newGiftAdoptionEntity,
                     productQuantity: 1
                 );
@@ -98,7 +98,7 @@ class AdoptionService
             $friend = $adoptionModel->getFriends()[0];
 
             $giftCode = new GiftCodeEntity(
-                giftCode: GiftCodeService::createGiftCode(bin2hex(random_bytes(20))),
+                giftCode: GiftCodeService::createGiftCode(bin2hex(random_bytes(20)), $newGiftAdoptionEntity),
                 giftAdoption: $newGiftAdoptionEntity,
                 productQuantity: $adoptionModel->getQuantity()
             );
