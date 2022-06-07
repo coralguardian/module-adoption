@@ -8,6 +8,7 @@ use D4rk0snet\Adoption\Service\RedirectionService;
 use D4rk0snet\Coralguardian\Entity\CompanyCustomerEntity;
 use D4rk0snet\Coralguardian\Entity\CustomerEntity;
 use D4rk0snet\Coralguardian\Event\AdoptionOrder;
+use D4rk0snet\Coralguardian\Event\GiftCodeSent;
 use D4rk0snet\Coralguardian\Event\GiftOrder;
 use D4rk0snet\Coralguardian\Model\IndividualCustomerModel;
 use D4rk0snet\FiscalReceipt\Service\FiscalReceiptService;
@@ -34,5 +35,9 @@ class GiftAdoptionPaymentSuccessAction
         DoctrineService::getEntityManager()->flush();
 
         GiftOrder::sendEvent($entity);
+
+        if (!$entity->getCustomer() instanceof CompanyCustomerEntity) {
+            GiftCodeSent::sendEvent($entity->getGiftCodes()->first());
+        }
     }
 }

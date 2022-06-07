@@ -65,10 +65,6 @@ class GiftAdoptionEndpoint extends APIEnpointAbstract
             $data["giftCode"] = $giftAdoption->getGiftCodes()->first()->getGiftCode();
         }
 
-        if (!$giftAdoption->getCustomer() instanceof CompanyCustomerEntity) {
-            GiftCodeSent::sendEvent($giftAdoption->getGiftCodes()->first());
-        }
-
         return APIManagement::APIOk($data);
     }
 
