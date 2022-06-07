@@ -70,7 +70,7 @@ class AddFriendToGiftAdoption extends APIEnpointAbstract
                     friendEmail: $friend->getFriendEmail(),
                     giftCode: $giftCode
                 );
-                $friendEntities[] = $friendEntity;
+                $giftCode->setFriend($friendEntity);
 
                 DoctrineService::getEntityManager()->persist($friendEntity);
             }
