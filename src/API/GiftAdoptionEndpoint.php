@@ -4,7 +4,9 @@ namespace D4rk0snet\Adoption\API;
 
 use D4rk0snet\Adoption\Models\GiftAdoptionModel;
 use D4rk0snet\Adoption\Service\AdoptionService;
+use D4rk0snet\Coralguardian\Entity\CompanyCustomerEntity;
 use D4rk0snet\Coralguardian\Event\BankTransferPayment;
+use D4rk0snet\Coralguardian\Event\GiftCodeSent;
 use D4rk0snet\Donation\Enums\PaymentMethod;
 use Hyperion\Doctrine\Service\DoctrineService;
 use Hyperion\RestAPI\APIEnpointAbstract;
@@ -39,7 +41,7 @@ class GiftAdoptionEndpoint extends APIEnpointAbstract
         $giftAdoption = AdoptionService::createGiftAdoption($giftAdoptionModel);
         $uuid = $giftAdoption->getUuid();
 
-        if($giftAdoption->getPaymentMethod() === PaymentMethod::BANK_TRANSFER) {
+        if ($giftAdoption->getPaymentMethod() === PaymentMethod::BANK_TRANSFER) {
             BankTransferPayment::sendEvent($giftAdoption);
             DoctrineService::getEntityManager()->commit();
 
@@ -61,6 +63,10 @@ class GiftAdoptionEndpoint extends APIEnpointAbstract
 
         if ($giftAdoption->getGiftCodes()->count() === 1) {
             $data["giftCode"] = $giftAdoption->getGiftCodes()->first()->getGiftCode();
+        }
+
+        if (!$giftAdoption->getCustomer() instanceof CompanyCustomerEntity) {
+            GiftCodeSent::sendEvent($giftAdoption->getGiftCodes()->first());
         }
 
         return APIManagement::APIOk($data);

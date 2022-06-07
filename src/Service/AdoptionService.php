@@ -110,6 +110,8 @@ class AdoptionService
                 giftCode: $giftCode
             );
 
+            $giftCode->setFriend($friendEntity);
+
             DoctrineService::getEntityManager()->persist($friendEntity);
         }
 
