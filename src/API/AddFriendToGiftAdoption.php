@@ -77,7 +77,7 @@ class AddFriendToGiftAdoption extends APIEnpointAbstract
 
             DoctrineService::getEntityManager()->flush();
 
-            $adoptionEntity = AdoptionService::updateGiftAdoptionWithMessage($adoptionEntity, $giftAdoptionModel);
+//            $adoptionEntity = AdoptionService::updateGiftAdoptionWithMessage($adoptionEntity, $giftAdoptionModel);
 
             if($adoptionEntity->getSendOn() === null) {
                 foreach($adoptionEntity->getGiftCodes() as $giftCode) {

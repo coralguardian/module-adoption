@@ -3,6 +3,7 @@
 namespace D4rk0snet\Adoption;
 
 use D4rk0snet\Adoption\API\AddFriendToGiftAdoption;
+use D4rk0snet\Adoption\API\AddMessageToGiftAdoption;
 use D4rk0snet\Adoption\API\AdoptionEndpoint;
 use D4rk0snet\Adoption\API\GetAdoptionForRedirection;
 use D4rk0snet\Adoption\API\GiftAdoptionEndpoint;
@@ -17,5 +18,7 @@ class Plugin
         do_action(\Hyperion\RestAPI\Plugin::ADD_API_ENDPOINT_ACTION, new GiftAdoptionEndpoint());
         do_action(\Hyperion\RestAPI\Plugin::ADD_API_ENDPOINT_ACTION, new AddFriendToGiftAdoption());
         do_action(\Hyperion\RestAPI\Plugin::ADD_API_ENDPOINT_ACTION, new GetAdoptionForRedirection());
+        do_action(\Hyperion\RestAPI\Plugin::ADD_API_ENDPOINT_ACTION, new AddMessageToGiftAdoption());
+
     }
 }
