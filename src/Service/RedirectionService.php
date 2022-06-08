@@ -8,13 +8,19 @@ use WP_Query;
 
 class RedirectionService
 {
-    public static function buildRedirectionUrl(AdoptionEntity $adoptionEntity)
+    public static function buildRedirectionUrl(AdoptionEntity $adoptionEntity): string
     {
         $baseUrl = home_url("adoption-entreprise");
         $baseUrl .=  "?adoptionUuid=" . $adoptionEntity->getUuid() .
             "&step=" . RedirectionStep::getEnumBasedOnClass($adoptionEntity::class)->value;
-        $urlParts = parse_url($baseUrl);
 
+        return $baseUrl;
+    }
+
+    public static function buildRedirectionUrlWithoutHost(AdoptionEntity $adoptionEntity): string
+    {
+        $baseUrl = self::buildRedirectionUrl($adoptionEntity);
+        $urlParts = parse_url($baseUrl);
         return $urlParts["host"].$urlParts["path"]."?".$urlParts["query"];
     }
 
