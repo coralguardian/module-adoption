@@ -60,16 +60,7 @@ class AdopteeService
         $friend = DoctrineService::getEntityManager()->getRepository(Friend::class)->findOneBy(["giftCode" => $giftCodeEntity->getUuid()]);
 
         if (null !== $friend) {
-            // @todo: prévoir un email pour envoyer le certif à l'ami
-            // Send email event
-//            NamingDone::send(
-//                email: $adoptionEntity->getCustomer()->getEmail(),
-//                lang: $adoptionEntity->getLang(),
-//                adoptionType: $adoptionEntity->getAdoptedProduct(),
-//                quantity: $adoptionEntity->getQuantity(),
-//                fiscalReceiptUrl: FiscalReceiptService::getURl($model->getAdoptionUuid()),
-//                certificateUrl: CertificateService::getSanitizedURL($model->getAdoptionUuid())
-//            );
+            NamingDone::sendEvent($giftCodeEntity);
         }
     }
 
