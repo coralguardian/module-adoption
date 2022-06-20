@@ -31,4 +31,17 @@ enum Seeder : string
             Seeder::VALENTINA => 'valentina.jpg',
         };
     }
+
+    public function getName() : string
+    {
+        return match($this) {
+            Seeder::DULAH => 'Dulah',
+            Seeder::JONAS => 'Jonas',
+            Seeder::MURDHI => 'Murdhi',
+            Seeder::MUSLIM => 'Muslim',
+            Seeder::SAHRIL => 'Sahril',
+            Seeder::SUHAR => 'Suhar',
+            Seeder::VALENTINA => 'Valentina',
+        };
+    }
 }
