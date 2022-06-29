@@ -40,10 +40,11 @@ class Friend
      */
     private GiftCodeEntity $giftCode;
 
-    public function __construct(string       $friendFirstname,
-                                string       $friendLastname,
-                                string       $friendEmail,
-                                GiftCodeEntity $giftCode
+    public function __construct(
+        string       $friendFirstname,
+        string       $friendLastname,
+        string       $friendEmail,
+        GiftCodeEntity $giftCode
     )
     {
         $this->friendFirstname = $friendFirstname;
