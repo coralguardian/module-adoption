@@ -11,6 +11,7 @@ enum Seeder : string
     case SAHRIL = 'sahril';
     case SUHAR = 'suhar';
     case VALENTINA = 'valentina';
+    case TEAM = 'team';
 
     public static function randomizeSeeder() : array
     {

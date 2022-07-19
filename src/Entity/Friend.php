@@ -13,9 +13,9 @@ class Friend
 {
     /**
      * @ORM\Id
-     * @ORM\Column(type="uuid_binary_ordered_time", unique=true)
+     * @ORM\Column(type="uuid", unique=true)
      * @ORM\GeneratedValue(strategy="CUSTOM")
-     * @ORM\CustomIdGenerator(class="Ramsey\Uuid\Doctrine\UuidOrderedTimeGenerator")
+     * @ORM\CustomIdGenerator(class="Ramsey\Uuid\Doctrine\UuidGenerator")
      */
     private $uuid;
 
@@ -40,10 +40,11 @@ class Friend
      */
     private GiftCodeEntity $giftCode;
 
-    public function __construct(string       $friendFirstname,
-                                string       $friendLastname,
-                                string       $friendEmail,
-                                GiftCodeEntity $giftCode
+    public function __construct(
+        string       $friendFirstname,
+        string       $friendLastname,
+        string       $friendEmail,
+        GiftCodeEntity $giftCode
     )
     {
         $this->friendFirstname = $friendFirstname;
