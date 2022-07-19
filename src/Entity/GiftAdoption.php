@@ -34,7 +34,7 @@ class GiftAdoption extends AdoptionEntity
     private ?DateTime $sendOn;
 
     /**
-     * @ORM\Column(type="string", nullable=true)
+     * @ORM\Column(type="MEDIUMTEXT", nullable=true)
      */
     private ?string $message = null;
 
