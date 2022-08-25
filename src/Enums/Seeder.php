@@ -11,7 +11,8 @@ enum Seeder : string
     case SAHRIL = 'sahril';
     case SUHAR = 'suhar';
     case VALENTINA = 'valentina';
-    case TEAM = 'team';
+    // case TEAM = 'team'; @todo: a été utilisé pour MigrationScript, devrait potentiellement être utilisé pour nommer les transplanteurs des récifs
+    // @todo: en l'état au 25/08/22 cela provoque une erreur lorsque l'on souhaite attribué un transplanteur à un corail cause du Enum::cases cf AdopteeService
 
     public static function randomizeSeeder() : array
     {
