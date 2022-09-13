@@ -8,6 +8,7 @@ enum AdoptedProduct: string
     case BUTTERFLY_REEF = 'reef.butterfly';
     case REEF_LADY = 'reef.lady';
     case REEF_NAPOLEON = 'reef.napoleon';
+    case MEDITERRANEAN_CORAL = 'mediterranean_coral';
 
     public static function getAllAdoptedProduct() : array
     {
@@ -15,43 +16,14 @@ enum AdoptedProduct: string
             'Corail' => self::CORAL->value,
             'Récif papillon' => self::BUTTERFLY_REEF->value,
             'Récif mademoiselle' => self::REEF_LADY->value,
-            'Récif napoléon' =>  self::REEF_NAPOLEON->value
+            'Récif napoléon' =>  self::REEF_NAPOLEON->value,
+            'Corail méditerranéen' =>  self::MEDITERRANEAN_CORAL->value,
         ];
     }
 
-    public function getStripeProductId(): string
+    public static function getRandomizedProductImages(self $self)
     {
-        return match ($this) {
-            AdoptedProduct::CORAL => getenv('STRIPE_MODE') === 'test' ? 'prod_LSVYXFnIStsEzY' : 'prod_LS3ht8WpyrWaCA',
-            AdoptedProduct::BUTTERFLY_REEF => getenv('STRIPE_MODE') === 'test' ? 'prod_LVqtryr8rkKhZ8' : 'prod_LS3xkDunBD8suJ',
-            AdoptedProduct::REEF_LADY => getenv('STRIPE_MODE') === 'test' ? 'prod_LVqvzKfXJGMlrO' : 'prod_LS3vPfmveu1RCt',
-            AdoptedProduct::REEF_NAPOLEON => getenv('STRIPE_MODE') === 'test' ? 'prod_LVqwt7dTeM8Vwl' : 'prod_LS3ypcdG7tdxBp'
-        };
-    }
-
-    public function getProductPrice(): int
-    {
-        return match ($this) {
-            AdoptedProduct::CORAL => 30,
-            AdoptedProduct::BUTTERFLY_REEF => 2250,
-            AdoptedProduct::REEF_LADY => 900,
-            AdoptedProduct::REEF_NAPOLEON => 4500
-        };
-    }
-
-    public function getProductPriceId(): string
-    {
-        return match ($this) {
-            AdoptedProduct::CORAL => getenv('STRIPE_MODE') === 'test' ? 'price_1KlaXDLwnTG7uFWwbEvnynJG' : 'price_1Kl9ZpLwnTG7uFWwtEBLFM5q',
-            AdoptedProduct::BUTTERFLY_REEF => getenv('STRIPE_MODE') === 'test' ? 'price_1KopCBLwnTG7uFWwDaMTjQZv' : 'price_1Kl9pkLwnTG7uFWwi2NNcBng',
-            AdoptedProduct::REEF_LADY => getenv('STRIPE_MODE') === 'test' ? 'price_1KopDSLwnTG7uFWwgf5Gpov4' : 'price_1Kl9niLwnTG7uFWwG3UZnUg0',
-            AdoptedProduct::REEF_NAPOLEON => getenv('STRIPE_MODE') === 'test' ? 'price_1KopEyLwnTG7uFWwvXgb4N5u' : 'price_1Kl9qELwnTG7uFWwJdi6Mdts'
-        };
-    }
-
-    public static function getRandomizedProductImages(AdoptedProduct $adoptedProduct)
-    {
-        $pictures = $adoptedProduct->getProductImages();
+        $pictures = $self->getProductImages();
         shuffle($pictures);
 
         return $pictures;
@@ -60,7 +32,7 @@ enum AdoptedProduct: string
     public function getProductImages(): array
     {
         return match ($this) {
-            AdoptedProduct::CORAL => [
+            self::CORAL => [
                 "P9121940.jpg",
                 "P9121941.jpg",
                 "P9121942.jpg",
@@ -96,9 +68,9 @@ enum AdoptedProduct: string
                 "P9121974.jpg",
                 "P9121975.jpg",
             ],
-            AdoptedProduct::BUTTERFLY_REEF,
-            AdoptedProduct::REEF_LADY,
-            AdoptedProduct::REEF_NAPOLEON => [
+            self::BUTTERFLY_REEF,
+            self::REEF_LADY,
+            self::REEF_NAPOLEON => [
                 "1.jpg",
                 "2.jpg",
                 "3.JPG",
