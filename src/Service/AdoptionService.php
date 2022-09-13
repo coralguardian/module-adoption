@@ -15,9 +15,12 @@ use D4rk0snet\GiftCode\Service\GiftCodeService;
 use DateTime;
 use Doctrine\DBAL\Types\ConversionException;
 use Hyperion\Doctrine\Service\DoctrineService;
+use Hyperion\Stripe\Model\ProductSearchModel;
 use Hyperion\Stripe\Service\BillingService;
 use Hyperion\Stripe\Service\CustomerService;
+use Hyperion\Stripe\Service\SearchService;
 use Stripe\PaymentIntent;
+use Stripe\Product;
 
 class AdoptionService
 {
@@ -141,9 +144,16 @@ class AdoptionService
             )->id;
         }
 
+        $searchProductModel = (new ProductSearchModel())->addMetadata(['key' => $adoptionModel->getAdoptedProduct()->value]);
+        /** @var Product $stripeProduct */
+        $stripeProduct = SearchService::searchProduct($searchProductModel)->first();
+        if($stripeProduct === null) {
+            throw new \Exception("Impossible de trouver le produit de don avec la clef ".$adoptionModel->getAdoptedProduct()->value);
+        }
+
         BillingService::createLineItem(
             customerId: $customerId,
-            priceId: $adoptionModel->getAdoptedProduct()->getProductPriceId(),
+            priceId: $stripeProduct->default_price->id,
             quantity: $adoptionModel->getQuantity()
         );
 
