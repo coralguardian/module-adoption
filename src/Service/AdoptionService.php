@@ -82,6 +82,7 @@ class AdoptionService
 
         DoctrineService::getEntityManager()->persist($newGiftAdoptionEntity);
 
+        //@todo: la condition n'est plus exacte car avec le formulaire complet entreprise/particulier on ne demande plus les info de l'ami avant le paiement
         if ($customer instanceof CompanyCustomerEntity) {
             for ($i = 0; $i < $adoptionModel->getQuantity(); $i++) {
                 $giftCode = new GiftCodeEntity(
