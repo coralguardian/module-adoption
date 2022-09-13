@@ -27,16 +27,18 @@ class GetProjectProducts extends APIEnpointAbstract
 
         /** @var Product $product */
         foreach($stripeProducts->toArray() as $product) {
+            $price = SearchService::getPrice($product->default_price);
+
             $productModels[] = (new ProjectProducts())
                 ->setKey($product->metadata['key'])
-                ->setPrice($product->default_price->unit_amount);
+                ->setPrice($price->unit_amount / 100);
         }
 
         if(count($stripeProducts) === 0) {
             return APIManagement::APINotFound("");
         }
 
-        return APIManagement::APIOk(json_encode($productModels, JSON_THROW_ON_ERROR));
+        return APIManagement::APIOk($productModels);
     }
 
     public static function getMethods(): array
