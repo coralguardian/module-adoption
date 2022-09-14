@@ -26,7 +26,7 @@ class GetProjectProducts extends APIEnpointAbstract
         $productModels = [];
 
         /** @var Product $product */
-        foreach($stripeProducts->toArray() as $product) {
+        foreach($stripeProducts->data as $product) {
             $price = SearchService::getPrice($product->default_price);
 
             $productModels[] = (new ProjectProducts())
