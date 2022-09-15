@@ -31,7 +31,8 @@ class GetProjectProducts extends APIEnpointAbstract
 
             $productModels[] = (new ProjectProducts())
                 ->setKey($product->metadata['key'])
-                ->setPrice($price->unit_amount / 100);
+                ->setPrice($price->unit_amount / 100)
+                ->setVariant($product->metadata['variant']);
         }
 
         if(count($stripeProducts) === 0) {
