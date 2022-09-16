@@ -6,7 +6,7 @@ use D4rk0snet\Adoption\Models\ProjectProducts;
 use Hyperion\RestAPI\APIEnpointAbstract;
 use Hyperion\RestAPI\APIManagement;
 use Hyperion\Stripe\Model\ProductSearchModel;
-use Hyperion\Stripe\Service\SearchService;
+use Hyperion\Stripe\Service\StripeService;
 use Stripe\Product;
 use WP_REST_Request;
 use WP_REST_Response;
@@ -21,16 +21,21 @@ class GetProjectProducts extends APIEnpointAbstract
         }
 
         // Récupération des produits depuis stripe
-        $searchProductModel = (new ProductSearchModel())->addMetadata(['project' => $project]);
-        $stripeProducts = SearchService::searchProduct($searchProductModel);
+        $searchProductModel = new ProductSearchModel(
+            active: true,
+            metadata: ['project' => $project]
+        );
+
+        $stripeProducts = StripeService::getStripeClient()->products->search((string) $searchProductModel);
         $productModels = [];
 
         /** @var Product $product */
         foreach($stripeProducts->data as $product) {
-            $price = SearchService::getPrice($product->default_price);
+            $price = StripeService::getStripeClient()->prices->retrieve($product->default_price);
 
             $productModels[] = (new ProjectProducts())
                 ->setKey($product->metadata['key'])
+                ->setProject($product->metadata['project'])
                 ->setPrice($price->unit_amount / 100);
         }
 

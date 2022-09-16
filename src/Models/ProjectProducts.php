@@ -5,6 +5,7 @@ namespace D4rk0snet\Adoption\Models;
 class ProjectProducts implements \JsonSerializable
 {
     private string $key;
+    private string $project;
     private int $price;
 
     public function getKey(): string
@@ -29,10 +30,22 @@ class ProjectProducts implements \JsonSerializable
         return $this;
     }
 
+    public function getProject(): string
+    {
+        return $this->project;
+    }
+
+    public function setProject(string $project): ProjectProducts
+    {
+        $this->project = $project;
+        return $this;
+    }
+
     public function jsonSerialize()
     {
         return [
             "key" => $this->getKey(),
+            "project" => $this->getProject(),
             "price" => $this->getPrice()
         ];
     }
