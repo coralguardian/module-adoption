@@ -30,18 +30,23 @@ class GetProjectProducts extends APIEnpointAbstract
         $productModels = [];
 
         /** @var Product $product */
-        foreach($stripeProducts->data as $product) {
+        foreach ($stripeProducts->data as $product) {
             $price = StripeService::getStripeClient()->prices->retrieve($product->default_price);
 
             $productModels[] = (new ProjectProducts())
                 ->setKey($product->metadata['key'])
                 ->setProject($product->metadata['project'])
-                ->setPrice($price->unit_amount / 100);
+                ->setPrice($price->unit_amount / 100)
+                ->setVariant($product->metadata['variant']);
         }
 
-        if(count($stripeProducts) === 0) {
+        if (count($stripeProducts) === 0) {
             return APIManagement::APINotFound("");
         }
+
+        usort($productModels, function (ProjectProducts $a, ProjectProducts $b) {
+            return $a->getPrice() - $b->getPrice();
+        });
 
         return APIManagement::APIOk($productModels);
     }

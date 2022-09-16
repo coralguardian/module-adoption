@@ -7,6 +7,7 @@ class ProjectProducts implements \JsonSerializable
     private string $key;
     private string $project;
     private int $price;
+    private ?string $variant;
 
     public function getKey(): string
     {
@@ -41,12 +42,24 @@ class ProjectProducts implements \JsonSerializable
         return $this;
     }
 
+    public function getVariant(): ?string
+    {
+        return $this->variant;
+    }
+
+    public function setVariant(?string $variant): ProjectProducts
+    {
+        $this->variant = $variant;
+        return $this;
+    }
+
     public function jsonSerialize()
     {
         return [
             "key" => $this->getKey(),
-            "project" => $this->getProject(),
-            "price" => $this->getPrice()
+            "price" => $this->getPrice(),
+            "variant" => $this->getVariant(),
+            "project" => $this->getProject()
         ];
     }
 }
