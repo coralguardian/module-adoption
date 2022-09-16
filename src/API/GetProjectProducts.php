@@ -38,7 +38,7 @@ class GetProjectProducts extends APIEnpointAbstract
         if(count($stripeProducts) === 0) {
             return APIManagement::APINotFound("");
         }
-
+        usort($productModels, function(ProjectProducts $a, ProjectProducts $b) {return $a->getPrice() - $b->getPrice();});
         return APIManagement::APIOk($productModels);
     }
 
