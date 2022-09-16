@@ -26,7 +26,7 @@ class GetProjectProducts extends APIEnpointAbstract
             metadata: ['project' => $project]
         );
 
-        $stripeProducts = StripeService::getStripeClient()->products->search((string) $searchProductModel);
+        $stripeProducts = StripeService::getStripeClient()->products->search(['query' => (string) $searchProductModel]);
         $productModels = [];
 
         /** @var Product $product */
