@@ -14,7 +14,7 @@ use WP_REST_Response;
 
 class AddMessageToGiftAdoption extends APIEnpointAbstract
 {
-    public const GIFT_ADOPTION_UUID_PARAM = "adoption_uuid";
+    public const GIFT_ADOPTION_UUID_PARAM = "stripePaymentIntentId";
 
     public static function callback(WP_REST_Request $request): WP_REST_Response
     {
@@ -23,13 +23,15 @@ class AddMessageToGiftAdoption extends APIEnpointAbstract
             return APIManagement::APIError("Invalid body content", 400);
         }
 
-        $adoptionUuid = $request->get_param(self::GIFT_ADOPTION_UUID_PARAM);
-        if ($adoptionUuid === null) {
-            return APIManagement::APIError('Missing adoption uuid GET parameter', 400);
+        $stripePaymentIntentId = $request->get_param(self::GIFT_ADOPTION_UUID_PARAM);
+        if ($stripePaymentIntentId === null) {
+            return APIManagement::APIError('Missing stripePaymentIntentId GET parameter', 400);
         }
 
         /** @var GiftAdoption $adoptionEntity */
-        $adoptionEntity = DoctrineService::getEntityManager()->getRepository(GiftAdoption::class)->find($adoptionUuid);
+        $adoptionEntity = DoctrineService::getEntityManager()
+            ->getRepository(GiftAdoption::class)
+            ->findOneBy(['stripePaymentIntentId' => $stripePaymentIntentId]);
         if($adoptionEntity === null) {
             return APIManagement::APINotFound();
         }
