@@ -20,7 +20,7 @@ class CreateGiftAdoption
         do_action(CoralCustomerActions::NEW_CUSTOMER->value, $giftAdoptionModel->getCustomerModel());
 
         // Récupération du customer
-        $customerEntity = apply_filter(
+        $customerEntity = apply_filters(
             CoralCustomerFilters::GET_CUSTOMER->value,
             $customerEntity,
             $giftAdoptionModel->getCustomerModel()->getEmail(),
