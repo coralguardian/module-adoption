@@ -1,6 +1,6 @@
 <?php
 
-namespace D4rk0snet\Adoption\Listener\Action;
+namespace D4rk0snet\Adoption\Listener;
 
 use D4rk0snet\Adoption\Enums\AdoptedProduct;
 use D4rk0snet\Adoption\Enums\CoralAdoptionActions;

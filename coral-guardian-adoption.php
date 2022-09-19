@@ -15,7 +15,7 @@ use D4rk0snet\Adoption\Action\CreateGiftAdoption;
 use D4rk0snet\Adoption\Enums\CoralAdoptionActions;
 use D4rk0snet\Adoption\Enums\CoralAdoptionFilters;
 use D4rk0snet\Adoption\Filter\GetGiftAdoptionFilter;
-use D4rk0snet\Adoption\Listener\Action\NewOrderListener;
+use D4rk0snet\Adoption\Listener\NewOrderListener;
 use D4rk0snet\CoralOrder\Enums\CoralOrderEvents;
 use Hyperion\Doctrine\Plugin;
 
