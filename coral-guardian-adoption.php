@@ -23,10 +23,10 @@ use Hyperion\Stripe\Enum\StripeEventEnum;
 
 add_action('plugins_loaded', [\D4rk0snet\Adoption\Plugin::class,'launchActions']);
 add_action(StripeEventEnum::PAYMENT_SUCCESS->value, [GiftAdoptionPaymentSuccessAction::class,'doAction'], 10, 1);
-add_action(CoralOrderEvents::NEW_ORDER, [NewOrderListener::class, 'doAction'], 10,1);
-add_action(CoralAdoptionActions::PENDING_ADOPTION, [CreateAdoption::class, 'doAction'], 10,1);
-add_action(CoralAdoptionActions::PENDING_GIFT_ADOPTION, [CreateGiftAdoption::class, 'doAction'], 10,1);
-add_filter(CoralAdoptionFilters::GET_GIFTADOPTION, [GetGiftAdoptionFilter::class, 'doAction']);
+add_action(CoralOrderEvents::NEW_ORDER->value, [NewOrderListener::class, 'doAction'], 10,1);
+add_action(CoralAdoptionActions::PENDING_ADOPTION->value, [CreateAdoption::class, 'doAction'], 10,1);
+add_action(CoralAdoptionActions::PENDING_GIFT_ADOPTION->value, [CreateGiftAdoption::class, 'doAction'], 10,1);
+add_filter(CoralAdoptionFilters::GET_GIFTADOPTION->value, [GetGiftAdoptionFilter::class, 'doAction']);
 add_filter(Plugin::ADD_ENTITIES_FILTER, function (array $entityPaths) {
     $entityPaths[] = __DIR__."/src/Entity";
 
