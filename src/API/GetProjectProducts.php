@@ -23,7 +23,10 @@ class GetProjectProducts extends APIEnpointAbstract
         // Récupération des produits depuis stripe
         $searchProductModel = new ProductSearchModel(
             active: true,
-            metadata: ['project' => $project]
+            metadata: [
+                'project' => $project,
+                'type' => 'product'
+            ]
         );
 
         $stripeProducts = StripeService::getStripeClient()->products->search(['query' => (string) $searchProductModel]);
