@@ -7,7 +7,7 @@ use D4rk0snet\Adoption\Entity\GiftAdoption;
 use D4rk0snet\Adoption\Models\FriendModel;
 use D4rk0snet\Adoption\Models\GiftAdoptionModel;
 use D4rk0snet\Adoption\Service\AdoptionService;
-use D4rk0snet\Coralguardian\Entity\CompanyCustomerEntity;
+use D4rk0snet\CoralCustomer\Entity\CompanyCustomerEntity;
 use D4rk0snet\Coralguardian\Event\GiftCodeSent;
 use D4rk0snet\Coralguardian\Event\RecipientDone;
 use D4rk0snet\GiftCode\Entity\GiftCodeEntity;

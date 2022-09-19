@@ -4,11 +4,8 @@ namespace D4rk0snet\Adoption\API;
 
 use D4rk0snet\Adoption\Models\GiftAdoptionModel;
 use D4rk0snet\Adoption\Service\AdoptionService;
-use D4rk0snet\Coralguardian\Entity\CompanyCustomerEntity;
 use D4rk0snet\Coralguardian\Event\BankTransferPayment;
-use D4rk0snet\Coralguardian\Event\GiftCodeSent;
-use D4rk0snet\Donation\Enums\PaymentMethod;
-use Hyperion\Doctrine\Service\DoctrineService;
+use D4rk0snet\CoralOrder\Enums\PaymentMethod;
 use Hyperion\RestAPI\APIEnpointAbstract;
 use Hyperion\RestAPI\APIManagement;
 use Hyperion\Stripe\Service\StripeService;

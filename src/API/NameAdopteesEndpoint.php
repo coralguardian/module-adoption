@@ -2,6 +2,7 @@
 
 namespace D4rk0snet\Adoption\API;
 
+use D4rk0snet\Adoption\Enums\CoralAdoptionActions;
 use D4rk0snet\Adoption\Models\AdopteesModel;
 use D4rk0snet\Adoption\Service\AdopteeService;
 use Hyperion\RestAPI\APIEnpointAbstract;
@@ -25,6 +26,7 @@ class NameAdopteesEndpoint extends APIEnpointAbstract
         $adopteesModel = $mapper->map($payload, new AdopteesModel());
 
         try {
+            do_action(CoralAdoptionActions::PENDING_NAMING->value, $adopteesModel);
             AdopteeService::giveNameToAdoptees($adopteesModel);
         } catch (\Exception $exception) {
             return APIManagement::APIError($exception->getMessage(), $exception->getCode());

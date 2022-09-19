@@ -20,7 +20,10 @@ class AdopteeService
     public static function giveNameToAdoptees(AdopteesModel $model) : void
     {
         /** @var AdoptionEntity | null $adoptionEntity */
-        $adoptionEntity = DoctrineService::getEntityManager()->getRepository(AdoptionEntity::class)->find($model->getAdoptionUuid());
+        $adoptionEntity = DoctrineService::getEntityManager()
+            ->getRepository(AdoptionEntity::class)
+            ->findOneBy(['stripePaymentIntentId' => $model->getStripePaymentIntentId()]);
+
         if($adoptionEntity === null) {
             throw new Exception("No adoption found", 404);
         }
