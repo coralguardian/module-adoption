@@ -14,13 +14,10 @@ class Plugin
 {
     public static function launchActions()
     {
-        do_action(\Hyperion\RestAPI\Plugin::ADD_API_ENDPOINT_ACTION, new AdoptionEndpoint());
         do_action(\Hyperion\RestAPI\Plugin::ADD_API_ENDPOINT_ACTION, new NameAdopteesEndpoint());
-        do_action(\Hyperion\RestAPI\Plugin::ADD_API_ENDPOINT_ACTION, new GiftAdoptionEndpoint());
         do_action(\Hyperion\RestAPI\Plugin::ADD_API_ENDPOINT_ACTION, new AddFriendToGiftAdoption());
         do_action(\Hyperion\RestAPI\Plugin::ADD_API_ENDPOINT_ACTION, new GetAdoptionForRedirection());
         do_action(\Hyperion\RestAPI\Plugin::ADD_API_ENDPOINT_ACTION, new AddMessageToGiftAdoption());
         do_action(\Hyperion\RestAPI\Plugin::ADD_API_ENDPOINT_ACTION, new GetProjectProducts());
-
     }
 }
