@@ -31,7 +31,8 @@ class NewOrderListener
                     ->setLang($model->getLang())
                     ->setCustomerModel($model->getCustomer())
                     ->setAdoptedProduct(AdoptedProduct::from($product->getKey()))
-                    ->setAmount($model->getTotalAmount());
+                    ->setAmount($model->getTotalAmount())
+                    ->setStripePaymentIntent($paymentIntent);
 
                 do_action(CoralAdoptionActions::PENDING_ADOPTION->value, $adoptionModel);
                 continue;
@@ -48,7 +49,8 @@ class NewOrderListener
                 ->setMessage($model->getGiftModel()->getMessage())
                 ->setSendOn($model->getGiftModel()->getSendOn())
                 ->setSendToFriend($model->getGiftModel()->isSendToFriend())
-                ->setFriends($model->getGiftModel()->getFriends());
+                ->setFriends($model->getGiftModel()->getFriends())
+                ->setStripePaymentIntent($paymentIntent);
 
             do_action(CoralAdoptionActions::PENDING_GIFT_ADOPTION->value, $adoptionModel);
         }
