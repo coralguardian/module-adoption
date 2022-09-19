@@ -17,11 +17,11 @@ class CreateGiftAdoption
         $customerEntity = null;
 
         // Au cas ou le customer n'existe pas on demande sa création
-        do_action(CoralCustomerActions::NEW_CUSTOMER, $giftAdoptionModel->getCustomerModel());
+        do_action(CoralCustomerActions::NEW_CUSTOMER->value, $giftAdoptionModel->getCustomerModel());
 
         // Récupération du customer
         $customerEntity = apply_filter(
-            CoralCustomerFilters::GET_CUSTOMER,
+            CoralCustomerFilters::GET_CUSTOMER->value,
             $customerEntity,
             $giftAdoptionModel->getCustomerModel()->getEmail(),
             $giftAdoptionModel->getCustomerModel()->getCustomerType()
@@ -46,6 +46,6 @@ class CreateGiftAdoption
         $em->persist($giftAdoptionEntity);
         $em->flush();
 
-        do_action(CoralAdoptionActions::NEW_GIFT_ADOPTION, $giftAdoptionModel, $giftAdoptionEntity);
+        do_action(CoralAdoptionActions::NEW_GIFT_ADOPTION->value, $giftAdoptionModel, $giftAdoptionEntity);
     }
 }

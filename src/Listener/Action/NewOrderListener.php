@@ -32,7 +32,7 @@ class NewOrderListener
                     ->setAdoptedProduct(AdoptedProduct::from($product->getKey()))
                     ->setAmount($model->getTotalAmount());
 
-                do_action(CoralAdoptionActions::PENDING_ADOPTION, $adoptionModel);
+                do_action(CoralAdoptionActions::PENDING_ADOPTION->value, $adoptionModel);
             }
 
             $adoptionModel = new GiftAdoptionModel();
@@ -48,7 +48,7 @@ class NewOrderListener
                 ->setSendToFriend($model->getGiftModel()->isSendToFriend())
                 ->setFriends($model->getGiftModel()->getFriends());
 
-            do_action(CoralAdoptionActions::PENDING_GIFT_ADOPTION, $adoptionModel);
+            do_action(CoralAdoptionActions::PENDING_GIFT_ADOPTION->value, $adoptionModel);
         }
     }
 }
