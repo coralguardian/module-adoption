@@ -36,11 +36,15 @@ class CreateGiftAdoption
             adoptedProduct: $giftAdoptionModel->getAdoptedProduct(),
             quantity: $giftAdoptionModel->getQuantity(),
             paymentMethod: $giftAdoptionModel->getPaymentMethod(),
-            isPaid: $giftAdoptionModel->getPaymentMethod() === PaymentMethod::CREDIT_CARD,
+            isPaid: $giftAdoptionModel->getPaymentMethod() === PaymentMethod::CREDIT_CARD && $giftAdoptionModel->getStripePaymentIntent()->status === "succeeded",
             sendToFriend: $giftAdoptionModel->isSendToFriend(),
             sendOn: $giftAdoptionModel->getSendOn(),
             message: $giftAdoptionModel->getMessage()
         );
+
+        if($giftAdoptionModel->getStripePaymentIntent() !== null) {
+            $giftAdoptionEntity->setStripePaymentIntentId($giftAdoptionModel->getStripePaymentIntent()->id);
+        }
 
         $em = DoctrineService::getEntityManager();
         $em->persist($giftAdoptionEntity);

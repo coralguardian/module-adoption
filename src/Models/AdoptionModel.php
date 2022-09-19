@@ -7,6 +7,7 @@ use D4rk0snet\CoralCustomer\Model\CustomerModel;
 use D4rk0snet\Coralguardian\Enums\Language;
 use D4rk0snet\CoralOrder\Enums\PaymentMethod;
 use Exception;
+use Stripe\PaymentIntent;
 
 class AdoptionModel
 {
@@ -39,6 +40,8 @@ class AdoptionModel
      * @required
      */
     private PaymentMethod $paymentMethod;
+
+    private ?PaymentIntent $stripePaymentIntent = null;
 
     public function afterMapping()
     {
@@ -116,4 +119,17 @@ class AdoptionModel
         $this->customerModel = $customerModel;
         return $this;
     }
+
+    public function getStripePaymentIntent(): ?PaymentIntent
+    {
+        return $this->stripePaymentIntent;
+    }
+
+    public function setStripePaymentIntent(?PaymentIntent $stripePaymentIntent): AdoptionModel
+    {
+        $this->stripePaymentIntent = $stripePaymentIntent;
+        return $this;
+    }
+
+
 }

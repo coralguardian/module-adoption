@@ -36,8 +36,12 @@ class CreateAdoption
             adoptedProduct: $adoptionModel->getAdoptedProduct(),
             quantity: $adoptionModel->getQuantity(),
             paymentMethod: $adoptionModel->getPaymentMethod(),
-            isPaid: $adoptionModel->getPaymentMethod() === PaymentMethod::CREDIT_CARD
+            isPaid: $adoptionModel->getPaymentMethod() === PaymentMethod::CREDIT_CARD && $adoptionModel->getStripePaymentIntent()->status === 'succeeded'
         );
+
+        if($adoptionModel->getStripePaymentIntent() !== null) {
+            $adoptionEntity->setStripePaymentIntentId($adoptionModel->getStripePaymentIntent()->id);
+        }
 
         $em = DoctrineService::getEntityManager();
         $em->persist($adoptionEntity);

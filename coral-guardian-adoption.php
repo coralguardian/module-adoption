@@ -20,7 +20,7 @@ use D4rk0snet\CoralOrder\Enums\CoralOrderEvents;
 use Hyperion\Doctrine\Plugin;
 
 add_action('plugins_loaded', [\D4rk0snet\Adoption\Plugin::class,'launchActions']);
-add_action(CoralOrderEvents::NEW_ORDER->value, [NewOrderListener::class, 'doAction'], 10,1);
+add_action(CoralOrderEvents::NEW_ORDER->value, [NewOrderListener::class, 'doAction'], 10,2);
 add_action(CoralAdoptionActions::PENDING_ADOPTION->value, [CreateAdoption::class, 'doAction'], 10,1);
 add_action(CoralAdoptionActions::PENDING_GIFT_ADOPTION->value, [CreateGiftAdoption::class, 'doAction'], 10,1);
 add_filter(CoralAdoptionFilters::GET_GIFTADOPTION->value, [GetGiftAdoptionFilter::class, 'doAction'], 10, 2);

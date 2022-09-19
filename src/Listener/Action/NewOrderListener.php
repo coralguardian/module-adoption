@@ -8,13 +8,14 @@ use D4rk0snet\Adoption\Models\AdoptionModel;
 use D4rk0snet\Adoption\Models\GiftAdoptionModel;
 use D4rk0snet\CoralOrder\Enums\PaymentMethod;
 use D4rk0snet\CoralOrder\Model\OrderModel;
+use Stripe\PaymentIntent;
 
 /**
  * Cette classe écoute l'action NEW_ORDER du module order
  */
 class NewOrderListener
 {
-    public static function doAction(OrderModel $model)
+    public static function doAction(OrderModel $model, PaymentIntent $paymentIntent)
     {
         if(count($model->getProductsOrdered()) === 0) {
             return;
