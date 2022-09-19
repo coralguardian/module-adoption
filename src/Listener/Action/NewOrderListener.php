@@ -33,6 +33,7 @@ class NewOrderListener
                     ->setAmount($model->getTotalAmount());
 
                 do_action(CoralAdoptionActions::PENDING_ADOPTION->value, $adoptionModel);
+                continue;
             }
 
             $adoptionModel = new GiftAdoptionModel();
