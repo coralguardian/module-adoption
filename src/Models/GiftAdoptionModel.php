@@ -2,6 +2,7 @@
 
 namespace D4rk0snet\Adoption\Models;
 
+use D4rk0snet\CoralOrder\Model\FriendModel;
 use DateTime;
 
 class GiftAdoptionModel extends AdoptionModel
@@ -61,9 +62,10 @@ class GiftAdoptionModel extends AdoptionModel
     /**
      * @param bool $sendToFriend
      */
-    public function setSendToFriend(bool $sendToFriend): void
+    public function setSendToFriend(bool $sendToFriend): GiftAdoptionModel
     {
         $this->sendToFriend = $sendToFriend;
+        return $this;
     }
 
     /**

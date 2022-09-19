@@ -52,6 +52,11 @@
         },
         {
           "type" : "vcs",
+          "url": "git@github.com:coralguardian/module-order.git",
+          "no-api": true
+        },
+        {
+          "type" : "vcs",
           "url": "git@github.com:ds-hyperion/sendinblue.git",
           "no-api": true
         },
@@ -73,6 +78,7 @@
         "d4rk0snet/fiscalreceipt": "dev-dev",
         "d4rk0snet/certificate": "dev-dev",
         "d4rk0snet/gift-code": "dev-dev",
-        "d4rk0snet/naming-file-import": "dev-dev"
+        "d4rk0snet/naming-file-import": "dev-dev",
+        "d4rk0snet/coral-order": "dev-dev"
     }
 }

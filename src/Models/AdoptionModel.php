@@ -3,8 +3,9 @@
 namespace D4rk0snet\Adoption\Models;
 
 use D4rk0snet\Adoption\Enums\AdoptedProduct;
+use D4rk0snet\CoralCustomer\Model\CustomerModel;
 use D4rk0snet\Coralguardian\Enums\Language;
-use D4rk0snet\Donation\Enums\PaymentMethod;
+use D4rk0snet\CoralOrder\Enums\PaymentMethod;
 use Exception;
 
 class AdoptionModel
@@ -12,7 +13,7 @@ class AdoptionModel
     /**
      * @required
      */
-    private string $customerUUID;
+    private CustomerModel $customerModel;
 
     /**
      * @required
@@ -45,9 +46,9 @@ class AdoptionModel
             throw new Exception("Quantity can not be less than 1");
         }
 
-        if ($this->amount < $this->getAdoptedProduct()->getProductPrice() * $this->getQuantity()) {
+        /*if ($this->amount < $this->getAdoptedProduct()->getProductPrice() * $this->getQuantity()) {
             throw new Exception("Price is below the product price");
-        }
+        }*/
     }
 
     public function getAdoptedProduct(): AdoptedProduct
@@ -65,15 +66,10 @@ class AdoptionModel
         return $this->amount;
     }
 
-    public function setAdoptedProduct(string $adoptedProduct): AdoptionModel
+    public function setAdoptedProduct(AdoptedProduct $adoptedProduct): AdoptionModel
     {
-        try {
-            $this->adoptedProduct = AdoptedProduct::from($adoptedProduct);
-
-            return $this;
-        } catch (\ValueError $exception) {
-            throw new Exception("Invalid adopted product value");
-        }
+        $this->adoptedProduct = $adoptedProduct;
+        return $this;
     }
 
     public function setQuantity(int $quantity): AdoptionModel
@@ -93,14 +89,10 @@ class AdoptionModel
         return $this->lang;
     }
 
-    public function setLang(string $lang): AdoptionModel
+    public function setLang(Language $lang): AdoptionModel
     {
-        try {
-            $this->lang = Language::from($lang);
-            return $this;
-        } catch (\ValueError $exception) {
-            throw new Exception("Invalid lang value");
-        }
+        $this->lang = $lang;
+        return $this;
     }
 
     public function getPaymentMethod(): PaymentMethod
@@ -108,24 +100,20 @@ class AdoptionModel
         return $this->paymentMethod;
     }
 
-    public function setPaymentMethod(string $paymentMethod): AdoptionModel
+    public function setPaymentMethod(PaymentMethod $paymentMethod): AdoptionModel
     {
-        try {
-            $this->paymentMethod = PaymentMethod::from($paymentMethod);
-            return $this;
-        } catch (\ValueError $exception) {
-            throw new Exception("Invalid payment method value");
-        }
+        $this->paymentMethod = $paymentMethod;
+        return $this;
     }
 
-    public function getCustomerUUID(): string
+    public function getCustomerModel(): CustomerModel
     {
-        return $this->customerUUID;
+        return $this->customerModel;
     }
 
-    public function setCustomerUUID(string $customerUUID): AdoptionModel
+    public function setCustomerModel(CustomerModel $customerModel): AdoptionModel
     {
-        $this->customerUUID = $customerUUID;
+        $this->customerModel = $customerModel;
         return $this;
     }
 }

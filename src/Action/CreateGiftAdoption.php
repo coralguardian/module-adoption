@@ -1,0 +1,51 @@
+<?php
+
+namespace D4rk0snet\Adoption\Action;
+
+use D4rk0snet\Adoption\Entity\GiftAdoption;
+use D4rk0snet\Adoption\Enums\CoralAdoptionActions;
+use D4rk0snet\Adoption\Models\GiftAdoptionModel;
+use D4rk0snet\CoralCustomer\Enum\CoralCustomerActions;
+use D4rk0snet\CoralCustomer\Enum\CoralCustomerFilters;
+use D4rk0snet\CoralOrder\Enums\PaymentMethod;
+use Hyperion\Doctrine\Service\DoctrineService;
+
+class CreateGiftAdoption
+{
+    public static function doAction(GiftAdoptionModel $giftAdoptionModel)
+    {
+        $customerEntity = null;
+
+        // Au cas ou le customer n'existe pas on demande sa création
+        do_action(CoralCustomerActions::NEW_CUSTOMER, $giftAdoptionModel->getCustomerModel());
+
+        // Récupération du customer
+        $customerEntity = apply_filter(
+            CoralCustomerFilters::GET_CUSTOMER,
+            $customerEntity,
+            $giftAdoptionModel->getCustomerModel()->getEmail(),
+            $giftAdoptionModel->getCustomerModel()->getCustomerType()
+        );
+
+        // Création de l'entité
+        $giftAdoptionEntity = new GiftAdoption(
+            customer: $customerEntity,
+            date: new \DateTime(),
+            amount: $giftAdoptionModel->getAmount(),
+            lang: $giftAdoptionModel->getLang(),
+            adoptedProduct: $giftAdoptionModel->getAdoptedProduct(),
+            quantity: $giftAdoptionModel->getQuantity(),
+            paymentMethod: $giftAdoptionModel->getPaymentMethod(),
+            isPaid: $giftAdoptionModel->getPaymentMethod() === PaymentMethod::CREDIT_CARD,
+            sendToFriend: $giftAdoptionModel->isSendToFriend(),
+            sendOn: $giftAdoptionModel->getSendOn(),
+            message: $giftAdoptionModel->getMessage()
+        );
+
+        $em = DoctrineService::getEntityManager();
+        $em->persist($giftAdoptionEntity);
+        $em->flush();
+
+        do_action(CoralAdoptionActions::NEW_GIFT_ADOPTION, $giftAdoptionModel, $giftAdoptionEntity);
+    }
+}

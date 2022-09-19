@@ -3,9 +3,9 @@
 namespace D4rk0snet\Adoption\Entity;
 
 use D4rk0snet\Adoption\Enums\AdoptedProduct;
-use D4rk0snet\Coralguardian\Entity\CustomerEntity;
+use D4rk0snet\CoralCustomer\Entity\CustomerEntity;
 use D4rk0snet\Coralguardian\Enums\Language;
-use D4rk0snet\Donation\Enums\PaymentMethod;
+use D4rk0snet\CoralOrder\Enums\PaymentMethod;
 use D4rk0snet\GiftCode\Entity\GiftCodeEntity;
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
