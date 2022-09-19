@@ -27,7 +27,7 @@ class NewOrderListener
                 $adoptionModel
                     ->setQuantity($product->getQuantity())
                     ->setPaymentMethod(PaymentMethod::CREDIT_CARD)
-                    ->setLang($model->getLanguage())
+                    ->setLang($model->getLang())
                     ->setCustomerModel($model->getCustomer())
                     ->setAdoptedProduct(AdoptedProduct::from($product->getKey()))
                     ->setAmount($model->getTotalAmount());
@@ -39,7 +39,7 @@ class NewOrderListener
             $adoptionModel
                 ->setQuantity($product->getQuantity())
                 ->setPaymentMethod(PaymentMethod::CREDIT_CARD)
-                ->setLang($model->getLanguage())
+                ->setLang($model->getLang())
                 ->setCustomerModel($model->getCustomer())
                 ->setAdoptedProduct(AdoptedProduct::from($product->getKey()))
                 ->setAmount($model->getTotalAmount())
