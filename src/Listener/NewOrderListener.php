@@ -23,6 +23,11 @@ class NewOrderListener
 
         // On a des adoptions, on les entre en base
         foreach($model->getProductsOrdered() as $product) {
+            $productKey = $product->getKey();
+            if($product->getVariant()) {
+                $productKey .= ".".$product->getVariant();
+            }
+
             if($model->getGiftModel() === null) {
                 $adoptionModel = new AdoptionModel();
                 $adoptionModel
@@ -30,7 +35,7 @@ class NewOrderListener
                     ->setPaymentMethod(PaymentMethod::CREDIT_CARD)
                     ->setLang($model->getLang())
                     ->setCustomerModel($model->getCustomer())
-                    ->setAdoptedProduct(AdoptedProduct::from($product->getKey()))
+                    ->setAdoptedProduct(AdoptedProduct::from($productKey))
                     ->setAmount($model->getTotalAmount())
                     ->setStripePaymentIntent($paymentIntent);
 
@@ -44,7 +49,7 @@ class NewOrderListener
                 ->setPaymentMethod(PaymentMethod::CREDIT_CARD)
                 ->setLang($model->getLang())
                 ->setCustomerModel($model->getCustomer())
-                ->setAdoptedProduct(AdoptedProduct::from($product->getKey()))
+                ->setAdoptedProduct(AdoptedProduct::from($productKey))
                 ->setAmount($model->getTotalAmount())
                 ->setMessage($model->getGiftModel()->getMessage())
                 ->setSendOn($model->getGiftModel()->getSendOn())
