@@ -38,7 +38,7 @@ class NewPaymentDone
         $stripeProduct = ProductService::getProduct($productOrdered->getKey(), $productOrdered->getProject());
         $stripePrice = StripeService::getStripeClient()->prices->retrieve($stripeProduct->default_price);
 
-        if($stripePaymentIntent->metadata['language'] === true) {
+        if($stripePaymentIntent->metadata['giftAdoption'] === true) {
             // GiftAdoption
             $giftAdoptionModel = new GiftAdoptionModel();
             $giftAdoptionModel
