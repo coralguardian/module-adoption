@@ -38,7 +38,7 @@ class NewPaymentDone
         $stripeProduct = ProductService::getProduct($productOrdered->getKey(), $productOrdered->getProject(), $productOrdered->getVariant());
         $stripePrice = StripeService::getStripeClient()->prices->retrieve($stripeProduct->default_price);
 
-        if($stripePaymentIntent->metadata['giftAdoption'] === true) {
+        if($stripePaymentIntent->metadata['giftAdoption'] !== null) {
             // GiftAdoption
             $giftAdoptionModel = new GiftAdoptionModel();
             $giftAdoptionModel
@@ -48,7 +48,8 @@ class NewPaymentDone
                 ->setAmount($stripePrice->unit_amount / 100)
                 ->setStripePaymentIntent($stripePaymentIntent)
                 ->setAdoptedProduct(AdoptedProduct::from($productOrdered->getFullKey()))
-                ->setQuantity($productOrdered->getQuantity());
+                ->setQuantity($productOrdered->getQuantity())
+                ->setSendToFriend($stripePaymentIntent->metadata['giftAdoption']);
 
             do_action(CoralAdoptionActions::PENDING_GIFT_ADOPTION->value, $giftAdoptionModel);
         } else
