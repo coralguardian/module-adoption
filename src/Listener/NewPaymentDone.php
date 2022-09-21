@@ -26,13 +26,6 @@ class NewPaymentDone
         $mapper->bExceptionOnMissingData = true;
         $mapper->postMappingMethod = 'afterMapping';
 
-        // Force mise en defaut du moyen de paiement utilisé.
-        StripeService::getStripeClient()->customers->update($stripePaymentIntent->customer,
-            ['invoice_settings' =>
-                ['default_payment_method' => $stripePaymentIntent->payment_method]
-            ]
-        );
-
         // Si c'est une adoption, nous aurons le productOrder dans les metas du paymentIntent
         if($stripePaymentIntent->metadata['productOrdered'] === null) {
             return;
