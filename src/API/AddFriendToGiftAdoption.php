@@ -8,7 +8,6 @@ use D4rk0snet\Adoption\Models\GiftAdoptionModel;
 use D4rk0snet\CoralCustomer\Entity\CompanyCustomerEntity;
 use D4rk0snet\Coralguardian\Event\GiftCodeSent;
 use D4rk0snet\Coralguardian\Event\RecipientDone;
-use D4rk0snet\CoralOrder\Model\FriendModel;
 use D4rk0snet\GiftCode\Entity\GiftCodeEntity;
 use Hyperion\Doctrine\Service\DoctrineService;
 use Hyperion\RestAPI\APIEnpointAbstract;
@@ -19,7 +18,7 @@ use WP_REST_Response;
 
 class AddFriendToGiftAdoption extends APIEnpointAbstract
 {
-    public const GIFT_ADOPTION_UUID_PARAM = "stripePaymentIntentId";
+    public const GIFT_ADOPTION_UUID_PARAM = "adoptionUuid";
 
     public static function callback(WP_REST_Request $request): WP_REST_Response
     {
@@ -29,13 +28,13 @@ class AddFriendToGiftAdoption extends APIEnpointAbstract
         }
 
         $friendModelArray = $modelArray->friends;
-        $stripePaymentIntentId = $request->get_param(self::GIFT_ADOPTION_UUID_PARAM);
-        if ($stripePaymentIntentId === null) {
+        $adoptionUuid = $request->get_param(self::GIFT_ADOPTION_UUID_PARAM);
+        if ($adoptionUuid === null) {
             return APIManagement::APIError('Missing adoption uuid GET parameter', 400);
         }
 
         /** @var GiftAdoption $adoptionEntity */
-        $adoptionEntity = DoctrineService::getEntityManager()->getRepository(GiftAdoption::class)->findOneBy(['stripePaymentIntentId'=> $stripePaymentIntentId]);
+        $adoptionEntity = DoctrineService::getEntityManager()->getRepository(GiftAdoption::class)->find($adoptionUuid);
         if($adoptionEntity === null) {
             return APIManagement::APINotFound();
         }

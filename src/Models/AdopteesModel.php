@@ -7,7 +7,7 @@ class AdopteesModel
     /**
      * @required
      */
-    private string $stripePaymentIntentId;
+    private string $adoptionUuid;
 
     /**
      * @required
@@ -16,14 +16,21 @@ class AdopteesModel
 
     private ?string $giftCode = null;
 
-    public function getStripePaymentIntentId(): string
+    /**
+     * @return string
+     */
+    public function getAdoptionUuid(): string
     {
-        return $this->stripePaymentIntentId;
+        return $this->adoptionUuid;
     }
 
-    public function setStripePaymentIntentId(string $stripePaymentIntentId): AdopteesModel
+    /**
+     * @param string $adoptionUuid
+     * @return AdopteesModel
+     */
+    public function setAdoptionUuid(string $adoptionUuid): AdopteesModel
     {
-        $this->stripePaymentIntentId = $stripePaymentIntentId;
+        $this->adoptionUuid = $adoptionUuid;
         return $this;
     }
 

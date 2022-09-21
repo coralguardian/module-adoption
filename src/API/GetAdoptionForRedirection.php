@@ -14,9 +14,9 @@ class GetAdoptionForRedirection extends APIEnpointAbstract
 {
     public static function callback(WP_REST_Request $request): WP_REST_Response
     {
-        $stripePaymentIntentId = $request->get_param("stripePaymentIntentId");
-        if ($stripePaymentIntentId === null) {
-            return APIManagement::APIError('Missing stripePaymentIntentId GET parameter', 400);
+        $adoptionUuid = $request->get_param("adoptionUuid");
+        if ($adoptionUuid === null) {
+            return APIManagement::APIError('Missing adoptionUuid GET parameter', 400);
         }
 
         $step = $request->get_param("step");
@@ -25,7 +25,7 @@ class GetAdoptionForRedirection extends APIEnpointAbstract
         }
 
         /** @var AdoptionEntity $adoptionEntity */
-        $adoptionEntity = DoctrineService::getEntityManager()->getRepository(AdoptionEntity::class)->findOneBy(['stripePaymentIntentId' => $stripePaymentIntentId]);
+        $adoptionEntity = DoctrineService::getEntityManager()->getRepository(AdoptionEntity::class)->find($adoptionUuid);
         if ($adoptionEntity === null) {
             return APIManagement::APINotFound();
         }

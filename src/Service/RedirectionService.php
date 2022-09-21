@@ -11,7 +11,7 @@ class RedirectionService
     public static function buildRedirectionUrl(AdoptionEntity $adoptionEntity): string
     {
         $baseUrl = home_url("adoption-entreprise");
-        $baseUrl .=  "?stripePaymentIntentId=" . $adoptionEntity->getStripePaymentIntentId() .
+        $baseUrl .=  "?adoptionUuid=" . $adoptionEntity->getUuid() .
             "&step=" . RedirectionStep::getEnumBasedOnClass($adoptionEntity::class)->value;
 
         return $baseUrl;
