@@ -15,12 +15,12 @@ use D4rk0snet\Adoption\Action\CreateGiftAdoption;
 use D4rk0snet\Adoption\Enums\CoralAdoptionActions;
 use D4rk0snet\Adoption\Enums\CoralAdoptionFilters;
 use D4rk0snet\Adoption\Filter\GetGiftAdoptionFilter;
-use D4rk0snet\Adoption\Listener\NewOrderListener;
-use D4rk0snet\CoralOrder\Enums\CoralOrderEvents;
+use D4rk0snet\Adoption\Listener\NewPaymentDone;
 use Hyperion\Doctrine\Plugin;
+use Hyperion\Stripe\Enum\StripeEventEnum;
 
 add_action('plugins_loaded', [\D4rk0snet\Adoption\Plugin::class,'launchActions']);
-add_action(CoralOrderEvents::NEW_ORDER->value, [NewOrderListener::class, 'doAction'], 10,2);
+add_action(StripeEventEnum::PAYMENT_SUCCESS->value, [NewPaymentDone::class, 'doAction'], 10,1);
 add_action(CoralAdoptionActions::PENDING_ADOPTION->value, [CreateAdoption::class, 'doAction'], 10,1);
 add_action(CoralAdoptionActions::PENDING_GIFT_ADOPTION->value, [CreateGiftAdoption::class, 'doAction'], 10,1);
 add_filter(CoralAdoptionFilters::GET_GIFTADOPTION->value, [GetGiftAdoptionFilter::class, 'doAction'], 10, 2);
