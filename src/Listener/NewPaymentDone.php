@@ -30,9 +30,9 @@ class NewPaymentDone
         if($stripePaymentIntent->metadata['productOrdered'] === null) {
             return;
         }
-        $customerModel = $mapper->map(json_decode($stripePaymentIntent->metadata['customer'], true, 512, JSON_THROW_ON_ERROR), new CustomerModel());
+        $customerModel = $mapper->map(json_decode($stripePaymentIntent->metadata['customer'], false, 512, JSON_THROW_ON_ERROR), new CustomerModel());
         /** @var ProductOrderModel $productOrdered */
-        $productOrdered = $mapper->map(json_decode($stripePaymentIntent->metadata['productOrdered'], true, 512, JSON_THROW_ON_ERROR), new ProductOrderModel());
+        $productOrdered = $mapper->map(json_decode($stripePaymentIntent->metadata['productOrdered'], false, 512, JSON_THROW_ON_ERROR), new ProductOrderModel());
 
         // Récupère le prix pour le produit depuis stripe
         $stripeProduct = ProductService::getProduct($productOrdered->getKey(), $productOrdered->getProject());
