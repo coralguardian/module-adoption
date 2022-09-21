@@ -35,7 +35,7 @@ class NewPaymentDone
         $productOrdered = $mapper->map(json_decode($stripePaymentIntent->metadata['productOrdered'], false, 512, JSON_THROW_ON_ERROR), new ProductOrderModel());
 
         // Récupère le prix pour le produit depuis stripe
-        $stripeProduct = ProductService::getProduct($productOrdered->getKey(), $productOrdered->getProject());
+        $stripeProduct = ProductService::getProduct($productOrdered->getKey(), $productOrdered->getProject(), $productOrdered->getVariant());
         $stripePrice = StripeService::getStripeClient()->prices->retrieve($stripeProduct->default_price);
 
         if($stripePaymentIntent->metadata['giftAdoption'] === true) {
