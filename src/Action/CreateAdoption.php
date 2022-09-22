@@ -31,7 +31,7 @@ class CreateAdoption
         $adoptionEntity = new AdoptionEntity(
             customer: $customerEntity,
             date: new \DateTime(),
-            amount: $adoptionModel->getAmount(),
+            amount: $adoptionModel->getAmount() * $adoptionModel->getQuantity(),
             lang: $adoptionModel->getLang(),
             adoptedProduct: $adoptionModel->getAdoptedProduct(),
             quantity: $adoptionModel->getQuantity(),

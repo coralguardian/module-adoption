@@ -31,7 +31,7 @@ class CreateGiftAdoption
         $giftAdoptionEntity = new GiftAdoption(
             customer: $customerEntity,
             date: new \DateTime(),
-            amount: $giftAdoptionModel->getAmount(),
+            amount: $giftAdoptionModel->getAmount() * $giftAdoptionModel->getQuantity(),
             lang: $giftAdoptionModel->getLang(),
             adoptedProduct: $giftAdoptionModel->getAdoptedProduct(),
             quantity: $giftAdoptionModel->getQuantity(),
