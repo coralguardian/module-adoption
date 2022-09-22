@@ -48,6 +48,6 @@ class CreateGiftAdoption
         $em->persist($giftAdoptionEntity);
         $em->flush();
 
-        do_action(CoralAdoptionActions::NEW_GIFT_ADOPTION->value, $giftAdoptionModel, $giftAdoptionEntity);
+        do_action(CoralAdoptionActions::NEW_GIFT_ADOPTION->value, $giftAdoptionModel, $giftAdoptionEntity->getUuid());
     }
 }
