@@ -14,15 +14,12 @@ class CreateAdoption
 {
     public static function doAction(AdoptionModel $adoptionModel)
     {
-        $customerEntity = null;
-
         // Au cas ou le customer n'existe pas on demande sa création
         do_action(CoralCustomerActions::NEW_CUSTOMER->value, $adoptionModel->getCustomerModel());
 
         // Récupération du customer
         $customerEntity = apply_filters(
             CoralCustomerFilters::GET_CUSTOMER->value,
-            $customerEntity,
             $adoptionModel->getCustomerModel()->getEmail(),
             $adoptionModel->getCustomerModel()->getCustomerType()
         );

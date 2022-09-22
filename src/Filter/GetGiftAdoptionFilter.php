@@ -7,7 +7,7 @@ use Hyperion\Doctrine\Service\DoctrineService;
 
 class GetGiftAdoptionFilter
 {
-    public static function doAction(string $giftAdoptionEntity , string $giftAdoptionUUID)
+    public static function doAction(string $giftAdoptionUUID)
     {
         $em = DoctrineService::getEntityManager();
 

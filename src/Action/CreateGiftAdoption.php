@@ -14,15 +14,12 @@ class CreateGiftAdoption
 {
     public static function doAction(GiftAdoptionModel $giftAdoptionModel)
     {
-        $customerEntity = null;
-
         // Au cas ou le customer n'existe pas on demande sa création
         do_action(CoralCustomerActions::NEW_CUSTOMER->value, $giftAdoptionModel->getCustomerModel());
 
         // Récupération du customer
         $customerEntity = apply_filters(
             CoralCustomerFilters::GET_CUSTOMER->value,
-            $customerEntity,
             $giftAdoptionModel->getCustomerModel()->getEmail(),
             $giftAdoptionModel->getCustomerModel()->getCustomerType()
         );
