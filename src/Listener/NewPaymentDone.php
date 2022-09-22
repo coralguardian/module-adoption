@@ -9,6 +9,7 @@ use D4rk0snet\Adoption\Models\GiftAdoptionModel;
 use D4rk0snet\CoralCustomer\Model\CustomerModel;
 use D4rk0snet\Coralguardian\Enums\Language;
 use D4rk0snet\CoralOrder\Enums\PaymentMethod;
+use D4rk0snet\CoralOrder\Enums\Project;
 use D4rk0snet\CoralOrder\Model\ProductOrderModel;
 use D4rk0snet\CoralOrder\Service\ProductService;
 use Hyperion\Stripe\Service\StripeService;
@@ -49,6 +50,7 @@ class NewPaymentDone
                 ->setStripePaymentIntent($stripePaymentIntent)
                 ->setAdoptedProduct(AdoptedProduct::from($productOrdered->getFullKey()))
                 ->setQuantity($productOrdered->getQuantity())
+                ->setProject(Project::from($productOrdered->getProject()))
                 ->setSendToFriend($stripePaymentIntent->metadata['giftAdoption']);
 
             do_action(CoralAdoptionActions::PENDING_GIFT_ADOPTION->value, $giftAdoptionModel);
@@ -62,6 +64,7 @@ class NewPaymentDone
                 ->setAmount($stripePrice->unit_amount / 100)
                 ->setStripePaymentIntent($stripePaymentIntent)
                 ->setAdoptedProduct(AdoptedProduct::from($productOrdered->getFullKey()))
+                ->setProject(Project::from($productOrdered->getProject()))
                 ->setQuantity($productOrdered->getQuantity());
 
             do_action(CoralAdoptionActions::PENDING_ADOPTION->value, $adoptionModel);
