@@ -6,6 +6,7 @@ use D4rk0snet\Adoption\Entity\AdopteeEntity;
 use D4rk0snet\Adoption\Entity\AdoptionEntity;
 use D4rk0snet\Adoption\Entity\Friend;
 use D4rk0snet\Adoption\Entity\GiftAdoption;
+use D4rk0snet\Adoption\Enums\AdoptedProduct;
 use D4rk0snet\Adoption\Enums\Seeder;
 use D4rk0snet\Adoption\Models\AdopteesModel;
 use D4rk0snet\Coralguardian\Event\NamingDone;
@@ -85,33 +86,26 @@ class AdopteeService
     private static function createAdoptees(AdoptionEntity $adoption, AdopteesModel $adopteesModel): ArrayCollection
     {
         $adoptees = new ArrayCollection();
-        $seeders = Seeder::cases();
-        shuffle($seeders);
-        $seedIndex = 0;
-        $pictures = $adoption->getAdoptedProduct()->getProductImages();
-        shuffle($pictures);
-        $pictureIndex = 0; // on ne peut pas réutiliser seedIndex car il y a plus de transplanteur que d'images de récifs
+        $seeders = Seeder::randomizeSeeder($adoption->getProject());
+        $pictures = AdoptedProduct::getRandomizedProductImages($adoption->getAdoptedProduct(), $adoption->getProject());
+        $seedersCount = count($seeders);
+        $picturesCount = count($pictures);
 
-        foreach($adopteesModel->getNames() as $name) {
-            if (!array_key_exists($seedIndex, $seeders)) {
-                $seedIndex = 0;
-            }
-            if (!array_key_exists($pictureIndex, $pictures)) {
-                $pictureIndex = 0;
-            }
+        foreach($adopteesModel->getNames() as $index => $name) {
+            /** @var Seeder $selectedSeeder */
+            $selectedSeeder = $seeders[$index % $seedersCount];
+            $selectedPicture = $pictures[$index % $picturesCount];
+
             $entity = new AdopteeEntity(
                 name: $name,
-                seeder: $seeders[$seedIndex],
+                seeder: $selectedSeeder,
                 adoption: $adoption,
                 adopteeDatetime: new DateTime(),
-                picture: $pictures[$pictureIndex]
+                picture: $selectedPicture
             );
             DoctrineService::getEntityManager()->persist($entity);
 
             $adoptees->add($entity);
-
-            $seedIndex++;
-            $pictureIndex++;
         }
 
         DoctrineService::getEntityManager()->flush();
