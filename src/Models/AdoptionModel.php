@@ -6,6 +6,7 @@ use D4rk0snet\Adoption\Enums\AdoptedProduct;
 use D4rk0snet\CoralCustomer\Model\CustomerModel;
 use D4rk0snet\Coralguardian\Enums\Language;
 use D4rk0snet\CoralOrder\Enums\PaymentMethod;
+use D4rk0snet\CoralOrder\Enums\Project;
 use Exception;
 use Stripe\PaymentIntent;
 
@@ -40,6 +41,11 @@ class AdoptionModel
      * @required
      */
     private PaymentMethod $paymentMethod;
+
+    /**
+     * @required
+     */
+    private Project $project;
 
     private ?PaymentIntent $stripePaymentIntent = null;
 
@@ -131,5 +137,21 @@ class AdoptionModel
         return $this;
     }
 
+    /**
+     * @return Project
+     */
+    public function getProject(): Project
+    {
+        return $this->project;
+    }
 
+    /**
+     * @param Project $project
+     * @return AdoptionModel
+     */
+    public function setProject(Project $project): AdoptionModel
+    {
+        $this->project = $project;
+        return $this;
+    }
 }

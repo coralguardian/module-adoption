@@ -6,6 +6,7 @@ use D4rk0snet\Adoption\Enums\AdoptedProduct;
 use D4rk0snet\CoralCustomer\Entity\CustomerEntity;
 use D4rk0snet\Coralguardian\Enums\Language;
 use D4rk0snet\CoralOrder\Enums\PaymentMethod;
+use D4rk0snet\CoralOrder\Enums\Project;
 use D4rk0snet\GiftCode\Entity\GiftCodeEntity;
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -53,8 +54,9 @@ class GiftAdoption extends AdoptionEntity
         PaymentMethod  $paymentMethod,
         bool           $isPaid,
         bool           $sendToFriend,
+        Project        $project,
         ?DateTime      $sendOn,
-        ?string        $message,
+        ?string        $message
     )
     {
         parent::__construct(
@@ -65,7 +67,8 @@ class GiftAdoption extends AdoptionEntity
             adoptedProduct: $adoptedProduct,
             quantity: $quantity,
             paymentMethod: $paymentMethod,
-            isPaid: $isPaid
+            isPaid: $isPaid,
+            project: $project
         );
         $this->giftCodes = new ArrayCollection();
         $this->sendOn = $sendOn;

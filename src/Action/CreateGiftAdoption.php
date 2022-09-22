@@ -38,6 +38,7 @@ class CreateGiftAdoption
             paymentMethod: $giftAdoptionModel->getPaymentMethod(),
             isPaid: $giftAdoptionModel->getPaymentMethod() === PaymentMethod::CREDIT_CARD && $giftAdoptionModel->getStripePaymentIntent()->status === "succeeded",
             sendToFriend: $giftAdoptionModel->isSendToFriend(),
+            project: $giftAdoptionModel->getProject(),
             sendOn: $giftAdoptionModel->getSendOn(),
             message: $giftAdoptionModel->getMessage()
         );
