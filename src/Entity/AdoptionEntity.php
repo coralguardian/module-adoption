@@ -6,6 +6,7 @@ use D4rk0snet\Adoption\Enums\AdoptedProduct;
 use D4rk0snet\CoralCustomer\Entity\CustomerEntity;
 use D4rk0snet\Coralguardian\Enums\Language;
 use D4rk0snet\CoralOrder\Enums\PaymentMethod;
+use D4rk0snet\CoralOrder\Enums\Project;
 use D4rk0snet\Donation\Entity\DonationEntity;
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -42,15 +43,18 @@ class AdoptionEntity extends DonationEntity
         AdoptedProduct $adoptedProduct,
         int            $quantity,
         PaymentMethod  $paymentMethod,
-        bool           $isPaid
-    ) {
+        bool           $isPaid,
+        Project        $project
+    )
+    {
         parent::__construct(
             customer: $customer,
             date: $date,
             amount: $amount,
             lang: $lang,
             isPaid: $isPaid,
-            paymentMethod: $paymentMethod
+            paymentMethod: $paymentMethod,
+            project: $project
         );
         $this->adoptedProduct = $adoptedProduct;
         $this->quantity = $quantity;
