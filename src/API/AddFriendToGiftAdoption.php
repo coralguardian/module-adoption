@@ -8,6 +8,7 @@ use D4rk0snet\Adoption\Models\GiftAdoptionModel;
 use D4rk0snet\CoralCustomer\Entity\CompanyCustomerEntity;
 use D4rk0snet\Coralguardian\Event\GiftCodeSent;
 use D4rk0snet\Coralguardian\Event\RecipientDone;
+use D4rk0snet\CoralOrder\Model\FriendModel;
 use D4rk0snet\GiftCode\Entity\GiftCodeEntity;
 use Hyperion\Doctrine\Service\DoctrineService;
 use Hyperion\RestAPI\APIEnpointAbstract;
@@ -39,10 +40,6 @@ class AddFriendToGiftAdoption extends APIEnpointAbstract
             return APIManagement::APINotFound();
         }
 
-        if (!$adoptionEntity->getCustomer() instanceof CompanyCustomerEntity) {
-            return APIManagement::APIForbidden("Only adoptions by companies can add friends");
-        }
-
         if (count($friendModelArray) !== $adoptionEntity->getGiftCodes()->count()) {
             return APIManagement::APIError("Not enough friend to add", 400);
         }
@@ -50,9 +47,6 @@ class AddFriendToGiftAdoption extends APIEnpointAbstract
         try {
             $mapper = new JsonMapper();
             $mapper->bExceptionOnMissingData = true;
-            /** @var GiftAdoptionModel $giftAdoptionModel */
-            $giftAdoptionModel = $mapper->map($modelArray, new GiftAdoptionModel());
-
             $mapper->postMappingMethod = 'afterMapping';
             $friendModelArray = $mapper->mapArray($friendModelArray, array(), FriendModel::class);
 
@@ -74,8 +68,6 @@ class AddFriendToGiftAdoption extends APIEnpointAbstract
             }
 
             DoctrineService::getEntityManager()->flush();
-
-//            $adoptionEntity = AdoptionService::updateGiftAdoptionWithMessage($adoptionEntity, $giftAdoptionModel);
 
             if($adoptionEntity->getSendOn() === null) {
                 foreach($adoptionEntity->getGiftCodes() as $giftCode) {

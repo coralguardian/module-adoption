@@ -52,7 +52,7 @@ class NewPaymentDone
                 ->setAdoptedProduct(AdoptedProduct::from($productOrdered->getFullKey()))
                 ->setQuantity($productOrdered->getQuantity())
                 ->setProject($project)
-                ->setSendToFriend($stripePaymentIntent->metadata['giftAdoption']);
+                ->setSendToFriend($stripePaymentIntent->metadata['giftAdoption'] === "true");
 
             do_action(CoralAdoptionActions::PENDING_GIFT_ADOPTION->value, $giftAdoptionModel);
         } else

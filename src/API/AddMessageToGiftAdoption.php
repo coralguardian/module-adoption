@@ -4,7 +4,6 @@ namespace D4rk0snet\Adoption\API;
 
 use D4rk0snet\Adoption\Entity\GiftAdoption;
 use D4rk0snet\Adoption\Models\GiftAdoptionMessageModel;
-use D4rk0snet\CoralCustomer\Entity\CompanyCustomerEntity;
 use Hyperion\Doctrine\Service\DoctrineService;
 use Hyperion\RestAPI\APIEnpointAbstract;
 use Hyperion\RestAPI\APIManagement;
@@ -32,10 +31,6 @@ class AddMessageToGiftAdoption extends APIEnpointAbstract
         $adoptionEntity = DoctrineService::getEntityManager()->getRepository(GiftAdoption::class)->find($adoptionUuid);
         if($adoptionEntity === null) {
             return APIManagement::APINotFound();
-        }
-
-        if (!$adoptionEntity->getCustomer() instanceof CompanyCustomerEntity) {
-            return APIManagement::APIForbidden("Only adoptions by companies can add messages");
         }
 
         try {
