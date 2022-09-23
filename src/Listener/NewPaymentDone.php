@@ -27,13 +27,15 @@ class NewPaymentDone
         $mapper->bExceptionOnMissingData = true;
         $mapper->postMappingMethod = 'afterMapping';
 
-        // Si c'est une adoption, nous aurons le productOrder dans les metas du paymentIntent
-        if($stripePaymentIntent->metadata['productOrdered'] === null) {
+        // Si c'est une adoption, nous aurons le productOrder dans les metas de l'invoice
+        $invoice = StripeService::getStripeClient()->invoices->retrieve($stripePaymentIntent->invoice);
+        if($invoice->metadata['productOrdered'] === null) {
             return;
         }
-        $customerModel = $mapper->map(json_decode($stripePaymentIntent->metadata['customer'], false, 512, JSON_THROW_ON_ERROR), new CustomerModel());
+
+        $customerModel = $mapper->map(json_decode($invoice->metadata['customer'], false, 512, JSON_THROW_ON_ERROR), new CustomerModel());
         /** @var ProductOrderModel $productOrdered */
-        $productOrdered = $mapper->map(json_decode($stripePaymentIntent->metadata['productOrdered'], false, 512, JSON_THROW_ON_ERROR), new ProductOrderModel());
+        $productOrdered = $mapper->map(json_decode($invoice->metadata['productOrdered'], false, 512, JSON_THROW_ON_ERROR), new ProductOrderModel());
 
         // Récupère le prix pour le produit depuis stripe
         $stripeProduct = ProductService::getProduct($productOrdered->getKey(), $productOrdered->getProject(), $productOrdered->getVariant());
