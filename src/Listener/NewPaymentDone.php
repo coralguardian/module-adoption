@@ -42,19 +42,19 @@ class NewPaymentDone
         $stripePrice = StripeService::getStripeClient()->prices->retrieve($stripeProduct->default_price);
         $project = Project::from($productOrdered->getProject());
 
-        if($stripePaymentIntent->metadata['sendToFriend'] !== null) {
+        if($invoice->metadata['sendToFriend'] !== null) {
             // GiftAdoption
             $giftAdoptionModel = new GiftAdoptionModel();
             $giftAdoptionModel
                 ->setCustomerModel($customerModel)
-                ->setLang(Language::from($stripePaymentIntent->metadata['language']))
+                ->setLang(Language::from($invoice->metadata['language']))
                 ->setPaymentMethod(PaymentMethod::CREDIT_CARD)
                 ->setAmount($stripePrice->unit_amount / 100)
                 ->setStripePaymentIntent($stripePaymentIntent)
                 ->setAdoptedProduct(AdoptedProduct::from($productOrdered->getFullKey()))
                 ->setQuantity($productOrdered->getQuantity())
                 ->setProject($project)
-                ->setSendToFriend($stripePaymentIntent->metadata['sendToFriend'] === "true");
+                ->setSendToFriend($invoice->metadata['sendToFriend'] === "true");
 
             do_action(CoralAdoptionActions::PENDING_GIFT_ADOPTION->value, $giftAdoptionModel);
         } else
@@ -62,7 +62,7 @@ class NewPaymentDone
             $adoptionModel = new AdoptionModel();
             $adoptionModel
                 ->setCustomerModel($customerModel)
-                ->setLang(Language::from($stripePaymentIntent->metadata['language']))
+                ->setLang(Language::from($invoice->metadata['language']))
                 ->setPaymentMethod(PaymentMethod::CREDIT_CARD)
                 ->setAmount($stripePrice->unit_amount / 100)
                 ->setStripePaymentIntent($stripePaymentIntent)
