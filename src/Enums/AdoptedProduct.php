@@ -11,7 +11,7 @@ enum AdoptedProduct: string
     case REEF_LADY = 'reef.lady';
     case REEF_NAPOLEON = 'reef.napoleon';
 
-    public static function getAllAdoptedProduct(Project $project) : array
+    public static function getAllAdoptedProduct(Project $project): array
     {
         switch ($project) {
             case Project::INDONESIA :
@@ -19,7 +19,7 @@ enum AdoptedProduct: string
                     'Corail' => self::CORAL->value,
                     'Récif papillon' => self::BUTTERFLY_REEF->value,
                     'Récif mademoiselle' => self::REEF_LADY->value,
-                    'Récif napoléon' =>  self::REEF_NAPOLEON->value
+                    'Récif napoléon' => self::REEF_NAPOLEON->value
                 ];
             case Project::SPAIN:
                 return [
@@ -90,15 +90,47 @@ enum AdoptedProduct: string
                         "6.jpg",
                     ]
                 };
-                // @todo: mettre les bonnes images
+            // @todo: mettre les bonnes images
             case Project::SPAIN:
                 return match ($this) {
                     self::CORAL => [
+                        "Dendrophyllia_ramea_4.png",
+                        "Dendrophyllia_ramea_5.png",
+                        "Dendrophyllia_ramea_6.png",
+                        "Dendrophyllia_ramea_7.png",
+                        "Dendrophyllia_ramea_9.png",
+                        "Dendrophyllia_ramea_11.png",
+                        "Dendrophyllia_ramea_12.png",
+                        "Dendrophyllia_ramea_13.png",
+                        "Dendrophyllia_ramea_14.png",
+                        "Dendrophyllia_ramea_15.png",
+                        "Dendrophyllia_ramea_16.png",
+                        "Dendrophyllia_ramea_17.png",
+                        "Dendrophyllia_ramea_18.png",
+                        "Dendrophyllia_ramea_19.png",
+                        "Dendrophyllia_ramea_20.png",
+                        "Dendrophyllia_ramea_21.png",
+                        "Dendrophyllia_ramea_22.png",
+                        "Dendrophyllia_ramea_23.png",
+                        "Dendrophyllia_ramea_24.png",
                         "Dendrophyllia_ramea_25.png",
+                        "Dendrophyllia_ramea_26.png",
+                        "Dendrophyllia_ramea_27.png",
+                        "Dendrophyllia_ramea_28.png",
                         "Dendrophyllia_ramea_29.png",
                         "Dendrophyllia_ramea_30.png",
+                        "Dendrophyllia_ramea_31.png",
+                        "Dendrophyllia_ramea_32.png",
+                        "Dendrophyllia_ramea_33.png",
+                        "Dendrophyllia_ramea_34.png",
+                        "Dendrophyllia_ramea_35.png",
+                        "Dendrophyllia_ramea_36.png",
+                        "Dendrophyllia_ramea_37.png",
+                        "Dendrophyllia_ramea_38.png",
                         "Dendrophyllia_ramea_39.png",
-                        "Dendrophyllia_ramea_40.png"
+                        "Dendrophyllia_ramea_40.png",
+                        "Dendrophyllia_ramea_41.png",
+                        "Dendrophyllia_ramea_42.png"
                     ]
                 };
             default:
