@@ -69,13 +69,13 @@ enum Seeder: string
             Seeder::SAHRIL => 'indonesia/sahril.jpg',
             Seeder::SUHAR => 'indonesia/suhar.jpg',
             Seeder::VALENTINA => 'indonesia/valentina.jpg',
-            Seeder::HELENA => "spain/helena.png",
-            Seeder::JAVIER => "spain/javier.png",
-            Seeder::NACHO => "spain/nacho.png",
-            Seeder::MARINA => "spain/marina.png",
-            Seeder::SALVA => "spain/salva.png",
-            Seeder::ZAIDA => "spain/zaida.png",
-            Seeder::RAFA => "spain/rafa.png"
+            Seeder::HELENA => "spain/helena.jpg",
+            Seeder::JAVIER => "spain/javier.jpg",
+            Seeder::NACHO => "spain/nacho.jpg",
+            Seeder::MARINA => "spain/marina.jpg",
+            Seeder::SALVA => "spain/salva.jpg",
+            Seeder::ZAIDA => "spain/zaida.jpg",
+            Seeder::RAFA => "spain/rafa.jpg"
         };
     }
 
