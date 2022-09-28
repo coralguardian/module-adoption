@@ -33,7 +33,7 @@ class CreateGiftAdoption
             adoptedProduct: $giftAdoptionModel->getAdoptedProduct(),
             quantity: $giftAdoptionModel->getQuantity(),
             paymentMethod: $giftAdoptionModel->getPaymentMethod(),
-            isPaid: $giftAdoptionModel->getPaymentMethod() === PaymentMethod::CREDIT_CARD && $giftAdoptionModel->getStripePaymentIntent()->status === "succeeded",
+            isPaid: $giftAdoptionModel->getPaymentMethod() === PaymentMethod::CREDIT_CARD && $giftAdoptionModel->getStripePaymentIntent(),
             sendToFriend: $giftAdoptionModel->isSendToFriend(),
             project: $giftAdoptionModel->getProject(),
             sendOn: $giftAdoptionModel->getSendOn(),

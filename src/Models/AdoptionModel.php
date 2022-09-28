@@ -9,6 +9,7 @@ use D4rk0snet\CoralOrder\Enums\PaymentMethod;
 use D4rk0snet\CoralOrder\Enums\Project;
 use Exception;
 use Stripe\PaymentIntent;
+use Stripe\SetupIntent;
 
 class AdoptionModel
 {
@@ -47,7 +48,7 @@ class AdoptionModel
      */
     private Project $project;
 
-    private ?PaymentIntent $stripePaymentIntent = null;
+    private ?SetupIntent $stripePaymentIntent = null;
 
     public function afterMapping()
     {
@@ -126,12 +127,13 @@ class AdoptionModel
         return $this;
     }
 
-    public function getStripePaymentIntent(): ?PaymentIntent
+    // @todo : A renommer
+    public function getStripePaymentIntent(): ?SetupIntent
     {
         return $this->stripePaymentIntent;
     }
 
-    public function setStripePaymentIntent(?PaymentIntent $stripePaymentIntent): AdoptionModel
+    public function setStripePaymentIntent(?SetupIntent $stripePaymentIntent): AdoptionModel
     {
         $this->stripePaymentIntent = $stripePaymentIntent;
         return $this;

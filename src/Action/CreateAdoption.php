@@ -33,7 +33,7 @@ class CreateAdoption
             adoptedProduct: $adoptionModel->getAdoptedProduct(),
             quantity: $adoptionModel->getQuantity(),
             paymentMethod: $adoptionModel->getPaymentMethod(),
-            isPaid: $adoptionModel->getPaymentMethod() === PaymentMethod::CREDIT_CARD && $adoptionModel->getStripePaymentIntent()->status === 'succeeded',
+            isPaid: $adoptionModel->getPaymentMethod() === PaymentMethod::CREDIT_CARD && $adoptionModel->getStripePaymentIntent(),
             project: $adoptionModel->getProject()
         );
 

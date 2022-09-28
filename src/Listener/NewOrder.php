@@ -14,47 +14,48 @@ use D4rk0snet\CoralOrder\Model\ProductOrderModel;
 use D4rk0snet\CoralOrder\Service\ProductService;
 use Hyperion\Stripe\Service\StripeService;
 use JsonMapper;
-use Stripe\PaymentIntent;
+use Stripe\SetupIntent;
 
 /**
  * Cette classe écoute l'action NEW_ORDER du module order
  */
-class NewPaymentDone
+class NewOrder
 {
-    public static function doAction(PaymentIntent $stripePaymentIntent)
+    public static function doAction(SetupIntent $setupIntent)
     {
         $mapper = new JsonMapper();
         $mapper->bExceptionOnMissingData = true;
         $mapper->postMappingMethod = 'afterMapping';
 
-        // Si c'est une adoption, nous aurons le productOrder dans les metas de l'invoice
-        $invoice = StripeService::getStripeClient()->invoices->retrieve($stripePaymentIntent->invoice);
-        if($invoice->metadata['productOrdered'] === null) {
-            return;
-        }
+        $customerModel = $mapper->map(
+            json_decode($setupIntent->metadata['customer'], false, 512, JSON_THROW_ON_ERROR),
+            new CustomerModel()
+        );
 
-        $customerModel = $mapper->map(json_decode($invoice->metadata['customer'], false, 512, JSON_THROW_ON_ERROR), new CustomerModel());
         /** @var ProductOrderModel $productOrdered */
-        $productOrdered = $mapper->map(json_decode($invoice->metadata['productOrdered'], false, 512, JSON_THROW_ON_ERROR), new ProductOrderModel());
+        $productOrdered = $mapper->map(
+            json_decode($setupIntent->metadata['productOrdered'], false, 512, JSON_THROW_ON_ERROR),
+            new ProductOrderModel()
+        );
 
         // Récupère le prix pour le produit depuis stripe
         $stripeProduct = ProductService::getProduct($productOrdered->getKey(), $productOrdered->getProject(), $productOrdered->getVariant());
         $stripePrice = StripeService::getStripeClient()->prices->retrieve($stripeProduct->default_price);
         $project = Project::from($productOrdered->getProject());
 
-        if($invoice->metadata['sendToFriend'] !== null) {
+        if($setupIntent->metadata['sendToFriend'] !== null) {
             // GiftAdoption
             $giftAdoptionModel = new GiftAdoptionModel();
             $giftAdoptionModel
                 ->setCustomerModel($customerModel)
-                ->setLang(Language::from($invoice->metadata['language']))
+                ->setLang(Language::from($setupIntent->metadata['language']))
                 ->setPaymentMethod(PaymentMethod::CREDIT_CARD)
                 ->setAmount($stripePrice->unit_amount / 100)
-                ->setStripePaymentIntent($stripePaymentIntent)
+                ->setStripePaymentIntent($setupIntent)
                 ->setAdoptedProduct(AdoptedProduct::from($productOrdered->getFullKey()))
                 ->setQuantity($productOrdered->getQuantity())
                 ->setProject($project)
-                ->setSendToFriend($invoice->metadata['sendToFriend'] === "true");
+                ->setSendToFriend($setupIntent->metadata['sendToFriend'] === "true");
 
             do_action(CoralAdoptionActions::PENDING_GIFT_ADOPTION->value, $giftAdoptionModel);
         } else
@@ -62,10 +63,10 @@ class NewPaymentDone
             $adoptionModel = new AdoptionModel();
             $adoptionModel
                 ->setCustomerModel($customerModel)
-                ->setLang(Language::from($invoice->metadata['language']))
+                ->setLang(Language::from($setupIntent->metadata['language']))
                 ->setPaymentMethod(PaymentMethod::CREDIT_CARD)
                 ->setAmount($stripePrice->unit_amount / 100)
-                ->setStripePaymentIntent($stripePaymentIntent)
+                ->setStripePaymentIntent($setupIntent)
                 ->setAdoptedProduct(AdoptedProduct::from($productOrdered->getFullKey()))
                 ->setProject($project)
                 ->setQuantity($productOrdered->getQuantity());
