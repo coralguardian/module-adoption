@@ -11,6 +11,7 @@ use WP_REST_Response;
 
 class GetAdoptionUuidByPaymentIntentId extends APIEnpointAbstract
 {
+    // @todo: ce n'est plus le paymentIntentId mais le setupIntentId
     public static function callback(WP_REST_Request $request): WP_REST_Response
     {
         $stripePaymentIntentId = $request->get_param("stripePaymentIntentId");
