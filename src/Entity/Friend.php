@@ -35,7 +35,7 @@ class Friend
     private string $friendEmail;
 
     /**
-     * @ORM\OneToOne (targetEntity="\D4rk0snet\GiftCode\Entity\GiftCodeEntity", inversedBy="friend")
+     * @ORM\OneToOne(targetEntity="\D4rk0snet\GiftCode\Entity\GiftCodeEntity", inversedBy="friend")
      * @ORM\JoinColumn(name="giftCode", referencedColumnName="uuid")
      */
     private GiftCodeEntity $giftCode;
