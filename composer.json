@@ -67,18 +67,18 @@
         }
     ],
     "require": {
-        "hyperion/doctrine" : "dev-dev",
-        "hyperion/restapi": "dev-dev",
-        "hyperion/stripe": "dev-dev",
+        "hyperion/doctrine" : "1.*",
+        "hyperion/restapi": "1.*",
+        "hyperion/stripe": "1.*",
+        "hyperion/sendinblue": "1.*",
         "netresearch/jsonmapper": "^4.0",
         "ramsey/uuid": "^4.3",
         "ramsey/uuid-doctrine": "^1.8",
         "ext-json": "*",
-        "hyperion/sendinblue": "dev-dev",
-        "d4rk0snet/fiscalreceipt": "dev-dev",
-        "d4rk0snet/certificate": "dev-dev",
-        "d4rk0snet/gift-code": "dev-dev",
-        "d4rk0snet/naming-file-import": "dev-dev",
-        "d4rk0snet/coral-order": "dev-dev"
+        "d4rk0snet/fiscalreceipt": "dev-prod",
+        "d4rk0snet/certificate": "dev-prod",
+        "d4rk0snet/gift-code": "dev-prod",
+        "d4rk0snet/naming-file-import": "dev-prod",
+        "d4rk0snet/coral-order": "dev-prod"
     }
 }
