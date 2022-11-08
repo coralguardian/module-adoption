@@ -45,6 +45,6 @@ class CreateAdoption
         $em->persist($adoptionEntity);
         $em->flush();
 
-        do_action(CoralAdoptionActions::NEW_ADOPTION->value, $adoptionModel, $adoptionEntity);
+        do_action(CoralAdoptionActions::ADOPTION_CREATED->value, $adoptionModel, $adoptionEntity);
     }
 }
