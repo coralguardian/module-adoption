@@ -38,7 +38,13 @@ class CreateGiftAdoption
             project: $giftAdoptionModel->getProject(),
             sendOn: $giftAdoptionModel->getSendOn(),
             message: $giftAdoptionModel->getMessage(),
-            customAmount: $giftAdoptionModel->getCustomAmount()
+            customAmount: $giftAdoptionModel->getCustomAmount(),
+            address: $giftAdoptionModel->getCustomerModel()->getAddress(),
+            postalCode: $giftAdoptionModel->getCustomerModel()->getPostalCode(),
+            city: $giftAdoptionModel->getCustomerModel()->getCity(),
+            country: $giftAdoptionModel->getCustomerModel()->getCountry(),
+            firstName: $giftAdoptionModel->getCustomerModel()->getFirstname(),
+            lastName: $giftAdoptionModel->getCustomerModel()->getLastname()
         );
 
         if($giftAdoptionModel->getStripePaymentIntent() !== null) {

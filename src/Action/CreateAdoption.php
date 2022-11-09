@@ -35,7 +35,13 @@ class CreateAdoption
             paymentMethod: $adoptionModel->getPaymentMethod(),
             isPaid: $adoptionModel->getPaymentMethod() === PaymentMethod::CREDIT_CARD && $adoptionModel->getStripePaymentIntent(),
             project: $adoptionModel->getProject(),
-            customAmount: $adoptionModel->getCustomAmount()
+            customAmount: $adoptionModel->getCustomAmount(),
+            address: $adoptionModel->getCustomerModel()->getAddress(),
+            postalCode: $adoptionModel->getCustomerModel()->getPostalCode(),
+            city: $adoptionModel->getCustomerModel()->getCity(),
+            country: $adoptionModel->getCustomerModel()->getCountry(),
+            firstName: $adoptionModel->getCustomerModel()->getFirstname(),
+            lastName: $adoptionModel->getCustomerModel()->getLastname()
         );
 
         if($adoptionModel->getStripePaymentIntent() !== null) {

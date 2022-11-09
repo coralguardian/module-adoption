@@ -57,7 +57,13 @@ class GiftAdoption extends AdoptionEntity
         Project        $project,
         ?DateTime      $sendOn,
         ?string        $message,
-        ?int           $customAmount = null
+        ?int           $customAmount = null,
+        string         $address,
+        string         $postalCode,
+        string         $city,
+        string         $country,
+        string         $firstName,
+        string         $lastName
     )
     {
         parent::__construct(
@@ -70,7 +76,13 @@ class GiftAdoption extends AdoptionEntity
             paymentMethod: $paymentMethod,
             isPaid: $isPaid,
             project: $project,
-            customAmount: $customAmount
+            customAmount: $customAmount,
+            address: $address,
+            postalCode: $postalCode,
+            city: $city,
+            country: $country,
+            firstName: $firstName,
+            lastName: $lastName
         );
         $this->giftCodes = new ArrayCollection();
         $this->sendOn = $sendOn;

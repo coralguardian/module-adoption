@@ -50,7 +50,13 @@ class AdoptionEntity extends DonationEntity
         PaymentMethod  $paymentMethod,
         bool           $isPaid,
         Project        $project,
-        ?int           $customAmount = null
+        ?int           $customAmount = null,
+        string         $address,
+        string         $postalCode,
+        string         $city,
+        string         $country,
+        string         $firstName,
+        string         $lastName
     )
     {
         parent::__construct(
@@ -60,7 +66,13 @@ class AdoptionEntity extends DonationEntity
             lang: $lang,
             isPaid: $isPaid,
             paymentMethod: $paymentMethod,
-            project: $project
+            project: $project,
+            address: $address,
+            postalCode: $postalCode,
+            city: $city,
+            country: $country,
+            firstName: $firstName,
+            lastName: $lastName
         );
         $this->adoptedProduct = $adoptedProduct;
         $this->quantity = $quantity;
