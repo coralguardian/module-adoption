@@ -12,6 +12,7 @@ use D4rk0snet\CoralOrder\Enums\PaymentMethod;
 use D4rk0snet\CoralOrder\Enums\Project;
 use D4rk0snet\CoralOrder\Model\ProductOrderModel;
 use D4rk0snet\CoralOrder\Service\ProductService;
+use D4rk0snet\Donation\Enums\DonationRecurrencyEnum;
 use Hyperion\Stripe\Service\StripeService;
 use JsonMapper;
 use Stripe\SetupIntent;
@@ -43,6 +44,24 @@ class NewOrder
         $stripePrice = StripeService::getStripeClient()->prices->retrieve($stripeProduct->default_price);
         $project = Project::from($productOrdered->getProject());
 
+        // On vérifie si il n'y a pas de montant custom
+        $customAmount = null;
+
+        if($setupIntent->metadata['donationOrdered'] !== null) {
+            $donations = json_decode($setupIntent->metadata['donationOrdered'], false, 512, JSON_THROW_ON_ERROR);
+
+            // On isole un éventuel don induit par une modification du prix total
+            $filterResults = array_filter($donations, static function ($donationOrderData) {
+                return
+                    $donationOrderData->donationRecurrency === DonationRecurrencyEnum::ONESHOT->value &&
+                    $donationOrderData->isExtra === true;
+            });
+
+            if(count($filterResults) > 0) {
+                $customAmount = $stripePrice->unit_amount / 100 * $productOrdered->getQuantity() + current($filterResults)->amount;
+            }
+        }
+
         if($setupIntent->metadata['sendToFriend'] !== null) {
             // GiftAdoption
             $giftAdoptionModel = new GiftAdoptionModel();
@@ -55,7 +74,8 @@ class NewOrder
                 ->setAdoptedProduct(AdoptedProduct::from($productOrdered->getFullKey()))
                 ->setQuantity($productOrdered->getQuantity())
                 ->setProject($project)
-                ->setSendToFriend($setupIntent->metadata['sendToFriend'] === "true");
+                ->setSendToFriend($setupIntent->metadata['sendToFriend'] === "true")
+                ->setCustomAmount($customAmount);
 
             do_action(CoralAdoptionActions::PENDING_GIFT_ADOPTION->value, $giftAdoptionModel);
         } else
@@ -69,7 +89,8 @@ class NewOrder
                 ->setStripePaymentIntent($setupIntent)
                 ->setAdoptedProduct(AdoptedProduct::from($productOrdered->getFullKey()))
                 ->setProject($project)
-                ->setQuantity($productOrdered->getQuantity());
+                ->setQuantity($productOrdered->getQuantity())
+                ->setCustomAmount($customAmount);
 
             do_action(CoralAdoptionActions::PENDING_ADOPTION->value, $adoptionModel);
         }

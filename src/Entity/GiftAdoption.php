@@ -56,7 +56,8 @@ class GiftAdoption extends AdoptionEntity
         bool           $sendToFriend,
         Project        $project,
         ?DateTime      $sendOn,
-        ?string        $message
+        ?string        $message,
+        ?int           $customAmount = null
     )
     {
         parent::__construct(
@@ -68,7 +69,8 @@ class GiftAdoption extends AdoptionEntity
             quantity: $quantity,
             paymentMethod: $paymentMethod,
             isPaid: $isPaid,
-            project: $project
+            project: $project,
+            customAmount: $customAmount
         );
         $this->giftCodes = new ArrayCollection();
         $this->sendOn = $sendOn;

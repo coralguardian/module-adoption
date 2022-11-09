@@ -50,6 +50,8 @@ class AdoptionModel
 
     private ?SetupIntent $stripePaymentIntent = null;
 
+    private ?int $customAmount = null;
+
     public function afterMapping()
     {
         if ($this->quantity < 1) {
@@ -154,6 +156,17 @@ class AdoptionModel
     public function setProject(Project $project): AdoptionModel
     {
         $this->project = $project;
+        return $this;
+    }
+
+    public function getCustomAmount(): ?int
+    {
+        return $this->customAmount;
+    }
+
+    public function setCustomAmount(?int $customAmount): AdoptionModel
+    {
+        $this->customAmount = $customAmount;
         return $this;
     }
 }

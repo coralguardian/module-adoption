@@ -35,6 +35,11 @@ class AdoptionEntity extends DonationEntity
      */
     private Collection $adoptees;
 
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private ?int $customAmount;
+
     public function __construct(
         CustomerEntity $customer,
         DateTime       $date,
@@ -44,7 +49,8 @@ class AdoptionEntity extends DonationEntity
         int            $quantity,
         PaymentMethod  $paymentMethod,
         bool           $isPaid,
-        Project        $project
+        Project        $project,
+        ?int           $customAmount = null
     )
     {
         parent::__construct(
@@ -59,6 +65,7 @@ class AdoptionEntity extends DonationEntity
         $this->adoptedProduct = $adoptedProduct;
         $this->quantity = $quantity;
         $this->adoptees = new ArrayCollection();
+        $this->customAmount = $customAmount;
     }
 
     public function getAdoptedProduct(): AdoptedProduct
@@ -86,5 +93,10 @@ class AdoptionEntity extends DonationEntity
     public function getAdoptees(): ArrayCollection|Collection
     {
         return $this->adoptees;
+    }
+
+    public function getCustomAmount(): ?int
+    {
+        return $this->customAmount;
     }
 }

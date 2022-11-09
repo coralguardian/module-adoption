@@ -37,7 +37,8 @@ class CreateGiftAdoption
             sendToFriend: $giftAdoptionModel->isSendToFriend(),
             project: $giftAdoptionModel->getProject(),
             sendOn: $giftAdoptionModel->getSendOn(),
-            message: $giftAdoptionModel->getMessage()
+            message: $giftAdoptionModel->getMessage(),
+            customAmount: $giftAdoptionModel->getCustomAmount()
         );
 
         if($giftAdoptionModel->getStripePaymentIntent() !== null) {

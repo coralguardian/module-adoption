@@ -34,7 +34,8 @@ class CreateAdoption
             quantity: $adoptionModel->getQuantity(),
             paymentMethod: $adoptionModel->getPaymentMethod(),
             isPaid: $adoptionModel->getPaymentMethod() === PaymentMethod::CREDIT_CARD && $adoptionModel->getStripePaymentIntent(),
-            project: $adoptionModel->getProject()
+            project: $adoptionModel->getProject(),
+            customAmount: $adoptionModel->getCustomAmount()
         );
 
         if($adoptionModel->getStripePaymentIntent() !== null) {
