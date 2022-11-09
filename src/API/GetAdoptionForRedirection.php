@@ -4,6 +4,7 @@ namespace D4rk0snet\Adoption\API;
 
 use D4rk0snet\Adoption\Entity\AdoptionEntity;
 use D4rk0snet\Adoption\Enums\RedirectionStep;
+use D4rk0snet\CoralCustomer\Entity\CompanyCustomerEntity;
 use Hyperion\Doctrine\Service\DoctrineService;
 use Hyperion\RestAPI\APIEnpointAbstract;
 use Hyperion\RestAPI\APIManagement;
@@ -48,7 +49,9 @@ class GetAdoptionForRedirection extends APIEnpointAbstract
         return APIManagement::APIOk([
             "uuid" => $adoptionEntity->getUuid(),
             "type" => $adoptionEntity->getAdoptedProduct()->value,
-            "quantity" => $adoptionEntity->getQuantity()
+            "quantity" => $adoptionEntity->getQuantity(),
+            "project" => $adoptionEntity->getProject()->value,
+            "customer" => $adoptionEntity->getCustomer() instanceof CompanyCustomerEntity ? "company" : "customer"
         ]);
     }
 
