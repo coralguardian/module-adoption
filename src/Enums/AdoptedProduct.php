@@ -30,6 +30,14 @@ enum AdoptedProduct: string
         }
     }
 
+    public function getProductType() : string
+    {
+        return match ($this) {
+            self::CORAL => 'coral',
+            self::BUTTERFLY_REEF, self::REEF_LADY, self::REEF_NAPOLEON => 'reef'
+        };
+    }
+
     public static function getRandomizedProductImages(self $self, Project $project)
     {
         $pictures = $self->getProductImages($project);
