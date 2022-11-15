@@ -34,7 +34,14 @@ class CreateAdoption
             quantity: $adoptionModel->getQuantity(),
             paymentMethod: $adoptionModel->getPaymentMethod(),
             isPaid: $adoptionModel->getPaymentMethod() === PaymentMethod::CREDIT_CARD && $adoptionModel->getStripePaymentIntent(),
-            project: $adoptionModel->getProject()
+            project: $adoptionModel->getProject(),
+            customAmount: $adoptionModel->getCustomAmount(),
+            address: $adoptionModel->getCustomerModel()->getAddress(),
+            postalCode: $adoptionModel->getCustomerModel()->getPostalCode(),
+            city: $adoptionModel->getCustomerModel()->getCity(),
+            country: $adoptionModel->getCustomerModel()->getCountry(),
+            firstName: $adoptionModel->getCustomerModel()->getFirstname(),
+            lastName: $adoptionModel->getCustomerModel()->getLastname()
         );
 
         if($adoptionModel->getStripePaymentIntent() !== null) {
@@ -45,6 +52,8 @@ class CreateAdoption
         $em->persist($adoptionEntity);
         $em->flush();
 
-        do_action(CoralAdoptionActions::NEW_ADOPTION->value, $adoptionModel, $adoptionEntity);
+        if($adoptionEntity->isPaid() === true) {
+            do_action(CoralAdoptionActions::ADOPTION_CREATED->value, $adoptionModel, $adoptionEntity);
+        }
     }
 }

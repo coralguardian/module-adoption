@@ -37,7 +37,14 @@ class CreateGiftAdoption
             sendToFriend: $giftAdoptionModel->isSendToFriend(),
             project: $giftAdoptionModel->getProject(),
             sendOn: $giftAdoptionModel->getSendOn(),
-            message: $giftAdoptionModel->getMessage()
+            message: $giftAdoptionModel->getMessage(),
+            customAmount: $giftAdoptionModel->getCustomAmount(),
+            address: $giftAdoptionModel->getCustomerModel()->getAddress(),
+            postalCode: $giftAdoptionModel->getCustomerModel()->getPostalCode(),
+            city: $giftAdoptionModel->getCustomerModel()->getCity(),
+            country: $giftAdoptionModel->getCustomerModel()->getCountry(),
+            firstName: $giftAdoptionModel->getCustomerModel()->getFirstname(),
+            lastName: $giftAdoptionModel->getCustomerModel()->getLastname()
         );
 
         if($giftAdoptionModel->getStripePaymentIntent() !== null) {
@@ -48,6 +55,6 @@ class CreateGiftAdoption
         $em->persist($giftAdoptionEntity);
         $em->flush();
 
-        do_action(CoralAdoptionActions::NEW_GIFT_ADOPTION->value, $giftAdoptionModel, $giftAdoptionEntity->getUuid());
+        do_action(CoralAdoptionActions::GIFT_ADOPTION_CREATED->value, $giftAdoptionModel, $giftAdoptionEntity->getUuid());
     }
 }
