@@ -52,6 +52,8 @@ class CreateAdoption
         $em->persist($adoptionEntity);
         $em->flush();
 
-        do_action(CoralAdoptionActions::ADOPTION_CREATED->value, $adoptionModel, $adoptionEntity);
+        if($adoptionEntity->isPaid() === true) {
+            do_action(CoralAdoptionActions::ADOPTION_CREATED->value, $adoptionModel, $adoptionEntity);
+        }
     }
 }
