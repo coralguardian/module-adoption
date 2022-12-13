@@ -4,13 +4,14 @@ namespace D4rk0snet\Adoption\Service;
 
 use D4rk0snet\Adoption\Entity\AdoptionEntity;
 use D4rk0snet\Adoption\Enums\RedirectionStep;
+use D4rk0snet\CoralCustomer\Entity\CompanyCustomerEntity;
 use WP_Query;
 
 class RedirectionService
 {
     public static function buildRedirectionUrl(AdoptionEntity $adoptionEntity): string
     {
-        $baseUrl = home_url("adoption-entreprise");
+        $baseUrl = $adoptionEntity->getCustomer() instanceof CompanyCustomerEntity ? home_url("adoption-entreprise") : home_url("adopte-corail");
         $baseUrl .=  "?adoptionUuid=" . $adoptionEntity->getUuid() .
             "&step=" . RedirectionStep::getEnumBasedOnClass($adoptionEntity::class)->value;
 
