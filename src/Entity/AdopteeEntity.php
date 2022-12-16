@@ -103,6 +103,14 @@ class AdopteeEntity
         return $this->adopteeDatetime;
     }
 
+    /**
+     * @param string $picture
+     */
+    public function setPicture(string $picture): void
+    {
+        $this->picture = $picture;
+    }
+
     public function getPicture(): string
     {
         return $this->picture;
