@@ -12,8 +12,11 @@ class RedirectionService
 {
     public static function buildRedirectionUrl(AdoptionEntity $adoptionEntity): string
     {
-        $baseUrl = $adoptionEntity->getCustomer() instanceof CompanyCustomerEntity ? home_url("adoption-entreprise") : home_url("adopte-corail");
-        $baseUrl .= $adoptionEntity->getLang() === Language::EN ? '/en/': "";
+        if($adoptionEntity->getLang() === Language::EN) {
+            $baseUrl = $adoptionEntity->getCustomer() instanceof CompanyCustomerEntity ? home_url()."/en/csr-coral-guardian": home_url()."/en/adopt-a-coral";
+        } else {
+            $baseUrl = $adoptionEntity->getCustomer() instanceof CompanyCustomerEntity ? home_url("adoption-entreprise") : home_url("adopte-corail");
+        }
         $baseUrl .=  "?adoptionUuid=" . $adoptionEntity->getUuid() .
             "&step=" . RedirectionStep::getEnumBasedOnClass($adoptionEntity::class)->value;
 
