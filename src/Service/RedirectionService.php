@@ -13,7 +13,7 @@ class RedirectionService
     public static function buildRedirectionUrl(AdoptionEntity $adoptionEntity): string
     {
         if($adoptionEntity->getLang() === Language::EN) {
-            $baseUrl = $adoptionEntity->getCustomer() instanceof CompanyCustomerEntity ? home_url("csr-coral-guardian"): home_url("adopt-a-coral");
+            $baseUrl = $adoptionEntity->getCustomer() instanceof CompanyCustomerEntity ? home_url()."/en/csr-coral-guardian": home_url()."/en/adopt-a-coral";
         } else {
             $baseUrl = $adoptionEntity->getCustomer() instanceof CompanyCustomerEntity ? home_url("adoption-entreprise") : home_url("adopte-corail");
         }
