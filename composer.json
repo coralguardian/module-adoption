@@ -17,32 +17,12 @@
     "repositories": [
         {
             "type" : "vcs",
-            "url": "git@github.com:ds-hyperion/doctrine.git",
-            "no-api": true
-        },
-        {
-            "type" : "vcs",
-            "url": "git@github.com:ds-hyperion/restapi.git",
-            "no-api": true
-        },
-        {
-            "type" : "vcs",
-            "url": "git@github.com:ds-hyperion/stripe.git",
-            "no-api": true
-        },
-        {
-            "type" : "vcs",
             "url": "git@github.com:coralguardian/module-fiscalreceipt.git",
             "no-api": true
         },
         {
             "type" : "vcs",
             "url": "git@github.com:coralguardian/module-certificate.git",
-            "no-api": true
-        },
-        {
-            "type" : "vcs",
-            "url": "git@github.com:ds-hyperion/api2pdf.git",
             "no-api": true
         },
         {
@@ -56,21 +36,16 @@
           "no-api": true
         },
         {
-          "type" : "vcs",
-          "url": "git@github.com:ds-hyperion/sendinblue.git",
-          "no-api": true
-        },
-        {
             "type" : "vcs",
             "url": "git@github.com:coralguardian/module-naming_file_import.git",
             "no-api": true
         }
     ],
     "require": {
-        "hyperion/doctrine" : "1.*",
-        "hyperion/restapi": "1.*",
-        "hyperion/stripe": "1.*",
-        "hyperion/sendinblue": "1.*",
+        "wordpress-hyperion/doctrine" : "^1.0",
+        "wordpress-hyperion/restapi": "^1.0",
+        "wordpress-hyperion/sendinblue": "^1.0",
+        "wordpress-hyperion/stripe": "^1.0",
         "netresearch/jsonmapper": "^4.0",
         "ramsey/uuid": "^4.3",
         "ramsey/uuid-doctrine": "^1.8",
