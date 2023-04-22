@@ -8,7 +8,6 @@ use D4rk0snet\Coralguardian\Enums\Language;
 use D4rk0snet\CoralOrder\Enums\PaymentMethod;
 use D4rk0snet\CoralOrder\Enums\Project;
 use Exception;
-use Stripe\PaymentIntent;
 use Stripe\SetupIntent;
 
 class AdoptionModel
@@ -51,6 +50,8 @@ class AdoptionModel
     private ?SetupIntent $stripePaymentIntent = null;
 
     private ?int $customAmount = null;
+
+    private ?array $names;
 
     public function afterMapping()
     {
@@ -167,6 +168,24 @@ class AdoptionModel
     public function setCustomAmount(?int $customAmount): AdoptionModel
     {
         $this->customAmount = $customAmount;
+        return $this;
+    }
+
+    /**
+     * @return array|null
+     */
+    public function getNames(): ?array
+    {
+        return $this->names;
+    }
+
+    /**
+     * @param array|null $names
+     */
+    public function setNames(?array $names): AdoptionModel
+    {
+        $this->names = $names;
+
         return $this;
     }
 }
