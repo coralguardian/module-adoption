@@ -18,10 +18,10 @@ use DateTime;
 
 class AdopteeService
 {
-    public static function giveNameToAdoptees(AdopteesModel $model) : void
+    public static function giveNameToAdoptees(string $uuid, AdopteesModel $model) : void
     {
         /** @var AdoptionEntity | null $adoptionEntity */
-        $adoptionEntity = DoctrineService::getEntityManager()->getRepository(AdoptionEntity::class)->find($model->getAdoptionUuid());
+        $adoptionEntity = DoctrineService::getEntityManager()->getRepository(AdoptionEntity::class)->find($uuid);
         if($adoptionEntity === null) {
             throw new Exception("No adoption found", 404);
         }
@@ -29,7 +29,7 @@ class AdopteeService
         if ($adoptionEntity instanceof GiftAdoption) {
             self::handleForGiftAdoption($model);
         } else {
-            self::handleForAdoption($adoptionEntity, $model);
+            self::handleForAdoption($adoptionEntity, $model->getNames());
         }
     }
 
