@@ -18,10 +18,10 @@ use DateTime;
 
 class AdopteeService
 {
-    public static function giveNameToAdoptees(AdopteesModel $model) : void
+    public static function giveNameToAdoptees(string $uuid, AdopteesModel $model) : void
     {
         /** @var AdoptionEntity | null $adoptionEntity */
-        $adoptionEntity = DoctrineService::getEntityManager()->getRepository(AdoptionEntity::class)->find($model->getAdoptionUuid());
+        $adoptionEntity = DoctrineService::getEntityManager()->getRepository(AdoptionEntity::class)->find($uuid);
         if($adoptionEntity === null) {
             throw new Exception("No adoption found", 404);
         }
@@ -29,7 +29,7 @@ class AdopteeService
         if ($adoptionEntity instanceof GiftAdoption) {
             self::handleForGiftAdoption($model);
         } else {
-            self::handleForAdoption($adoptionEntity, $model);
+            self::handleForAdoption($adoptionEntity, $model->getNames());
         }
     }
 
@@ -51,7 +51,7 @@ class AdopteeService
             throw new Exception("Adoptees already have names. Can't rename them.", 400);
         }
 
-        $adoptees = self::createAdoptees($giftCodeEntity->getGiftAdoption(), $model);
+        $adoptees = self::createAdoptees($giftCodeEntity->getGiftAdoption(), $model->getNames());
 
         $giftCodeEntity->setAdoptees($adoptees);
         $giftCodeEntity->setUsed(true);
@@ -65,9 +65,9 @@ class AdopteeService
         }
     }
 
-    private static function handleForAdoption(AdoptionEntity $adoptionEntity, AdopteesModel $adopteesModel): void
+    public static function handleForAdoption(AdoptionEntity $adoptionEntity, array $names): void
     {
-        if($adoptionEntity->getQuantity() !== count($adopteesModel->getNames())) {
+        if($adoptionEntity->getQuantity() !== count($names)) {
             throw new Exception("Number of names doesn't match the quantity ordered", 404);
         }
 
@@ -77,13 +77,13 @@ class AdopteeService
             throw new Exception("Adoptees already have names. Can't rename them.", 400);
         }
 
-        self::createAdoptees($adoptionEntity, $adopteesModel);
+        self::createAdoptees($adoptionEntity, $names);
 
         // Send email event
         NamingDone::sendEvent($adoptionEntity);
     }
 
-    private static function createAdoptees(AdoptionEntity $adoption, AdopteesModel $adopteesModel): ArrayCollection
+    private static function createAdoptees(AdoptionEntity $adoption, array $names): ArrayCollection
     {
         $adoptees = new ArrayCollection();
         $seeders = Seeder::randomizeSeeder($adoption->getProject());
@@ -91,8 +91,7 @@ class AdopteeService
         $seedersCount = count($seeders);
         $picturesCount = count($pictures);
 
-        foreach($adopteesModel->getNames() as $index => $name) {
-            /** @var Seeder $selectedSeeder */
+        foreach($names as $index => $name) {
             $selectedSeeder = $seeders[$index % $seedersCount];
             $selectedPicture = $pictures[$index % $picturesCount];
 
