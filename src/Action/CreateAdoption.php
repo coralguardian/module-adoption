@@ -58,7 +58,7 @@ class CreateAdoption
         }
 
         // Si on a passé des noms directement dans l'adoption, on crée les adoptees.
-        if(!is_null($adoptionModel->getNames())) {
+        if(!empty($adoptionModel->getNames())) {
             AdopteeService::handleForAdoption($adoptionEntity, $adoptionModel->getNames());
         }
     }

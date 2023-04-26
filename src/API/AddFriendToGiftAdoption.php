@@ -4,8 +4,6 @@ namespace D4rk0snet\Adoption\API;
 
 use D4rk0snet\Adoption\Entity\Friend;
 use D4rk0snet\Adoption\Entity\GiftAdoption;
-use D4rk0snet\Adoption\Models\GiftAdoptionModel;
-use D4rk0snet\CoralCustomer\Entity\CompanyCustomerEntity;
 use D4rk0snet\Coralguardian\Event\GiftCodeSent;
 use D4rk0snet\Coralguardian\Event\RecipientDone;
 use D4rk0snet\CoralOrder\Model\FriendModel;
@@ -36,7 +34,7 @@ class AddFriendToGiftAdoption extends APIEnpointAbstract
 
         /** @var GiftAdoption $adoptionEntity */
         $adoptionEntity = DoctrineService::getEntityManager()->getRepository(GiftAdoption::class)->find($adoptionUuid);
-        if($adoptionEntity === null) {
+        if(!$adoptionEntity instanceof GiftAdoption) {
             return APIManagement::APINotFound();
         }
 
@@ -95,6 +93,6 @@ class AddFriendToGiftAdoption extends APIEnpointAbstract
 
     public static function getEndpoint(): string
     {
-        return "adoption/gift/friend";
+        return "adoption/(?P<".self::GIFT_ADOPTION_UUID_PARAM.">[0-9a-fA-F]{8}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{12})/friends";
     }
 }

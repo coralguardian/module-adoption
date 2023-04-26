@@ -51,7 +51,7 @@ class AdoptionModel
 
     private ?int $customAmount = null;
 
-    private ?array $names;
+    private ?array $names = null;
 
     public function afterMapping()
     {
