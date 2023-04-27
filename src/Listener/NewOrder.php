@@ -92,7 +92,7 @@ class NewOrder
                 ->setQuantity($productOrdered->getQuantity())
                 ->setCustomAmount($customAmount);
 
-            if(!is_null($productOrdered->getSelfAdoptionModel()->getNames())) {
+            if(!empty($productOrdered->getSelfAdoptionModel()->getNames())) {
                 $adoptionModel->setNames($productOrdered->getSelfAdoptionModel()->getNames());
             }
 

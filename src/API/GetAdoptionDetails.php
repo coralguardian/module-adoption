@@ -4,7 +4,7 @@ namespace D4rk0snet\Adoption\API;
 
 use D4rk0snet\Adoption\Entity\AdoptionEntity;
 use D4rk0snet\Adoption\Entity\GiftAdoption;
-use D4rk0snet\CoralCustomer\Entity\CustomerEntity;
+use D4rk0snet\CoralCustomer\Entity\CompanyCustomerEntity;
 use D4rk0snet\Donation\Entity\DonationEntity;
 use Hyperion\Doctrine\Service\DoctrineService;
 use Hyperion\RestAPI\APIEnpointAbstract;
@@ -28,12 +28,12 @@ class GetAdoptionDetails extends APIEnpointAbstract
 
         return APIManagement::APIOk([
             'order' => [
-                'type' => $adoptionEntity instanceof AdoptionEntity ? "regular" : "gift",
+                'type' => $adoptionEntity instanceof GiftAdoption ? "gift" : "regular",
                 'productType' => $adoptionEntity->getAdoptedProduct()->value,
                 'quantity' => $adoptionEntity->getQuantity()
             ],
             'adopter' => [
-                'type' => $adoptionEntity->getCustomer() instanceof CustomerEntity ? "individual" : "company"
+                'type' => $adoptionEntity->getCustomer() instanceof CompanyCustomerEntity ? "company" : "individual"
             ],
             'project' => $adoptionEntity->getProject()->value
         ]);
