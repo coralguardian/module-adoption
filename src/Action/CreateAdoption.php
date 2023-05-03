@@ -53,13 +53,13 @@ class CreateAdoption
         $em->persist($adoptionEntity);
         $em->flush();
 
-        if($adoptionEntity->isPaid() === true) {
-            do_action(CoralAdoptionActions::ADOPTION_CREATED->value, $adoptionModel, $adoptionEntity);
-        }
-
         // Si on a passé des noms directement dans l'adoption, on crée les adoptees.
         if(!empty($adoptionModel->getNames())) {
             AdopteeService::handleForAdoption($adoptionEntity, $adoptionModel->getNames());
+        }
+
+        if($adoptionEntity->isPaid() === true) {
+            do_action(CoralAdoptionActions::ADOPTION_CREATED->value, $adoptionModel, $adoptionEntity);
         }
     }
 }
