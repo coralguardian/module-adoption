@@ -74,6 +74,7 @@ class NewOrder
                 ->setAdoptedProduct(AdoptedProduct::from($productOrdered->getFullKey()))
                 ->setQuantity($productOrdered->getQuantity())
                 ->setProject($project)
+                ->setFriends($productOrdered->getGiftModel()->getFriends())
                 ->setSendToFriend($productOrdered->getGiftModel()->isSendToFriend())
                 ->setCustomAmount($customAmount);
 
