@@ -48,46 +48,51 @@ class AddFriendToGiftAdoption extends APIEnpointAbstract
             $mapper->postMappingMethod = 'afterMapping';
             $friendModelArray = $mapper->mapArray($friendModelArray, array(), FriendModel::class);
 
-            /** @var GiftCodeEntity $giftCode */
-            foreach ($adoptionEntity->getGiftCodes() as $index => $giftCode) {
-                if ($giftCode->getFriend() !== null) {
-                    throw new \Exception("Friends for this adoption have already been added");
-                }
-                $friend = $friendModelArray[$index];
-                $friendEntity = new Friend(
-                    friendFirstname: $friend->getFriendFirstname(),
-                    friendLastname: $friend->getFriendLastname(),
-                    friendEmail: $friend->getFriendEmail(),
-                    giftCode: $giftCode
-                );
-                $giftCode->setFriend($friendEntity);
-
-                DoctrineService::getEntityManager()->persist($friendEntity);
-            }
-
-            DoctrineService::getEntityManager()->flush();
-
-            if(isset($modelArray->sendOn)) {
-                $datetime = new \DateTime($modelArray->sendOn);
-                $adoptionEntity->setSendOn($datetime);
-            }
-
-            if(isset($modelArray->message)) {
-                $adoptionEntity->setMessage($modelArray->message);
-            }
-
-            if($adoptionEntity->getSendOn() === null) {
-                foreach($adoptionEntity->getGiftCodes() as $giftCode) {
-                    GiftCodeSent::sendEvent($giftCode, 1);
-                }
-            }
-
-            RecipientDone::sendEvent($adoptionEntity);
+            self::addRecipients($adoptionEntity, $friendModelArray);
 
             return APIManagement::APIOk();
         } catch(\Exception $exception) {
             return APIManagement::APIError($exception->getMessage(), 500);
         }
+    }
+
+    public static function addRecipients(GiftAdoption $adoptionEntity, array $friendModelArray)
+    {
+        /** @var GiftCodeEntity $giftCode */
+        foreach ($adoptionEntity->getGiftCodes() as $index => $giftCode) {
+            if ($giftCode->getFriend() !== null) {
+                throw new \Exception("Friends for this adoption have already been added");
+            }
+            $friend = $friendModelArray[$index];
+            $friendEntity = new Friend(
+                friendFirstname: $friend->getFriendFirstname(),
+                friendLastname: $friend->getFriendLastname(),
+                friendEmail: $friend->getFriendEmail(),
+                giftCode: $giftCode
+            );
+            $giftCode->setFriend($friendEntity);
+
+            DoctrineService::getEntityManager()->persist($friendEntity);
+        }
+
+        DoctrineService::getEntityManager()->flush();
+
+        if(isset($modelArray->sendOn)) {
+            $datetime = new \DateTime($modelArray->sendOn);
+            $adoptionEntity->setSendOn($datetime);
+        }
+
+        if(isset($modelArray->message)) {
+            $adoptionEntity->setMessage($modelArray->message);
+        }
+
+        if($adoptionEntity->getSendOn() === null) {
+            foreach($adoptionEntity->getGiftCodes() as $giftCode) {
+                GiftCodeSent::sendEvent($giftCode, 1);
+            }
+        }
+
+        RecipientDone::sendEvent($adoptionEntity);
     }
 
     public static function getMethods(): array
