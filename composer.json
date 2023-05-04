@@ -50,10 +50,10 @@
         "ramsey/uuid": "^4.3",
         "ramsey/uuid-doctrine": "^1.8",
         "ext-json": "*",
-        "d4rk0snet/fiscalreceipt": "dev-pprod",
-        "d4rk0snet/certificate": "dev-pprod",
-        "d4rk0snet/gift-code": "dev-pprod",
-        "d4rk0snet/naming-file-import": "dev-pprod",
-        "d4rk0snet/coral-order": "dev-pprod"
+        "d4rk0snet/fiscalreceipt": "dev-dev",
+        "d4rk0snet/certificate": "dev-dev",
+        "d4rk0snet/gift-code": "dev-dev",
+        "d4rk0snet/naming-file-import": "dev-dev",
+        "d4rk0snet/coral-order": "dev-dev"
     }
 }
