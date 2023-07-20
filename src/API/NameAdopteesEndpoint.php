@@ -15,6 +15,8 @@ use WP_REST_Request;
  */
 class NameAdopteesEndpoint extends APIEnpointAbstract
 {
+    private const ADOPTION_UUID_PARAM = 'uuid';
+
     public static function callback(WP_REST_Request $request): \WP_REST_Response
     {
         $payload = json_decode($request->get_body());
@@ -24,10 +26,12 @@ class NameAdopteesEndpoint extends APIEnpointAbstract
 
         $mapper = new JsonMapper();
         $adopteesModel = $mapper->map($payload, new AdopteesModel());
+        $adoptionUuid = $request->get_param(self::ADOPTION_UUID_PARAM);
+
 
         try {
             do_action(CoralAdoptionActions::PENDING_NAMING->value, $adopteesModel);
-            AdopteeService::giveNameToAdoptees($adopteesModel);
+            AdopteeService::giveNameToAdoptees($adoptionUuid, $adopteesModel);
         } catch (\Exception $exception) {
             return APIManagement::APIError($exception->getMessage(), $exception->getCode());
         }
@@ -47,6 +51,6 @@ class NameAdopteesEndpoint extends APIEnpointAbstract
 
     public static function getEndpoint(): string
     {
-        return "adoption/naming";
+        return "adoption/(?P<".self::ADOPTION_UUID_PARAM.">[0-9a-fA-F]{8}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{12})/names";
     }
 }

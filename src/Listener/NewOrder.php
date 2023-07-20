@@ -62,7 +62,7 @@ class NewOrder
             }
         }
 
-        if($setupIntent->metadata['sendToFriend'] !== null) {
+        if(!is_null($productOrdered->getGiftModel())) {
             // GiftAdoption
             $giftAdoptionModel = new GiftAdoptionModel();
             $giftAdoptionModel
@@ -74,7 +74,8 @@ class NewOrder
                 ->setAdoptedProduct(AdoptedProduct::from($productOrdered->getFullKey()))
                 ->setQuantity($productOrdered->getQuantity())
                 ->setProject($project)
-                ->setSendToFriend($setupIntent->metadata['sendToFriend'] === "true")
+                ->setFriends($productOrdered->getGiftModel()->getFriends())
+                ->setSendToFriend($productOrdered->getGiftModel()->isSendToFriend())
                 ->setCustomAmount($customAmount);
 
             do_action(CoralAdoptionActions::PENDING_GIFT_ADOPTION->value, $giftAdoptionModel);
@@ -91,6 +92,10 @@ class NewOrder
                 ->setProject($project)
                 ->setQuantity($productOrdered->getQuantity())
                 ->setCustomAmount($customAmount);
+
+            if(!empty($productOrdered->getSelfAdoptionModel()->getNames())) {
+                $adoptionModel->setNames($productOrdered->getSelfAdoptionModel()->getNames());
+            }
 
             do_action(CoralAdoptionActions::PENDING_ADOPTION->value, $adoptionModel);
         }

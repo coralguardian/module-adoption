@@ -4,8 +4,6 @@ namespace D4rk0snet\Adoption\API;
 
 use D4rk0snet\Adoption\Entity\Friend;
 use D4rk0snet\Adoption\Entity\GiftAdoption;
-use D4rk0snet\Adoption\Models\GiftAdoptionModel;
-use D4rk0snet\CoralCustomer\Entity\CompanyCustomerEntity;
 use D4rk0snet\Coralguardian\Event\GiftCodeSent;
 use D4rk0snet\Coralguardian\Event\RecipientDone;
 use D4rk0snet\CoralOrder\Model\FriendModel;
@@ -36,7 +34,7 @@ class AddFriendToGiftAdoption extends APIEnpointAbstract
 
         /** @var GiftAdoption $adoptionEntity */
         $adoptionEntity = DoctrineService::getEntityManager()->getRepository(GiftAdoption::class)->find($adoptionUuid);
-        if($adoptionEntity === null) {
+        if(!$adoptionEntity instanceof GiftAdoption) {
             return APIManagement::APINotFound();
         }
 
@@ -50,37 +48,51 @@ class AddFriendToGiftAdoption extends APIEnpointAbstract
             $mapper->postMappingMethod = 'afterMapping';
             $friendModelArray = $mapper->mapArray($friendModelArray, array(), FriendModel::class);
 
-            /** @var GiftCodeEntity $giftCode */
-            foreach ($adoptionEntity->getGiftCodes() as $index => $giftCode) {
-                if ($giftCode->getFriend() !== null) {
-                    throw new \Exception("Friends for this adoption have already been added");
-                }
-                $friend = $friendModelArray[$index];
-                $friendEntity = new Friend(
-                    friendFirstname: $friend->getFriendFirstname(),
-                    friendLastname: $friend->getFriendLastname(),
-                    friendEmail: $friend->getFriendEmail(),
-                    giftCode: $giftCode
-                );
-                $giftCode->setFriend($friendEntity);
-
-                DoctrineService::getEntityManager()->persist($friendEntity);
-            }
-
-            DoctrineService::getEntityManager()->flush();
-
-            if($adoptionEntity->getSendOn() === null) {
-                foreach($adoptionEntity->getGiftCodes() as $giftCode) {
-                    GiftCodeSent::sendEvent($giftCode, 1);
-                }
-            }
-
-            RecipientDone::sendEvent($adoptionEntity);
+            self::addRecipients($adoptionEntity, $friendModelArray);
 
             return APIManagement::APIOk();
         } catch(\Exception $exception) {
             return APIManagement::APIError($exception->getMessage(), 500);
         }
+    }
+
+    public static function addRecipients(GiftAdoption $adoptionEntity, array $friendModelArray)
+    {
+        /** @var GiftCodeEntity $giftCode */
+        foreach ($adoptionEntity->getGiftCodes() as $index => $giftCode) {
+            if ($giftCode->getFriend() !== null) {
+                throw new \Exception("Friends for this adoption have already been added");
+            }
+            $friend = $friendModelArray[$index];
+            $friendEntity = new Friend(
+                friendFirstname: $friend->getFriendFirstname(),
+                friendLastname: $friend->getFriendLastname(),
+                friendEmail: $friend->getFriendEmail(),
+                giftCode: $giftCode
+            );
+            $giftCode->setFriend($friendEntity);
+
+            DoctrineService::getEntityManager()->persist($friendEntity);
+        }
+
+        DoctrineService::getEntityManager()->flush();
+
+        if(isset($modelArray->sendOn)) {
+            $datetime = new \DateTime($modelArray->sendOn);
+            $adoptionEntity->setSendOn($datetime);
+        }
+
+        if(isset($modelArray->message)) {
+            $adoptionEntity->setMessage($modelArray->message);
+        }
+
+        if($adoptionEntity->getSendOn() === null) {
+            foreach($adoptionEntity->getGiftCodes() as $giftCode) {
+                GiftCodeSent::sendEvent($giftCode, 1);
+            }
+        }
+
+        RecipientDone::sendEvent($adoptionEntity);
     }
 
     public static function getMethods(): array
@@ -95,6 +107,6 @@ class AddFriendToGiftAdoption extends APIEnpointAbstract
 
     public static function getEndpoint(): string
     {
-        return "adoption/gift/friend";
+        return "adoption/(?P<".self::GIFT_ADOPTION_UUID_PARAM.">[0-9a-fA-F]{8}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{12})/friends";
     }
 }

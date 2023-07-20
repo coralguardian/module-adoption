@@ -2,9 +2,11 @@
 
 namespace D4rk0snet\Adoption\Action;
 
+use D4rk0snet\Adoption\API\AddFriendToGiftAdoption;
 use D4rk0snet\Adoption\Entity\GiftAdoption;
 use D4rk0snet\Adoption\Enums\CoralAdoptionActions;
 use D4rk0snet\Adoption\Models\GiftAdoptionModel;
+use D4rk0snet\Adoption\Service\AdopteeService;
 use D4rk0snet\CoralCustomer\Enum\CoralCustomerActions;
 use D4rk0snet\CoralCustomer\Enum\CoralCustomerFilters;
 use D4rk0snet\CoralOrder\Enums\PaymentMethod;
@@ -55,6 +57,13 @@ class CreateGiftAdoption
         $em->persist($giftAdoptionEntity);
         $em->flush();
 
-        do_action(CoralAdoptionActions::GIFT_ADOPTION_CREATED->value, $giftAdoptionModel, $giftAdoptionEntity->getUuid());
+        if($giftAdoptionEntity->isPaid() === true) {
+            do_action(CoralAdoptionActions::GIFT_ADOPTION_CREATED->value, $giftAdoptionModel, $giftAdoptionEntity->getUuid());
+        }
+
+        // Si on a passé des noms directement dans l'adoption, on crée les adoptees.
+        if(!empty($giftAdoptionModel->getFriends())) {
+            AddFriendToGiftAdoption::addRecipients($giftAdoptionEntity, $giftAdoptionModel->getFriends());
+        }
     }
 }
