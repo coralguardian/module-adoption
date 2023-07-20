@@ -14,19 +14,16 @@ class RedirectionService
     public static function buildRedirectionUrl(AdoptionEntity $adoptionEntity): string
     {
         if($adoptionEntity->getLang() === Language::EN) {
-            $baseUrl = $adoptionEntity->getCustomer() instanceof CompanyCustomerEntity ? home_url()."/en/csr-coral-guardian": home_url()."/en/adopt-a-coral";
+            $baseUrl = home_url()."/en/envoyez-le-fichier-des-noms-de-vos-coraux/";
         } else {
-            $baseUrl = $adoptionEntity->getCustomer() instanceof CompanyCustomerEntity ? home_url("adoption-entreprise") : home_url("adopte-corail");
+            $baseUrl = home_url()."/envoyez-le-fichier-des-noms-de-vos-coraux/";
         }
         // Temp
-        $baseUrl = home_url()."/deposit";
         $c = $adoptionEntity->getCustomer() instanceof CompanyCustomerEntity ? "company" : "individual";
         $action = $adoptionEntity instanceof GiftAdoption ? "gift" : "adoption";
         $project = $adoptionEntity->getProject()->value;
 
-        $baseUrl .=  "?adoptionUuid=" . $adoptionEntity->getUuid() . "&c=$c&action=$action&project=$project";
-
-        return $baseUrl;
+        return $baseUrl."?adoptionUuid=" . $adoptionEntity->getUuid() . "&c=$c&action=$action&project=$project";
     }
 
     public static function buildRedirectionUrlWithoutHost(AdoptionEntity $adoptionEntity): string
