@@ -5,6 +5,7 @@ namespace D4rk0snet\Adoption\Action;
 use D4rk0snet\Adoption\Entity\AdoptionEntity;
 use D4rk0snet\Adoption\Enums\CoralAdoptionActions;
 use D4rk0snet\Adoption\Models\AdoptionModel;
+use D4rk0snet\Adoption\Service\AdopteeService;
 use D4rk0snet\CoralCustomer\Enum\CoralCustomerActions;
 use D4rk0snet\CoralCustomer\Enum\CoralCustomerFilters;
 use D4rk0snet\CoralOrder\Enums\PaymentMethod;
@@ -54,6 +55,11 @@ class CreateAdoption
 
         if($adoptionEntity->isPaid() === true) {
             do_action(CoralAdoptionActions::ADOPTION_CREATED->value, $adoptionModel, $adoptionEntity);
+        }
+
+        // Si on a passé des noms directement dans l'adoption, on crée les adoptees.
+        if(!empty($adoptionModel->getNames())) {
+            AdopteeService::handleForAdoption($adoptionEntity, $adoptionModel->getNames());
         }
     }
 }
