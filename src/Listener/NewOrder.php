@@ -73,6 +73,7 @@ class NewOrder
                 ->setStripePaymentIntent($setupIntent)
                 ->setAdoptedProduct(AdoptedProduct::from($productOrdered->getFullKey()))
                 ->setQuantity($productOrdered->getQuantity())
+                ->setMessage(json_decode($setupIntent->metadata['message']) ?? null)
                 ->setProject($project)
                 ->setFriends($productOrdered->getGiftModel()->getFriends())
                 ->setSendToFriend($productOrdered->getGiftModel()->isSendToFriend())
