@@ -56,6 +56,11 @@ class AddFriendToGiftAdoption extends APIEnpointAbstract
         }
     }
 
+    /**
+     * @param GiftAdoption $adoptionEntity
+     * @throws \Exception
+     * @var FriendModel[] $friendModelArray
+     */
     public static function addRecipients(GiftAdoption $adoptionEntity, array $friendModelArray)
     {
         /** @var GiftCodeEntity $giftCode */
@@ -77,14 +82,8 @@ class AddFriendToGiftAdoption extends APIEnpointAbstract
 
         DoctrineService::getEntityManager()->flush();
 
-        if(isset($modelArray->sendOn)) {
-            $datetime = new \DateTime($modelArray->sendOn);
-            $adoptionEntity->setSendOn($datetime);
-        }
-
-        if(isset($modelArray->message)) {
-            $adoptionEntity->setMessage($modelArray->message);
-        }
+        $adoptionEntity->setSendOn($adoptionEntity->getSendOn());
+        $adoptionEntity->setMessage($adoptionEntity->getMessage());
 
         if($adoptionEntity->getSendOn() === null) {
             foreach($adoptionEntity->getGiftCodes() as $giftCode) {
